@@ -2,7 +2,7 @@ A Symmetric Objective Function for ICP
 
 SZYMON RUSINKIEWICZ, Princeton University
 
-The Iterative Closest Point (ICP) algorithm, commonly used for alignment of 3D models, has previously been defined using either a point-to- point or point-to-plane objective. Alternatively, researchers have proposed computationally-expensive methods that directly minimize the distance function between surfaces. We introduce a new symmetrized objective function that achieves the simplicity and computational efficiency of point-to-plane optimization, while yielding improved convergence speed and a wider convergence basin. In addition, we present a linearization of the objective that is exact in the case of exact correspondences. We experimentally demonstrate the improved speed and convergence basin of the symmetric objective, on both smooth models and challenging cases involving noise and partial overlap.
+The Iterative Closest Point (ICP) algorithm, commonly used for alignment of 3D models, has previously been defined using either a point-to-point or point-to-plane objective. Alternatively, researchers have proposed computationally-expensive methods that directly minimize the distance function between surfaces. We introduce a new symmetrized objective function that achieves the simplicity and computational efficiency of point-to-plane optimization, while yielding improved convergence speed and a wider convergence basin. In addition, we present a linearization of the objective that is exact in the case of exact correspondences. We experimentally demonstrate the improved speed and convergence basin of the symmetric objective, on both smooth models and challenging cases involving noise and partial overlap.
 
 # INTRODUCTION
 
@@ -23,7 +23,7 @@ Segal et al. [2009] generalize ICP to associate a probabilistic model (in practi
 
 Fitzgibbon [2001] proposes to directly minimize the distance between samples on one shape (referred to as łdataž) and the second shape itself (the łmodelž). This is done by computing the squared distance transform of the model, evaluating it at data locations, applying a robustifying kernel, and minimizing the result using Levenberg-Marquardt. Mitra et al. [2004] propose two methods for using the distance field of a shape for optimization: one based on local quadratic approximation at closest corresponding points, and the other based on a global hierarchical d 2 -Tree data structure [Leopoldseder et al. 2003] that stores a bounded-error approximation to the global squared distance field. Pottmann et al. [2006] analyze the theoretical properties of distance-function minimization, and demonstrate its improved convergence.
 
-The variants described above all perform local minimization, requiring an initial guess. This may be based on exhaustive search, matching of descriptors (such as spin images [Huber and Hebert 2003] or integral invariants [Gelfand et al. 2005]), or finding constrained point arrangements [Aiger et al. 2008]. In contrast, Yang et al. [2016] combine local registration with a branch-and-bound algorithm that yields a provably globally-optimal solution. The loss function, however, is still based on point-to-point, which is exploited for derivation of the error bounds for global search.
+The variants described above all perform local minimization, requiring an initial guess. This may be based on exhaustive search, matching of descriptors (such as spin images [Huber and Hebert 2003] or integral invariants [Gelfand et al. 2005]), or finding constrained point arrangements [[Aiger et al. 2008]] [ref1]. In contrast, Yang et al. [2016] combine local registration with a branch-and-bound algorithm that yields a provably globally-optimal solution. The loss function, however, is still based on point-to-point, which is exploited for derivation of the error bounds for global search.
 
 In this paper, we derive an objective that is closest in spirit to simple point-to-plane minimization, but locally converges to zero for quadratic, rather than just planar, patches. This is done by considering the normals of both points in a pair, though we do so in a way unrelated to Segal et al. [2009].
 
@@ -33,7 +33,7 @@ In this paper, we derive an objective that is closest in spirit to simple point-
 Consider the problem of aligning surfaces $P$ and $Q$. This involves finding a rigid-body transformation $(R|t)$ such that applying the transformation to $P$ causes it to lie on top of $Q$. The original ICP algorithm of Besl and McKay [1992] may be thought of as an instance of Expectation Maximization: the problem is solved by alternately computing pairs of corresponding points $(p_i, q_i)$, where $q_i$ is the closest point to $p_i$ given the current transformation, and finding the transformation minimizing the point-to-point objective:
 
 ``` iheartla(second)
-`ε_point` = ∑_i ||R p_i + t - q_i||
+`$\varepsilon_{point}$` = ∑_i ||R p_i + t - q_i||
 R ∈ ℝ^(3 × 3)
 ``` 
 
@@ -57,7 +57,7 @@ $$(p-q)\cdot (n_q + n_q)$$
 
 <figure>
 <img src="./resource/img/icp-1.png" alt="Trulli" style="width:100%" class = "center">
-<figcaption align = "center"><b>Fig. 1. For any points $p$ and $q$ sampled from a circular arc, the vector between them p − q is perpendicular to the sum of normals $n_p + n_q$ . This is the fundamental property exploited by the symmetric ICP formulation.</b></figcaption>
+<figcaption align = "center">Fig. 1. For any points $p$ and $q$ sampled from a circular arc, the vector between them p − q is perpendicular to the sum of normals $n_p + n_q$ . This is the fundamental property exploited by the symmetric ICP formulation.</figcaption>
 </figure>
 Examining the behavior of this function in 2D (see Figure 1), we see that it is zero whenever $p$ and $q$ are sampled from a circle, since $n_p$ and $n_q$ have opposite projections onto $p − q$. As rigid-body transformations are applied to $P$, this expression will continue to evaluate to zero as long as p and q end up in a relative position consistent with their placement on some circle (Figure 2, top). A similar property is true in 3D: Equation 4 evaluates to zero as long as $p$ and $q$ and their normals are consistent with some cylinder. Because it is difficult to describe, and especially to visualize, the set of $(p, n_p)$ that lie on arbitrary cylinders containing a fixed $(q, n_q)$ Ð it is a 4D space - Section 4.1 investigates a different property: Equation 4 also holds whenever p and q are consistent with a locally-second-order surface centered between them. While this constraint still provides a great deal of freedom for (p, np ) to move relative to $(q, n_q)$, it is a łmore usefulž form of freedom than provided by the point-to-plane metric. In particular, it constrains $(p,n_p)$ to be consistent with a plausible extension of $(q, n_q)$, unlike point-to-plane (Figure 2, bottom). Note that achieving this property does not require the evaluation of any higher-order information (i.e., curvature), which is a major benefit for computational efficiency and noise resistance.
 
@@ -79,7 +79,7 @@ f = 6
 ```
 <figure>
 <img src="./resource/img/icp-2.png" alt="Trulli" style="width:100%" class = "center">
-<figcaption align = "center"><b>Fig.2. Top:Aspmovesrelativetoq,theproperty(p−q)·(np +nq)=0 holds as long as there is some circular arc with which p, q, np , and nq are consistent. Bottom: This is in contrast to the point-to-plane metric, which is zero when p is in the plane defined by q and nq , regardless of np .</b></figcaption>
+<figcaption align = "center">Fig.2. Top:Aspmovesrelativetoq,theproperty(p−q)·(np +nq)=0 holds as long as there is some circular arc with which p, q, np , and nq are consistent. Bottom: This is in contrast to the point-to-plane metric, which is zero when p is in the plane defined by q and nq , regardless of np .</figcaption>
 </figure>
 Why might this be a reasonable simplification to make? Consider the sum of two unit-length vectors in 2D. Applying opposite rotations to the vectors preserves the direction of their sum, so that the contribution of each point pair to the two variants of the objective would be the same up to a scale. In 3D, this is not true for all rotation axes, but approaches true as np approaches nq . The experiments in Section 4.3 show that the two objectives lead to similar convergence, but $\varepsilon_{symm}$ leads to simpler derivations and implementation. Therefore, the remainder of this paper adopts $\varepsilon_{symm}$ as the symmetric objective.
 
@@ -139,7 +139,7 @@ Note that the property that the error vanishes near a second-order patch of surf
 Note also that, as p and q move away from being consistent with a second-order surface, the error in Equation 4 remains well-behaved: it is just linear in positions and normals. This is in contrast to the (squared) Euclidean distance function, whose Hessian diverges at the medial surface.
 <figure>
 <img src="./resource/img/icp-3.png" alt="Trulli" style="width:100%" class = "center">
-<figcaption align = "center"><b>Fig. 3. A second-order patch of surface around m, the geodesic midpoint between p and q. Because the variation of height and normal relative to m are even and odd, respectively, p − q and np + nq are parallel and perpen- dicular to the tangent plane at m, and so Equation 4 holds.</b></figcaption>
+<figcaption align = "center">Fig. 3. A second-order patch of surface around m, the geodesic midpoint between p and q. Because the variation of height and normal relative to m are even and odd, respectively, p − q and np + nq are parallel and perpen- dicular to the tangent plane at m, and so Equation 4 holds.</figcaption>
 </figure>
 ## The Linearization is Exact for Exact Correspondences
 Unlike the traditional linearization of rotations, we observe that the linear least-squares problem in (10) produces an exact result when correspondences $(p_i, q_i)$ are correct. This is because the approximation of $1/(cosθ)^2$ as 1 involves a multiplicative factor that may be interpreted as a weight, and so the only additive term that is actually dropped contains a factor of $(p ̃i − q ̃i ) · a$. However, if correspondences are correct and the points are center-of-mass normalized, then $p ̃i − q ̃i$ is guaranteed to be perpendicular to the rotation axis, and hence zero error is introduced by the linearization. We have verified experimentally that this is the case, up to roundoff error.
@@ -150,14 +150,14 @@ This an unexpected result, because previous techniques that solve for exact rota
 
 In an ICP implementation, of course, correspondences will not be exact. Nevertheless, we observe that $\varepsilon_{symm}$ produces faster convergence than $\varepsilon_{point}$ and $\varepsilon_{plane}$. We conduct an experiment in which we start with two copies of a mesh, then move one copy away from its ground-truth position and orientation. We execute a single iteration of ICP to align the shifted copy back towards the original. We measure error, both before and after that ICP iteration, as the root-mean-square distance between actual vertex positions and their ground-truth locations, where the mesh is scaled such that the root-mean-squared vertex distance from the center of mass is 1. No outlier rejection is performed.
 
-We test a total of six objective functions, of which four are $\varepsilon_{point}$, $\varepsilon_{plane}$, $\varepsilon_{symm-RN}$, and $\varepsilon_{symm}$. The two additional objectives are:
+We test a total of six objective functions, of which four are $\proselabel{second}{\varepsilon_{point}}$, $\varepsilon_{plane}$, $\varepsilon_{symm-RN}$, and $\varepsilon_{symm}$. The two additional objectives are:
 
-Quadratic: the method of Mitra et al. [2004] that minimizes a locally-quadratic approximant to the squared Euclidean distance function. The implementation uses the "on demand" method described in that paper, in which the approximation uses curvature information at the closest point.
+- Quadratic: the method of Mitra et al. [2004] that minimizes a locally-quadratic approximant to the squared Euclidean distance function. The implementation uses the "on demand" method described in that paper, in which the approximation uses curvature information at the closest point.
 <figure>
 <img src="./resource/img/icp-4.png" alt="Trulli" style="width:100%" class = "center">
-<figcaption align = "center"><b>Fig. 4. Left: Error decrease due to one ICP iteration on the dragon model, aligned to itself. Ground-truth errors before and after the ICP iteration are shown on the x and y axes, respectively, of this log-log plot. The proposed symmetric objective results in significantly faster decrease of error at each iteration. Center: Error decrease due to one iteration of ICP, aligning bun090 to bun000 (illustrated in blue and red, respectively, with the areas of overlap in purple). Right: Error decrease in one ICP iteration, aligning two scans from the TUM RGB-D dataset. Note the slower convergence because of the high level of noise.</b></figcaption>
+<figcaption align = "center">Fig. 4. Left: Error decrease due to one ICP iteration on the dragon model, aligned to itself. Ground-truth errors before and after the ICP iteration are shown on the x and y axes, respectively, of this log-log plot. The proposed symmetric objective results in significantly faster decrease of error at each iteration. Center: Error decrease due to one iteration of ICP, aligning bun090 to bun000 (illustrated in blue and red, respectively, with the areas of overlap in purple). Right: Error decrease in one ICP iteration, aligning two scans from the TUM RGB-D dataset. Note the slower convergence because of the high level of noise.</figcaption>
 </figure>
-Two-plane: minimizing the sum of squared distances to planes defined by both $n_p$ and $n_q$ :
+- Two-plane: minimizing the sum of squared distances to planes defined by both $n_p$ and $n_q$ :
 ``` iheartla(first)
 n = 14
 ```
@@ -184,8 +184,68 @@ The symmetric objective represents a simple improvement to traditional point-to-
 
 A further topic for future investigation is relating the symmetric objective to distance function minimization. Just as Equation 3 can be considered a linearization of the signed distance to Q evaluated at points on P, Equation 4 can be considered the linearization of the sum of that function, plus the signed distance to P evaluated at points on Q. While it might be possible to simplify this description (perhaps by considering samples at the midpoint between the two surfaces), even that does not readily lead to an explanation of the properties in Sections 3 and 4.1. Future analysis of the sum of distance transforms could lead to additional insights on Esymm.
 
+# REFERENCES
+[ref1]: <> "Dror Aiger, Niloy J. Mitra, and Daniel Cohen-Or. 2008. 4-Points Congruent Sets for Robust Pairwise Surface Registration. ACM Trans. Graph. 27, 3, Article 85 (Aug. 2008)."
 
+Paul J. Besl and Neil D. McKay. 1992. A Method for Registration of 3-D Shapes. IEEE Trans. PAMI 14, 2 (Feb. 1992), 239-256.
 
+Sofien Bouaziz, Andrea Tagliasacchi, and Mark Pauly. 2013. Sparse Iterative Closest Point. In Proc. SGP.
+
+Benedict Brown and Szymon Rusinkiewicz. 2007. Global Non-Rigid Alignment of 3-D Scans. ACM Trans. Graph. 26, 3, Article 21 (July 2007).
+
+Yang Chen and Gérard Medioni. 1992. Object Modelling by Registration of Multiple Range Images. Image and Vision Computing 10, 3 (April 1992), 145-155.
+
+Dmitry Chetverikov, Dmitry Stepanov, and Pavel Krsek. 2005. Robust Euclidean Align- ment of 3D Point Sets: The Trimmed Iterative Closest Point Algorithm. Image and Vision Computing 23, 3 (March 2005), 299-309.
+
+Brian Curless and Marc Levoy. 1996. A Volumetric Method for Building Complex Models from Range Images. In Proc. SIGGRAPH.
+
+Yago Díez, Ferran Roure, Xavier Lladó, and Joaquim Salvi. 2015. A Qualitative Review on 3D Coarse Registration Methods. ACM Comput. Surv. 47, 3, Article 45 (Feb. 2015). 
+
+Chitra Dorai, Gang Wang, Anil K. Jain, and Carolyn Mercer. 1998. Registration and Integration of Multiple Object Views for 3D Model Construction. IEEE Trans. PAMI 20, 1 (Jan. 1998), 83-89.
+
+David W. Eggert, Adele Lorusso, and Robert B. Fisher. 1997. Estimating 3-D Rigid Body Transformations: A Comparison of Four Major Algorithms. Machine Vision and Applications 9, 5-6 (March 1997), 272-290.
+
+Andrew W. Fitzgibbon. 2001. Robust Registration of 2D and 3D Point Sets. In Proc. BMVC.
+
+Natasha Gelfand, Leslie Ikemoto, Szymon Rusinkiewicz, and Marc Levoy. 2003. Geometrically Stable Sampling for the ICP Algorithm. In Proc. 3DIM.
+
+Natasha Gelfand, Niloy J. Mitra, Leonidas Guibas, and Helmut Pottmann. 2005. Robust Global Registration. In Proc. SGP.
+
+Maciej Halber and Thomas Funkhouser. 2017. Fine-to-Coarse Global Registration of RGB-D Scans. In Proc. CVPR.
+
+Daniel F. Huber and Martial Hebert. 2003. Fully Automatic Registration of Multiple 3D Data Sets. Image and Vision Computing 21, 7 (July 2003), 637-650.
+
+Shahram Izadi, David Kim, Otmar Hilliges, David Molyneaux, Richard Newcombe, Pushmeet Kohli, Jamie Shotton, Steve Hodges, Dustin Freeman, Andrew Davison, and Andrew Fitzgibbon. 2011. KinectFusion: Real-time 3D Reconstruction and Interaction Using a Moving Depth Camera. In Proc. UIST.
+
+Peter Kovesi. 2015. Good Colour Maps: How to Design Them. arXiv:1509.03700. Stefan Leopoldseder, Helmut Pottmann, and Hongkai Zhao. 2003. The d2-Tree: A Hierarchical Representation of the Squared Distance Function. Technical Report 101. Institute of Geometry, Vienna University of Technology.
+
+Hiêp Quang Luong, Michiel Vlaminck, Werner Goeman, and Wilfried Philips. 2016. Consistent ICP for the Registration of Sparse and Inhomogeneous Point Clouds. In Proc. Int. Conf. on Communications and Electronics (ICCE).
+
+Takeshi Masuda, Katsuhiko Sakaue, and Naokazu Yokoya. 1996. Registration and Integration of Multiple Range Images for 3-D Model Construction. In Proc. ICPR. 
+
+Niloy J. Mitra, Natasha Gelfand, Helmut Pottmann, and Leonidas Guibas. 2004. Registration of Point Cloud Data from a Geometric Optimization Perspective. In Proc. SGP.
+
+Tomáš Pajdla and Luc Van Gool. 1995. Matching of 3-D Curves Using Semi-Differential Invariants. In Proc. ICCV.
+
+Fran cois Pomerleau, Francis Colas, and Roland Siegwart. 2015. A Review of Point Cloud Registration Algorithms for Mobile Robotics. Foundations and Trends in Robotics 4, 1 (May 2015), 1-104.
+
+Helmut Pottmann, Qi-Xing Huang, Yong-Liang Yang, and Shi-Min Hu. 2006. Geometry and Convergence Analysis of Algorithms for Registration of 3D Shapes. IJCV 67, 3 (May 2006), 277-296.
+
+Kari Pulli. 1999. Multiview Registration for Large Data Sets. In Proc. 3DIM.
+
+Szymon Rusinkiewicz and Marc Levoy. 2001. Efficient Variants of the ICP Algorithm. In Proc. 3DIM.
+
+Aleksandr V. Segal, Dirk Haehnel, and Sebastian Thrun. 2009. Generalized-ICP. In Proc. RSS.
+
+Jürgen Sturm, Nikolas Engelhard, Felix Endres, Wolfram Burgard, and Daniel Cremers. 2012. A Benchmark for the Evaluation of RGB-D SLAM Systems. In Proc. IROS. 
+
+Andrea Tagliasacchi, Matthias Schroeder, Anastasia Tkach, Sofien Bouaziz, Mario Botsch, and Mark Pauly. 2015. Robust Articulated-ICP for Real-Time Hand Tracking. In Proc. SGP.
+
+Anastasia Tkach, Mark Pauly, and Andrea Tagliasacchi. 2016. Sphere-Meshes for Real-Time Hand Modeling and Tracking. ACM Trans. Graph. 35, 6, Article 222 (Nov. 2016).
+
+Greg Turk and Marc Levoy. 1994. Zippered Polygon Meshes from Range Images. In Proc. SIGGRAPH.
+
+Jiaolong Yang, Hongdong Li, Dylan Campbell, and Yunde Jia. 2016. Go-ICP: A Globally Optimal Solution to 3D ICP Point-Set Registration. IEEE Trans. PAMI 38, 11 (Nov. 2016), 2241-2254.
 
 
 
