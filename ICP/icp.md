@@ -107,10 +107,11 @@ a ∈ ℝ³ : axis of rotation
 θ ∈ ℝ  : angle of rotation
 p_i ∈ ℝ³
 q_i ∈ ℝ³
-n_i ∈ ℝ³
+`$n_q$`_i ∈ ℝ³
+`$n_p$`_i ∈ ℝ³
 t ∈ ℝ³
 ```
-where $n_i = n_{p,i} + n_{q,i}$ and ❤second:t̃ = t/cos(θ)❤. We now make the additional approximation of weighting the objective by $1/\cos^2 θ$ , which approaches 1 for small $θ$ . Finally, for better numerical stability, we normalize the $(p_i, q_i)$ by translating each point set to the origin and adjusting the solved-for translation appropriately. This yields:
+where ❤second:n_i = `$n_q$`_i + `$n_p$`_i❤ and ❤second:t̃ = t/cos(θ)❤. We now make the additional approximation of weighting the objective by $1/\cos^2 θ$ , which approaches 1 for small $θ$ . Finally, for better numerical stability, we normalize the $(p_i, q_i)$ by translating each point set to the origin and adjusting the solved-for translation appropriately. This yields:
 ``` iheartla(first)
 j = 10
 ```
@@ -156,7 +157,7 @@ Note also that, as p and q move away from being consistent with a second-order s
 <figcaption align = "center">Fig. 3. A second-order patch of surface around m, the geodesic midpoint between p and q. Because the variation of height and normal relative to m are even and odd, respectively, p − q and np + nq are parallel and perpen- dicular to the tangent plane at m, and so Equation $\ref{4}$ holds.</figcaption>
 </figure>
 ## The Linearization is Exact for Exact Correspondences
-Unlike the traditional linearization of rotations, we observe that the linear least-squares problem in (10) produces an exact result when correspondences $(p_i, q_i)$ are correct. This is because the approximation of $1/(cosθ)^2$ as 1 involves a multiplicative factor that may be interpreted as a weight, and so the only additive term that is actually dropped contains a factor of $(p ̃i − q ̃i ) · a$. However, if correspondences are correct and the points are center-of-mass normalized, then $p ̃i − q ̃i$ is guaranteed to be perpendicular to the rotation axis, and hence zero error is introduced by the linearization. We have verified experimentally that this is the case, up to roundoff error.
+Unlike the traditional linearization of rotations, we observe that the linear least-squares problem in (10) produces an exact result when correspondences $(p_i, q_i)$ are correct. This is because the approximation of $1/(cosθ)^2$ as 1 involves a multiplicative factor that may be interpreted as a weight, and so the only additive term that is actually dropped contains a factor of $(p̃_i − q̃_i ) · a$. However, if correspondences are correct and the points are center-of-mass normalized, then $p̃_i − q̃_i$ is guaranteed to be perpendicular to the rotation axis, and hence zero error is introduced by the linearization. We have verified experimentally that this is the case, up to roundoff error.
 
 This an unexpected result, because previous techniques that solve for exact rotations have tended to involve nonlinear optimization, and hence require multiple iterations. There do exist several closed-form solutions for the minimization of $\varepsilon_{point}$, but all are based on SVD or eigenvector problems [Eggert et al. 1997]. To the best of our knowledge, there are no published techniques that exactly optimize $\varepsilon_{plane}$ or any related metric with a single linear solve, even for exact correspondences.
 
