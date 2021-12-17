@@ -91,14 +91,16 @@ We instead pursue a linearization that starts with the Rodrigues rotation formul
 $$Rv = v\cos\theta + (a\times v)\sin\theta + a(a\cdot v)(1-\cos\theta)$$
 
 where $a$ and $θ$ are the axis and angle of rotation. We observe that the last term in (7) is quadratic in the incremental rotation angle $θ$, so we drop it to linearize:
-``` iheartla(first)
-h = 8
-```
+
+$$\begin{align*}Rv & \approx v\cos\theta + (a\times v)\sin\theta \\
+     & = \cos\theta (v + (ã\times v))\end{align*}$$
+
 where ❤second:ã = a tan(θ)❤ . Substituting into (6),
+$$\varepsilon_{symm} \approx \sum_i \left( \cos \theta(p_i - q_i)\cdot n_i + \cos \theta(ã\times (p_i+q_i))\cdot n_i + t \cdot n_i \right)\notag$$
 ``` iheartla(second)
 tan, cos from trigonometry
 
-`ε_symm` = ∑_i cos²(θ)((p_i - q_i)⋅n_i +((p_i+q_i)×n_i)⋅ã+n_i⋅t̃)² 
+`$\varepsilon_{symm}$` = ∑_i cos²(θ)((p_i - q_i)⋅n_i +((p_i+q_i)×n_i)⋅ã+n_i⋅t̃)² 
 
 where
 a ∈ ℝ³ : axis of rotation
@@ -113,7 +115,7 @@ where $n_i = n_{p,i} + n_{q,i}$ and ❤second:t̃ = t/cos(θ)❤. We now make th
 j = 10
 ```
 where $p̃_i = p_i − p$ and $q̃_i = q_i − q$. This is a least-squares problem in $ã$ and $t̃$, and the final transformation from $P$ to $Q$ is:
-$$trans(q)\notag$$
+$$trans(q)$$
 where $ θ = tan^{−1} ||ã||$
 
 Note that the new linearization results in the same system of equations as would the traditional approach. What changes is how the solved-for variables $ã$ and $t̃$ are interpreted. This produces a modest increase in accuracy but, more importantly, is necessary to obtain the property that the linearization is exact for exact correspondences (see Section 4.2). We may interpret (10) as a Gauss-Newton step applied to (6), using the Gibbs representation of rotations.
@@ -122,13 +124,29 @@ Note that the new linearization results in the same system of equations as would
 # THEORETICAL AND EXPERIMENTAL RESULTS
 ## The Symmetric Error Is Zero When Corresponding Points Are Consistent With a Quadratic Surface
 Assume that points $p$ and $q$ are located on a height field $z = h(x,y)$ that may be approximated locally as second-order. We construct a coordinate system centered at their geodesic midpoint m, with the surface tangent to $xy$ (see Figure 3). The height of that surface relative to the tangent plane may be expressed as a quadratic function of $xy$ displacement away from $m$:
-``` iheartla(first)
-l = 12
-```
+$$\Delta z = \frac{1}{2}\begin{pmatrix}
+\Delta x & \Delta y \\
+\end{pmatrix} \begin{pmatrix}
+e & f \\
+f & g
+\end{pmatrix}  \begin{pmatrix}
+\Delta x \\
+\Delta y
+\end{pmatrix}$$
 This is an even function, so if $p$ and $q$ are displaced by equal amounts in opposite directions from $m$, then their $z$ coordinates are equal, and $p − q$ is parallel to the $xy$ plane. Conversely, the perturbation of the surface normal away from $zˆ$ is an odd function:
-``` iheartla(first)
-m = 13
-```
+
+$$\begin{pmatrix}
+\Delta n_x \\
+\Delta n_y
+\end{pmatrix} = - \begin{pmatrix}
+e & f \\
+f & g
+\end{pmatrix}  \begin{pmatrix}
+\Delta x \\
+\Delta y
+\end{pmatrix}$$
+
+
 Therefore, $n_p + n_q$ is parallel to the $z$ axis, and so it must be perpendicular to $p − q$.
 Note that the property that the error vanishes near a second-order patch of surface does not hold for point-to-point, point-to-plane, or even the method of Mitra et al. [2004]. The latter, for example, considers a quadratic approximant to the square of the Euclidean distance function, which can be minimized only at a plane, line, or point. An objective function that vanishes near a curved surface, however, would require a higher-order approximation. This partially explains the faster convergence of $\varepsilon_{symm}$, as observed in the experiments of Section 4.3.
 
