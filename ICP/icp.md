@@ -10,7 +10,7 @@ Registration of 3D shapes is a key step in both 3D model creation (from scanners
 
 Because ICP-like algorithms can be made efficient and reliable, they have become widely adopted. As a result, researchers have focused on both addressing the shortcomings of ICP and extending it to new settings such as color-based registration and non-rigid alignment. One particular class of improvements has focused on the loss function that is optimized to obtain an incremental transformation. For example, as compared to the original work of Besl and McKay, which minimized point-to-point distance, the method of Chen and Medioni [1992] minimized the distance between a point on one mesh and a plane containing the matching point and perpendicular to its normal. This point-to-plane objective generally results in faster convergence to the correct alignment and greater ultimate accuracy, though it does not necessarily increase the basin of convergence. Work by Fitzgibbon [2001], Mitra et al. [2004], and Pottmann et al. [2006] showed that both point-to-point and point-to-plane minimization may be thought of as approximations to minimizing the squared Euclidean distance function of the surface, and they presented algorithms that achieved greater convergence speed and stability, albeit at the cost of greater computational complexity and/or auxiliary data structures.
 
-This paper proposes a symmetrized version of the point-to-plane objective for use in ICP, incorporating two key ideas. First, the plane in which the error is minimized is based on the surface normals of both points in the corresponding pair. Second, the optimization is performed in a łstationaryž coordinate system, while both meshes are moved in opposite directions. These changes require a relatively small modification to the optimization problem being performed, and almost no increased computation per iteration, but result in improved convergence of ICP.
+This paper proposes a symmetrized version of the point-to-plane objective for use in ICP, incorporating two key ideas. First, the plane in which the error is minimized is based on the surface normals of both points in the corresponding pair. Second, the optimization is performed in a "stationary" coordinate system, while both meshes are moved in opposite directions. These changes require a relatively small modification to the optimization problem being performed, and almost no increased computation per iteration, but result in improved convergence of ICP.
 
 The reason for this improvement is that the symmetric objective is minimized whenever the pair of points lies on a second-order (constant-curvature) patch of surface, rather than being minimized only if the points are on a plane. Thus, we gain some of the same benefits as second-order distance function minimization methods, but without explicit computation of second-order surface properties, or the need for volumetric data structures to store an approximation to the squared Euclidean distance function.
 
@@ -19,9 +19,9 @@ In addition to the primary contribution of the new symmetric objective, we also 
 # RELATED WORK
 Since the original ICP algorithms by Besl and McKay [1992] and Chen and Medioni [1992], there have been significant efforts to improve convergence and stability. For a comprehensive overview of many variants, see the surveys by Rusinkiewicz and Levoy [2001], Díez et al. [2015], and Pomerleau et al. [2015]. Much of this work focuses on finding better correspondences (e.g., by matching local surface properties or descriptors), performing outlier-tolerant optimization, or generalizing to non-rigid deformation. Here we focus specifically on methods that modify the objective function and/or the strategy for minimizing it.
 
-Segal et al. [2009] generalize ICP to associate a probabilistic model (in practice, a covariance matrix) with each point. This allows for a łsoft plane-to-planež minimization that improves the matching of planar surfaces. Halber and Funkhouser [2017] have explored incorporating additional constraints between planes, such as parallelism or orthogonality, into registration.
+Segal et al. [2009] generalize ICP to associate a probabilistic model (in practice, a covariance matrix) with each point. This allows for a "soft plane-to-plane" minimization that improves the matching of planar surfaces. Halber and Funkhouser [2017] have explored incorporating additional constraints between planes, such as parallelism or orthogonality, into registration.
 
-Fitzgibbon [2001] proposes to directly minimize the distance between samples on one shape (referred to as łdataž) and the second shape itself (the łmodelž). This is done by computing the squared distance transform of the model, evaluating it at data locations, applying a robustifying kernel, and minimizing the result using Levenberg-Marquardt. Mitra et al. [2004] propose two methods for using the distance field of a shape for optimization: one based on local quadratic approximation at closest corresponding points, and the other based on a global hierarchical d 2 -Tree data structure [Leopoldseder et al. 2003] that stores a bounded-error approximation to the global squared distance field. Pottmann et al. [2006] analyze the theoretical properties of distance-function minimization, and demonstrate its improved convergence.
+Fitzgibbon [2001] proposes to directly minimize the distance between samples on one shape (referred to as "data") and the second shape itself (the "model"). This is done by computing the squared distance transform of the model, evaluating it at data locations, applying a robustifying kernel, and minimizing the result using Levenberg-Marquardt. Mitra et al. [2004] propose two methods for using the distance field of a shape for optimization: one based on local quadratic approximation at closest corresponding points, and the other based on a global hierarchical d 2 -Tree data structure [Leopoldseder et al. 2003] that stores a bounded-error approximation to the global squared distance field. Pottmann et al. [2006] analyze the theoretical properties of distance-function minimization, and demonstrate its improved convergence.
 
 The variants described above all perform local minimization, requiring an initial guess. This may be based on exhaustive search, matching of descriptors (such as spin images [Huber and Hebert 2003] or integral invariants [Gelfand et al. 2005]), or finding constrained point arrangements [[Aiger et al. 2008]] [ref1]. In contrast, Yang et al. [2016] combine local registration with a branch-and-bound algorithm that yields a provably globally-optimal solution. The loss function, however, is still based on point-to-point, which is exploited for derivation of the error bounds for global search.
 
@@ -30,7 +30,7 @@ In this paper, we derive an objective that is closest in spirit to simple point-
 
 # METHOD
 ## Background and Motivation
-Consider the problem of aligning surfaces $P$ and $Q$. This involves finding a rigid-body transformation $(R|t)$ such that applying the transformation to $P$ causes it to lie on top of $Q$. The original ICP algorithm of Besl and McKay [1992] may be thought of as an instance of Expectation Maximization: the problem is solved by alternately computing pairs of corresponding points $(p_i, q_i)$, where $q_i$ is the closest point to $p_i$ given the current transformation, and finding the transformation minimizing the point-to-point objective:
+Consider the problem of aligning surfaces $P$ and $Q$. This involves finding a rigid-body transformation $(\proselabel{second}{R}|\proselabel{second}{t})$ such that applying the transformation to $P$ causes it to lie on top of $Q$. The original ICP algorithm of Besl and McKay [1992] may be thought of as an instance of Expectation Maximization: the problem is solved by alternately computing pairs of corresponding points $(\proselabel{second}{p_i}, q_i)$, where $q_i$ is the closest point to $p_i$ given the current transformation, and finding the transformation minimizing the point-to-point objective:
 
 ``` iheartla(second)
 `$\varepsilon_{point}$` = ∑_i ||R p_i + t - q_i||
@@ -39,31 +39,31 @@ R ∈ ℝ^(3 × 3)
 
 Because this iteration converges slowly, authors including Fitzgibbon [2001], Mitra et al. [2004], and Pottmann et al. [2006] have re-cast alignment as iterative minimization of the squared Euclidean distance function of $Q$, sampled at points $p_i$. The most accurate way to accomplish this is to pre-compute a data structure that stores at each point in space (an approximation to) the squared distance field, then use it at run-time in an optimization based on Levenberg-Marquardt [Fitzgibbon 2001] or Newton’s method [Mitra et al. 2004]. This leads to fast convergence and a wide convergence basin, though at significant computational and storage cost. A simpler approach is to approximate the distance function based on the local surface at each corresponding point $q_i$. The "on-demand" method of Mitra et al. [2004] approximates the surface as locally quadratic, which requires evaluation of second-order surface properties (i.e., curvatures). Even more straightforward is to approximate the surface around $q_i$ as planar, which only requires evaluation of surface normals $n_{q,i}$ . Indeed, this approach dates back to the work of Chen and Medioni [1992], who minimized what has come to be called the point-to-plane objective:
 ``` iheartla(second)
-`$\varepsilon_{plane}$` = ∑_i ||(R p_i + t - q_i)||
+`$\varepsilon_{plane}$` = ∑_i ((R p_i + t - q_i) ⋅ `$n_q$`_i)^2
 ```
 
 It can be shown that minimizing this objective is equivalent to Gauss-Newton minimization of squared Euclidean distance.
 
-The latter does indeed improve convergence rate relative to the point-to-point objective, and point-to-plane minimization has become the workhorse of most modern ICP-like implementations. However, point-to-plane ICP has been observed to have a narrower convergence basin than point-to-point [Mitra et al. 2004]. In addition, the residual at optimal alignment is zero only when the surface is locally flat, if the correspondences are not perfect (which is necessarily the case if point sets {$p_i$} and {$q_i$} differ in their sampling of the surface, as with 3D scans). This is important because the zero-set of the objective function defines what transformations are łfree,ž in the sense that the surface is allowed to slide along itself to permit geometric features elsewhere to lock down the transformation. This is exploited by work such as the normalspace sampling of Rusinkiewicz and Levoy [2001], the covariance-eigenvector-directed sampling of Gelfand et al. [2003], and the stable sampling of Brown and Rusinkiewicz [2007], all of which bias the sampling to regions that are most necessary to constrain the aligning transformation.
+The latter does indeed improve convergence rate relative to the point-to-point objective, and point-to-plane minimization has become the workhorse of most modern ICP-like implementations. However, point-to-plane ICP has been observed to have a narrower convergence basin than point-to-point [Mitra et al. 2004]. In addition, the residual at optimal alignment is zero only when the surface is locally flat, if the correspondences are not perfect (which is necessarily the case if point sets {$p_i$} and {$q_i$} differ in their sampling of the surface, as with 3D scans). This is important because the zero-set of the objective function defines what transformations are "free," in the sense that the surface is allowed to slide along itself to permit geometric features elsewhere to lock down the transformation. This is exploited by work such as the normalspace sampling of Rusinkiewicz and Levoy [2001], the covariance-eigenvector-directed sampling of Gelfand et al. [2003], and the stable sampling of Brown and Rusinkiewicz [2007], all of which bias the sampling to regions that are most necessary to constrain the aligning transformation.
 
 We therefore seek to develop a new objective function whose zero-set allows a greater class of surfaces to "slide along" themselves at zero penalty. Thinking within the framework of Expectation Maximization, this makes the method as robust as possible to mis-estimation of point correspondences in the Expectation step.
 
 ## A Symmetric Objective Function
-Because the surfaces $P$ and $Q$ should be, up to noise, the same, we consider what residual the objective function will attain if we were to sample a pair of nearby points $(p, q)$ on that surface. In the point-to-plane case, the error is
-$$(p-q)\cdot n_q$$
+Because the surfaces $P$ and $Q$ should be, up to noise, the same, we consider what residual the objective function will attain if we were to sample a pair of nearby points $(\proselabel{second}{p}, \proselabel{second}{q})$ on that surface. In the point-to-plane case, the error is
+$$(\proselabel{second}{p}-\proselabel{second}{q})\cdot \proselabel{second}{n_q}$$
 If we consider the possibility of sampling $(p, q)$ anywhere within some small region of a surface, this will be zero only if the surface is perfectly flat. However, consider the more symmetric function
 
-$$(p-q)\cdot (n_q + n_q)$$
+$$(\proselabel{second}{p}-\proselabel{second}{q})\cdot (\proselabel{second}{n_p} + \proselabel{second}{n_q})$$
 
 <figure>
 <img src="./resource/img/icp-1.png" alt="Trulli" style="width:50%" class = "center">
-<figcaption align = "center">Fig. 1. For any points $p$ and $q$ sampled from a circular arc, the vector between them p − q is perpendicular to the sum of normals $n_p + n_q$ . This is the fundamental property exploited by the symmetric ICP formulation.</figcaption>
+<figcaption align = "center">Fig. 1. For any points $\proselabel{second}{p}$ and $\proselabel{second}{q}$ sampled from a circular arc, the vector between them $\proselabel{second}{p} − \proselabel{second}{q}$ is perpendicular to the sum of normals $\proselabel{second}{n_p} + \proselabel{second}{n_q}$ . This is the fundamental property exploited by the symmetric ICP formulation.</figcaption>
 </figure>
-Examining the behavior of this function in 2D (see Figure 1), we see that it is zero whenever $p$ and $q$ are sampled from a circle, since $n_p$ and $n_q$ have opposite projections onto $p − q$. As rigid-body transformations are applied to $P$, this expression will continue to evaluate to zero as long as p and q end up in a relative position consistent with their placement on some circle (Figure 2, top). A similar property is true in 3D: Equation $\ref{4}$ evaluates to zero as long as $p$ and $q$ and their normals are consistent with some cylinder. Because it is difficult to describe, and especially to visualize, the set of $(p, n_p)$ that lie on arbitrary cylinders containing a fixed $(q, n_q)$ Ð it is a 4D space - Section 4.1 investigates a different property: Equation $\ref{4}$ also holds whenever p and q are consistent with a locally-second-order surface centered between them. While this constraint still provides a great deal of freedom for (p, np ) to move relative to $(q, n_q)$, it is a łmore usefulž form of freedom than provided by the point-to-plane metric. In particular, it constrains $(p,n_p)$ to be consistent with a plausible extension of $(q, n_q)$, unlike point-to-plane (Figure 2, bottom). Note that achieving this property does not require the evaluation of any higher-order information (i.e., curvature), which is a major benefit for computational efficiency and noise resistance.
+Examining the behavior of this function in 2D (see Figure 1), we see that it is zero whenever $\proselabel{second}{p}$ and $\proselabel{second}{q}$ are sampled from a circle, since $\proselabel{second}{n_p}$ and $\proselabel{second}{n_q}$ have opposite projections onto $\proselabel{second}{p} − \proselabel{second}{q}$. As rigid-body transformations are applied to $P$, this expression will continue to evaluate to zero as long as p and q end up in a relative position consistent with their placement on some circle (Figure 2, top). A similar property is true in 3D: Equation $\ref{4}$ evaluates to zero as long as $\proselabel{second}{p}$ and $\proselabel{second}{q}$ and their normals are consistent with some cylinder. Because it is difficult to describe, and especially to visualize, the set of $(\proselabel{second}{p}, \proselabel{second}{n_p})$ that lie on arbitrary cylinders containing a fixed $(\proselabel{second}{n_q}, \proselabel{second}{n_q})$ - it is a 4D space - Section 4.1 investigates a different property: Equation $\ref{4}$ also holds whenever $\proselabel{second}{p}$ and $\proselabel{second}{q}$ are consistent with a locally-second-order surface centered between them. While this constraint still provides a great deal of freedom for $(\proselabel{second}{p}, \proselabel{second}{n_p})$ to move relative to $(\proselabel{second}{q}, \proselabel{second}{n_q})$, it is a "more useful" form of freedom than provided by the point-to-plane metric. In particular, it constrains $(\proselabel{second}{p}, \proselabel{second}{n_p})$ to be consistent with a plausible extension of $(\proselabel{second}{n_q}, \proselabel{second}{n_q})$, unlike point-to-plane (Figure 2, bottom). Note that achieving this property does not require the evaluation of any higher-order information (i.e., curvature), which is a major benefit for computational efficiency and noise resistance.
 
 To formulate an objective function, we consider minimizing Equation $\ref{4}$ with respect to transformations applied to the surfaces $P$ and/or $Q$. Although most previous work applies a rigid-body transformation to only one of the surfaces (e.g., the transformation in $\varepsilon_{plane}$ is applied only to $P$), we consider a symmetric split of the transformation: we imagine evaluating the metric in a fixed, "neutral" coordinate system and applying opposite transformations to $P$ and $Q$. Thus, we can formulate a symmetric objective as:
-``` iheartla(first)
-e = 3
+``` iheartla(second)
+`$\varepsilon_{symm-RN}$` = ∑_i ((R p_i + R⁻¹ q_i + t) ⋅ (R`$n_p$`_i + R⁻¹`$n_q$`_i))^2
 ```
 where the final transformation from $P$ to $Q$ is now $R  T  R$ (with $T$ being the translation matrix). We will refer to this as the rotated-normals ("-RN") version of the symmetric objective.
 
@@ -74,9 +74,8 @@ This splitting of rotations has a number of advantages when we consider lineariz
 - It enables reduction of linearization error to zero when correspondences are exact (Section 4.2).
 
 We have also explored a simpler version of this objective in which the normals are not rotated. That is, the direction of minimization per point pair remains fixed, while the points themselves are rotated in opposite directions:
-``` iheartla(first)
-f = 6
-```
+$${\varepsilon_{symm}}  = \sum_i {\left[ \left( \proselabel{second}{R} \proselabel{second}{p}_i + \proselabel{second}{R^{-1}} \proselabel{second}{q}_i + \proselabel{second}{t} \right) \cdot \left(\proselabel{second}{{n_p}}_i + \proselabel{second}{{n_q}}_i \right) \right]}^{2} 
+$$
 <figure>
 <img src="./resource/img/icp-2.png" alt="Trulli" style="width:90%" class = "center">
 <figcaption align = "center">Fig.2. Top:Aspmovesrelativetoq,theproperty(p−q)·(np +nq)=0 holds as long as there is some circular arc with which p, q, np , and nq are consistent. Bottom: This is in contrast to the point-to-plane metric, which is zero when p is in the plane defined by q and nq , regardless of np .</figcaption>
@@ -112,11 +111,14 @@ q_i ∈ ℝ³
 t ∈ ℝ³
 ```
 where ❤second:n_i = `$n_q$`_i + `$n_p$`_i❤ and ❤second:t̃ = t/cos(θ)❤. We now make the additional approximation of weighting the objective by $1/\cos^2 θ$ , which approaches 1 for small $θ$ . Finally, for better numerical stability, we normalize the $(p_i, q_i)$ by translating each point set to the origin and adjusting the solved-for translation appropriately. This yields:
-``` iheartla(first)
-j = 10
-```
+
+$$\sum_i \left[ ({p̃}_i - {q̃}_i)\cdot n_i + (({p̃}_i + {q̃}_i)\times n_i) \cdot ã + n_i \cdot t̃ \right]^2$$
+
 where $p̃_i = p_i − p$ and $q̃_i = q_i − q$. This is a least-squares problem in $ã$ and $t̃$, and the final transformation from $P$ to $Q$ is:
-$$trans(q)$$
+
+$$trans(q)\circ rot(\theta, \frac{a}{||a||}) \circ trans(t \cos \theta) \circ rot(\theta, \frac{a}{||a||}) \circ trans(-p)
+$$
+
 where $ θ = tan^{−1} ||ã||$
 
 Note that the new linearization results in the same system of equations as would the traditional approach. What changes is how the solved-for variables $ã$ and $t̃$ are interpreted. This produces a modest increase in accuracy but, more importantly, is necessary to obtain the property that the linearization is exact for exact correspondences (see Section 4.2). We may interpret (10) as a Gauss-Newton step applied to (6), using the Gibbs representation of rotations.
@@ -173,8 +175,8 @@ We test a total of six objective functions, of which four are $\proselabel{secon
 <figcaption align = "center">Fig. 4. Left: Error decrease due to one ICP iteration on the dragon model, aligned to itself. Ground-truth errors before and after the ICP iteration are shown on the x and y axes, respectively, of this log-log plot. The proposed symmetric objective results in significantly faster decrease of error at each iteration. Center: Error decrease due to one iteration of ICP, aligning bun090 to bun000 (illustrated in blue and red, respectively, with the areas of overlap in purple). Right: Error decrease in one ICP iteration, aligning two scans from the TUM RGB-D dataset. Note the slower convergence because of the high level of noise.</figcaption>
 </figure>
 - Two-plane: minimizing the sum of squared distances to planes defined by both $n_p$ and $n_q$ :
-``` iheartla(first)
-n = 14
+``` iheartla(second)
+`$\varepsilon_{two-plane}$` = ∑_i(((R p_i + R⁻¹ q_i + t) ⋅ (R `$n_p$`_i))^2 + ((R p_i + R⁻¹ q_i + t) ⋅ (R⁻¹`$n_q$`_i))^2)
 ```
 This approach is a symmetrized version (with split rotations) of methods previously used by Tagliasacchi et al. [2015] and Luong et al. [2016], which in turn were related to the Hausdorff metric by Tkach et al. [2016].
 
