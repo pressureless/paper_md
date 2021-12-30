@@ -135,14 +135,28 @@ Variables that were not found to be significant were not included in our percept
 
 # JUDDER MODEL
 To obtain an easily expressible model of judder J based on the most important factors, mean luminance L, frame rate F, and speed S, we combine the results of experiments 1–3 to design a single empirical model. We fit the perceptual data provided by user study participants into a second degree polynomial model:
+❤: first
+``` iheartla
 
-$$eq 1 $$
+J = P(α(F), β(L), S)
+F ∈ ℝ
+L ∈ ℝ
+S ∈ ℝ
+P ∈ ℝ, ℝ, ℝ -> ℝ
 
+``` 
 where α and β are nonlinearities employed in perceptual modeling; specifically, for luminance we employ α the logarithm function and for frame rate β is the multiplicative inverse, i.e., we model on frame duration. For details on the resulting function, please see Section A.3.
 
 This is an excellent fit to the psychophysical data, with a mean absolute error of 0.24 (equivalent to 9.4%) between measured and predicted judder at the probed points. To present the reader with an error metric that relates to physical quantities, we also computed the mean error in the log-luminance domain (to avoid under representing errors in low-luminance conditions). Given N as the number of measured conditions, O(i) being the observed means for each condition and M(i) values predicted by our model, we calculate the error E as
 
-$$eq 2$$
+``` iheartla(second)
+
+E = |log(O(1)) - log(M(1))|/log(O(1)) 
+
+O ∈ ℝ -> ℝ
+M ∈ ℝ -> ℝ
+
+``` 
 
 resulting in E at approximately 1.37%. A visualization of this model for a speed of 1/7 pictures per second can be seen in Figure 7 (left). A rendering of the overlaid surfaces for various speeds and a cross section of the resulting shapes for a given frame rate can be seen in Figure 8.
 
@@ -153,19 +167,48 @@ To test the validity of our model with more complex stimuli, we ran a Validation
 
 We computed luminance predictions to match judder between test and reference using our metric as described in Equation (1). Although no other judder metric exists, we adapted the wellknown Ferry-Porter law for flicker fusion thresholds (Tyler and Hamer 1990) to predict temporal artifact sensitivity. It is normally expressed as
 
-$$eq 3$$
+``` iheartla
+
+CFF(L) = a ⋅ log(L) + b where L ∈ ℝ
+
+a ∈ ℝ
+b ∈ ℝ
+
+``` 
+
 
 where a and b are known constants and L is the mean luminance. If we introduce the simplifying assumption that the critical flicker fusion rate (CFF) is linearly correlated through a factor M with judder-sensitivity, then we can obtain a log-luminance equivalence like the one queried in this experiment. Denoting Fa and Fb as the
 A Luminance-aware Model of Judder Perception • 142:7
 two frame rates and La , Lb as the luminances:
 
-$$eq 4$$
 
-$$eq 5$$
+``` iheartla
 
+`$F_a$` = M⋅ CFF(`$L_a$`)
+
+M ∈ ℝ
+`$L_a$` ∈ ℝ
+```
+
+``` iheartla
+
+`$F_b$` = M⋅ CFF(`$L_b$`)
+
+`$L_b$` ∈ ℝ
+```
 Solving for Lb , we obtain the matching luminance prediction:
 
-$$eq 6$$
+
+``` iheartla(third)
+
+`$L_b$` = 10^((a `$F_b$`log((`$L_a$`))+b(`$F_b$`-`$F_a$`))/(a`$F_a$`))
+a ∈ ℝ
+b ∈ ℝ
+`$F_b$` ∈ ℝ
+`$F_a$` ∈ ℝ
+`$L_a$` ∈ ℝ
+
+```
 
 The results of this experiment can be seen in Figure 9, along with the predicted luminance match given by our model with the appropriate pan speed. Participants found the assignment to be challenging, as it included a cross-dimensional matching task across different image brightnesses. The prediction given by the static Ferry-Porter law only takes mean luminance into account and, even with the free parameter M, underestimates the luminance required to match our stimuli in every case: Using Equation (2) we obtain a mean luminance error of 17.1%. Our model achieves a mean error of 6.51%, improving the prediction in every case and falling within the 95% confidence interval in all but one case.
 
@@ -184,5 +227,39 @@ Extending Fourier-based spatio-temporal video difference prediction approaches (
 Although this work focused chiefly on judder arising from camera pans, as this is the most common scenario, an interesting avenue for future work would be to generalize the model to separate objects on the scene. User attention can be predicted using a visual saliency model and object speed could be estimated through optical flow techniques.
 
 Our studies explored an overall sense of judder, but there are certainly different perceptual components to this artifact that contribute to the whole as subcomponents. At this stage of inquiry, we felt the strongest need would be to address the overall perception of judder. A logical next step would be to study the perceptual components of judder as their understanding may be useful to algorithm design. We hope our work encourages the community to further explore spatio-temporal artifacts and make all our experimental data fully available for analysis.
+
+
+# APPENDIX
+## Disembodied Edge Calculation
+
+Given a desired Michelson contrast c and mean La, we calculate the maximum and minimum values M and m as M = La (1 + c), m = La (1 − c). As a consequence of this, the resulting Michelson contrast is exactly (La +La ∗c − La +La ∗c)/(La +La ∗c + La−La∗c)=2La∗c/(2La)=c.Ifoneofthesevaluesdoesnot fit within the dynamic range of the display being used, then both values can be shifted using a multiplier k so that M = M ∗ k, m = m ∗ k to accommodate these practical constraints.
+
+The maximum and minimum values computed in the previous step are set to fall off to the background level La in a smooth fashion. In our application, we employed a screen with horizontal resolution of 1,920 pixels and found a visibly acceptable smoothness to be achieved using a Gaussian falloff with standard deviation of 45 pixels.
+
+## Effect Size
+Effect size can be calculated from an arbitrary scale such as the judder scale introduced by our article. We include the calculation of a Pearson’s correlation coefficient in the supplementary material containing the raw data for experiments 1–3. Following the guidelines set by “A Power Primer” (1992), we find that in all three experiments the independent variables speed and luminance had a small to medium strength effect on judder, frame rate had a strong effect, and the fourth variable (contrast, image type, and shutter angle, respectively) had an effect less than small.
+
+## Judder Model
+Below, on the left, are the coefficients for our judder model as described in Section 6. On the right, the power of the appropriate term. This information is also available in the supplementary material. Note that our model takes as input speed in pixels per second on a screen with a horizontal resolution of 1,920×1,080 at three picture heights’ distance, subtending a 33◦ field of view. If a speed S is given in degrees per second, then a conversion function for speed should be used as follows: γ (S ) = S ∗1920 . In addition:
+
+``` iheartla
+
+α(F) = 1/F where F ∈ ℝ
+```
+
+``` iheartla
+
+β(L) = log_10(L) where L ∈ ℝ
+```
+## Validation Data
+To compute a judder prediction using our model for an arbitrary scene, a speed measurement is necessary. As we are mostly concerned with panning scenes we expect the clip to have a strong main motion component due to the camera motion. We computed a frame-to-frame best-fit translation, which is pooled over all frames, filtered (speeds below 1 deg/s fall short of the smooth pursuit range (Meyer et al. 1985) and are filtered out), and averaged to compute the speed. Note that this procedure is only valid for clips that contain relatively stable motion. We obtained a mean panning speed of approximately 8s for Bunny, a fast 4.4s for Ballet, and 6.4s for Kids.
+
+# ACKNOWLEDGMENTS
+The authors thank Shane Ruggieri for helping prepare the video for the article and Sema Berkiten for final edits. We thank Shane, Thad Beier, and Jim Crenshaw for the insightful discussions on industry practices relating to judder manageulent and motion in general. We thank Thomas Wan and the immersive experience team for help with the experimental setup and hardware. We thank the user study participants for their efforts. We thank Timo Kunkel and Sema for help with style and Seth Frey for help with the statistical analysis.
+
+# REFERENCES
+Robert S. Allison, Laurie M. Wilcox, Roy C. Anthony, John Helliker, and Bert Dunk. 2016. Expert viewers’ preferences for higher frame rate 3D film. J. Imag. Sci. Tech- nol. 60, 6 (2016), 60402–1.
+
+
 
 

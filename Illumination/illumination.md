@@ -55,13 +55,29 @@ These assumptions allow us to have a linear formulation for the light transport 
 
 Our algorithm factors each video frame I into a per-pixel product of the reflectance R and the illumination S:
 
-$$ eq 1 $$
+❤: first
+``` iheartla
+
+I(x) = R(x) ∘ S(x) where x ∈ ℝ^2  
+
+R ∈ ℝ^2 -> ℝ^(3 × 3)
+S ∈ ℝ^2 -> ℝ^(3 × 3) 
+
+``` 
 
 where x denotes the pixel location and ⊙ the element-wise product. For diffuse objects, the reflectance layer captures the surface albedo, and the illumination layer S jointly captures the direct and indirect illumination effects. Unlike most intrinsic decomposition methods, we do not use a grayscale illumination image, but represent the illumination layer as a colored RGB image to allow indirect illumination effects to be expressed in the illumination layer.
 
 Inspired by Carroll et al. [2011], we further decompose the illumination layer into a grayscale direct illumination layer resulting from the white illuminant, and multiple indirect colored illumination layers resulting from inter-reflections from colored objects in the scene. We start by estimating a set of base colors that consists of 𝐾 unique reflectance colors {b𝑘 } that represent the scene. The number 𝐾 of colors is specified by the user; we use 𝐾 = 10 for all our results, as superfluous clusters will be removed automatically in Section 5.1. This set of base colors serves as the basis for our illumination decomposition. The base colors help constrain the values of pixels in the reflectance layer R. For every surface point in the scene, we assume that a single indirect bounce of light may occur from every base reflectance color, in addition to the direct illumination. The global illumination in the scene is modeled using a linear decomposition of the illumination layer S into a direct illumination layer 𝑇0 and the sum of the 𝐾 indirect illumination layers {𝑇𝑘 }0<𝑘 ≤𝐾 :
+❤: second
+``` iheartla(second)
 
-$$ eq 2 $$
+I(x) = R(x) ∘ sum_k b_k T_k(x) where x ∈ ℝ^2  
+
+R ∈ ℝ^2 -> ℝ^(3 × 3)
+T_i ∈ ℝ^2 -> ℝ^(3 × 3) 
+b_i ∈ ℝ
+
+``` 
 
 Here, b0 represents the color of the illuminant: white in our case, i.e. b0 = (1, 1, 1). 𝑇0 (x) indicates the light transport contribution from the direct illumination. Similarly, the contribution from each base color b𝑘 at a given pixel location x is measured by the map 𝑇𝑘 (x). This scalar contribution, when multiplied with the base color b𝑘 , provides the net contribution by the base reflectance color to the global scene illumination. Unlike previous methods, we obtain the set of base colors automatically using a real-time clustering technique. Once the base colors are obtained, the scene clustering can be further refined using a few simple user-clicks. This refines only the regions of clustering but not the base colors themselves.
 
@@ -92,34 +108,67 @@ Given the initial set of base colors for the scene, we next jointly decompose th
 
 We formulate our illumination decomposition as an energy minimization problem with the following energy:
 
-$$ eq 3 $$
+``` iheartla 
+
+`$𝐸_{decomp}$`(X) = `$𝐸_{data}$`(X) + `$𝐸_{reflectance}$`(X) + `$𝐸_{illumination}$`(X)  where X ∈ ℝ^2  
+
+`$𝐸_{illumination}$` ∈ ℝ^2 -> ℝ
+
+``` 
 
 where X = 􏰂R, 𝑇0, {𝑇𝑘 }􏰃 is the set of variables to be optimized, while the base colors {b𝑘 } stay fixed. This energy has three main terms: the data fidelity term, reflectance priors (Section 6.1) and illumination priors (Section 6.2); we give details on the individual energy terms below. We optimize this energy using a novel fast GPU solver (see Section 7) to obtain real-time performance.
 
 Data Fidelity Term. This constraint enforces that the decomposition result reproduces the input image:
 
-$$ eq 4 $$
+``` iheartla
+
+`$𝐸_{data}$`(X) = `$λ_{data}$`||I(X) - R(X) ∘ sum_k b_k T_k(X)||^2_F  where X ∈ ℝ^2  
+
+`$λ_{data}$` ∈ ℝ
+
+```
 
 where $𝜆_{data}$ is the weight for this energy term (other terms have their own weights), and the 𝑇𝑘 are the (𝐾 +1) illumination layers of the decomposition: one direct layer 𝑇0, and 𝐾 indirect layers {𝑇𝑘 }.
 
 ## Reflectance Priors
 We constrain the estimated reflectance layer R using three priors:
 
-$$ eq 5 $$
+``` iheartla 
+
+`$𝐸_{reflectance}$`(X) = `$𝐸_{clustering}$`(X) + `$𝐸_{r-sparsity}$`(X) + `$𝐸_{r-consistency}$`(X)  where X ∈ ℝ^2  
+
+`$𝐸_{r-consistency}$` ∈ ℝ^2 -> ℝ
+
+``` 
 
 The first prior guides the illumination decomposition using the clustered chromaticity map of Section 5.1, the second prior encourages a piecewise constant reflectance map using gradient sparsity, and
 the third prior is a global spatiotemporal consistency prior.
 
 Reflectance Clustering Prior. We use the clustering described in Section 5.1 to guide the decomposition, as the chromaticity-clustered image Rcluster is an approximation of the reflectance layer R. Hence, we constrain the reflectance map to remain close to the clustered image using the following energy term:
 
-$$ eq 6 $$
+
+``` iheartla 
+
+`$𝐸_{clustering}$`(X) = `$λ_{clustering}$` ||r(X) - `$r_{cluster}$`(X) ||^2_F where X ∈ ℝ^2  
+
+`$λ_{clustering}$` ∈ ℝ
+`$r_{cluster}$` ∈ ℝ^2 -> ℝ^(3 × 3)
+r ∈ ℝ^2 -> ℝ^(3 × 3)
+
+``` 
 
 where the lowercase r represents the quantity R in the log-domain, i.e., r = ln R, and rcluster is the clustered reflectance map (Section 5.1).
 
 Reflectance Sparsity Prior. Natural scenes generally consist of a small set of objects and materials, hence the reflectance layer is expected to have sparse gradients. Such a spatially sparse solution
 for the reflectance image can be obtained by minimizing the $l_p$-norm ($𝑝$ ∈ [0, 1]) of the gradient magnitude ∥∇r∥2. Many intrinsic decomposition techniques [Bonneel et al. 2014; Meka et al. 2016] have used similar reflectance sparsity priors:
 
-$$ eq 7 $$
+``` iheartla 
+
+`$𝐸_{r-sparsity}$`(X) = `$λ_{r-sparsity}$` ||r(X)||^2_F where X ∈ ℝ^2  
+
+`$λ_{r-sparsity}$` ∈ ℝ
+
+``` 
 
 Spatiotemporal Reflectance Consistency Prior. We also employ the spatiotemporal reflectance consistency prior 𝐸r-consistency (X) first introduced by Meka et al. [2016]. This prior enforces that the reflectance stays temporally consistent by connecting every pixel with a set of randomly sampled pixels in a small spatiotemporal window by constraining the reflectance of the pixels to be close under a defined chromaticity-closeness condition. We refer to Meka et al. [2016] for further details.
 

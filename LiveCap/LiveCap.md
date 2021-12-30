@@ -40,21 +40,36 @@ After the actor model acquisition step, our real-time performance capture approa
 ## Skeletal Pose Estimation
 We formulate skeletal pose estimation as a non-linear optimization problem in the unknown skeleton parameters $\mathcal{S}^*$:
 $$
+\DeclareMathOperator*{\argmin}{arg\,min}
 \begin{equation}
-\mathcal{S}^* = \argmin_{\mathcal{S}}{E_\mathrm{pose}(\mathcal{S})}.
+\mathcal{S}^* = \argmin_{\mathcal{S}} {E_\mathrm{pose}(\mathcal{S})}.
 \end{equation}
 $$
 The set $\mathcal{S}=\{\mathbf{\theta}, \mathbf{R}, \mathbf{t}\}$ contains the joint angles $\mathbf{\theta} \in \mathbb{R}^{27}$ of the $J$ joints of the skeletal model, and the global pose $\mathbf{R} \in \mathbf{SO}(3)$ and translation $\mathbf{t} \in \mathbb{R}^{3}$ of the root. 
 
 For pose estimation, we optimize an energy of the following general form:
-$$
+<!-- $$
 \begin{align}
 \begin{aligned}
  E_\mathrm{pose}(\mathcal{S}) = &E_\mathrm{2D}(\mathcal{S}) +  E_\mathrm{3D}(\mathcal{S}) + E_\mathrm{silhouette}(\mathcal{S}) +  E_\mathrm{temporal}(\mathcal{S}) \\
  + &E_\mathrm{anatomic}(\mathcal{S}) \enspace{.}
  \end{aligned}
 \end{align}
-$$
+$$ -->
+❤: first
+
+```  	iheartla 	
+`$E_{pose}$`(S) = `$E_{2D}$`(S) + `$E_{3D}$`(S) + `$E_{silhouette}$`(S) + `$E_{temporal}$`(S) +`$E_{anatomic}$`(S)  where S ∈ ℝ^(3 × 3)
+
+where
+
+`$E_{2D}$` : ℝ^(3 × 3) -> ℝ
+`$E_{3D}$` : ℝ^(3 × 3) -> ℝ
+`$E_{silhouette}$` : ℝ^(3 × 3) -> ℝ
+`$E_{temporal}$` : ℝ^(3 × 3) -> ℝ
+`$E_{anatomic}$` : ℝ^(3 × 3) -> ℝ
+``` 
+
 Here, $E_\mathrm{2D}$ and $E_\mathrm{3D}$ are alignment constraints based on regressed 2D and 3D joint positions, respectively. In addition, $E_\mathrm{silhouette}$ is a dense alignment term that fits the silhouette of the actor model to the detected silhouette in the input color images. At last, $E_\mathrm{temporal}$ and $E_\mathrm{anatomic}$ are temporal and anatomical regularization constraints that ensure that the speed of the motion and the joint angles stay in physically plausible ranges. To better handle fast motion, we initialize the skeleton parameters before optimization by extrapolating the poses of the last two frames in joint angle space based on an explicit Euler step. In the following, we explain each energy term in more detail.
 
 Sparse 2D and 3D Alignment Constraint. For each input frame $I$, we estimate the 2D and 3D joint positions $\mathbf{P}_{\mathrm{2D},i} \in \mathbb{R}^{2}$ and $\mathbf{P}_{\mathrm{3D},i} \in \mathbb{R}^{3}$ of the $J$ joints using the efficient deep skeleton joint regression network of the VNect algorithm~\cite{VNect_SIGGRAPH2017} trained with the original data of~\cite{VNect_SIGGRAPH2017}. However, with these skeleton-only joint detections, it is not possible to determine the orientation of the head. Therefore, we further augment the 2D joint predictions of~\cite{VNect_SIGGRAPH2017} with a subset of the facial landmark detections of~\cite{saragig_tracker}, which includes the eyes, nose and chin. We incorporate the 2D detections $\mathbf{P}_{\mathrm{2D},i} \in \mathbb{R}^{2}$ based on the following re-projection constraint: 
@@ -69,6 +84,21 @@ $$
 	\end{aligned}
 \end{align}
 $$
+
+
+```  	iheartla 	
+`$E_{2D}$`(S) = `$E_{2D}$`(S) ||π||^2  where S ∈ ℝ^(3 × 3)
+
+where
+
+`$λ_{2D}$` : ℝ^(3 × 3) -> ℝ
+λ_i : ℝ^(3 × 3) -> ℝ
+`$E_{silhouette}$` : ℝ^(3 × 3) -> ℝ
+`$E_{temporal}$` : ℝ^(3 × 3) -> ℝ
+`$E_{anatomic}$` : ℝ^(3 × 3) -> ℝ
+``` 
+
+
 Here, $p_{\mathbf{3D},i}$ is the 3D position of the $i$-th joint/face marker of the used kinematic skeleton and $\pi:\mathbb{R}^3 \rightarrow \mathbb{R}^2$ is a full perspective projection that maps 3D space to the 2D image plane. Thus, this term enforces that all projected joint positions are close to their corresponding detections. $\lambda_{i}$ are detection-based weights. We use $\lambda_{i}=0.326$ for the facial landmarks and $\lambda_{i}=1.0$ for all other detections to avoid that the head error dominates all other body parts. To resolve the inherent depth ambiguities of the re-projection constraint, we also employ the following 3D-to-3D alignment term between model joints $p_{\mathbf{3D},i}(\mathbf{\mathbf{\theta}},\mathbf{R}, \mathbf{t})$ and 3D detections $\mathbf{P}_{\mathrm{3D},i}$: 
 $$
 \begin{align}
@@ -114,7 +144,7 @@ $$
 E_\mathrm{anatomic}(\mathcal{S}) = \lambda_\mathrm{anatomic} \sum_{i=1}^{27}{ \Psi( \theta_i ) } \enspace{.}
 $$
 Here, $\Psi(x)$ is a quadratic barrier function that penalizes if a degree of freedom exceeds its limits:
-$$
+<!-- $$
 \Psi(x)
 =
 \begin{cases}
@@ -122,7 +152,22 @@ $$
 (\mathbf{\theta}_{\mathrm{min},i} - x)^2 \, ,\text{ if } x < \mathbf{\theta}_{\mathrm{min},i}\\
 0 \qquad \qquad \; \; \; ,  \text{ otherwise} \enspace{.}
 \end{cases}
-$$This term prevents un-plausible human pose estimates.
+$$ -->
+
+```iheartla
+
+Ψ(x) = { (x-`$θ_{max,i}$`)^2 if x > `$θ_{max,i}$`
+(`$θ_{min,i}$`-x)^2 if x < `$θ_{min,i}$`
+0 otherwise where x : ℝ
+
+where 
+
+`$θ_{max,i}$` : ℝ
+`$θ_{min,i}$` : ℝ
+```
+
+
+This term prevents un-plausible human pose estimates.
 
 
 ## Non-rigid Surface Registration
