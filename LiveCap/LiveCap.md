@@ -86,18 +86,15 @@ $$
 $$
 
 
-```  	iheartla 	
-`$E_{2D}$`(S) = `$E_{2D}$`(S) ||π||^2  where S ∈ ℝ^(3 × 3)
+<!-- ```  	iheartla 	
+`$E_{2D}$`(S) = `$λ_{2D}$`(S) ||S||^2  where S ∈ ℝ^(3 × 3)
 
 where
 
 `$λ_{2D}$` : ℝ^(3 × 3) -> ℝ
 λ_i : ℝ^(3 × 3) -> ℝ
-`$E_{silhouette}$` : ℝ^(3 × 3) -> ℝ
-`$E_{temporal}$` : ℝ^(3 × 3) -> ℝ
-`$E_{anatomic}$` : ℝ^(3 × 3) -> ℝ
 ``` 
-
+ -->
 
 Here, $p_{\mathbf{3D},i}$ is the 3D position of the $i$-th joint/face marker of the used kinematic skeleton and $\pi:\mathbb{R}^3 \rightarrow \mathbb{R}^2$ is a full perspective projection that maps 3D space to the 2D image plane. Thus, this term enforces that all projected joint positions are close to their corresponding detections. $\lambda_{i}$ are detection-based weights. We use $\lambda_{i}=0.326$ for the facial landmarks and $\lambda_{i}=1.0$ for all other detections to avoid that the head error dominates all other body parts. To resolve the inherent depth ambiguities of the re-projection constraint, we also employ the following 3D-to-3D alignment term between model joints $p_{\mathbf{3D},i}(\mathbf{\mathbf{\theta}},\mathbf{R}, \mathbf{t})$ and 3D detections $\mathbf{P}_{\mathrm{3D},i}$: 
 $$

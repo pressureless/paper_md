@@ -27,7 +27,18 @@ Our second observation relates to training dataset requirements. Thanks to the u
 
 Though trained separately, the neural networks used for our two tasks share similar architectures: both are deep convolutional networks for which the input is a 256 × 256 resolution RGB image of a subject’s face. The output of each network is a per-pixel and per-channel affine transformation consisting of a scaling A and offset B, at the same resolution as the input image Iin such that the final output Iout can be computed as:
 
-$$eq 1$$
+
+❤: first
+``` iheartla
+
+`$I_{out}$` =`$I_{in}$`∘ A+B
+
+where
+
+`$I_{in}$`: ℝ^(p × q)
+A: ℝ^(p × q)
+B: ℝ^(p × q)
+```
 
 where ◦ denotes per-element multiplication. This approach can be thought of as an extension of quotient images [Shashua and Riklin-Raviv 2001] and of residual skip connections [He et al. 2016], wherein our network is encouraged to produce output images that resemble scaled and shifted versions of the input image. The facial shadow network includes additional inputs that are concatenated onto the input RGB image: 1) two numbers encoding the desired shadow softening and fill light brightness, so that variable amounts of softening and fill lighting can be specified and 2) an additional rendition of the input image with the face mirrored about its axis of symmetry (i.e., pixels corresponding to the left eye of the input are warped to the position of the right eye, and vice versa). Using a mirrored face image in this way broadens the spatial support of the first layer of our network to include the image region on the opposite side of the subject’s face. This allows the network to exploit the bilateral symmetry of human faces and to easily “borrow” pixels with similar semantic meaning and texture but different lighting from the opposite side of the subject’s face (see Section 3.3 for details).
 
@@ -53,7 +64,16 @@ There is no tractable data acquisition method to collect a large-scale dataset o
 ## Foreign Shadows
 To synthesize images that appear to contain foreign shadows, we model images as a linear blend between a “lit” image Il and a “shad- owed” image Is , according to some shadow mask M :
 
-$$eq 2$$
+``` iheartla
+
+I =`$I_l$`∘ (1_p,q - M)+`$I_s$`∘M
+
+where
+
+`$I_l$`: ℝ^(p × q)
+`$I_s$`: ℝ^(p × q)
+M: ℝ^(p × q)
+```
 
 The lit image Il is assumed to contain the subject lit by all light sources in the scene (e.g. the sun and the sky), and the shadowed image Is is assumed to be the subject lit by everything other than the key (e.g. just the sky). The shadow mask M indicates which pixels are shadowed: M = 1 if fully shadowed, and M = 0 if fully lit. To generate a training sample, we need Il, Is, and M. Il is selected from an initial dataset described below, Is is a color transform of Il, and M comes from a silhouette dataset or a pseudorandom noise function.
 
@@ -67,7 +87,17 @@ Shape Variation: The shapes of natural shadows are as varied as the shapes of na
 
 Subsurface Scattering: Light scatters beneath the surface of human skin before exiting, and the degree of that scattering is wavelength-dependent [Hanrahan and Krueger 1993; Jensen et al. 2001; Krishnaswamy and Baranoski 2004]: blood vessels cause red light to scatter further that other wavelengths, causing a visible color fringe at shadows. We approximate the subsurface scattering appearance by uniformly blurring Min with a different kernel per color channel, borrowing from Fernando [2004]. In brief, the kernel for each channel is a sum of Gaussians G(σc,k ) with weights wc,k , such that each channel Mc of the shadow mask with subsurface scattering Mss is rendered as:
 
-$$eq 3$$
+``` iheartla
+
+`$M_c$` =sum_k `$M_{in}$` G(`$σ_{c,}$`_k)`$w_{c,}$`_k
+
+where
+
+`$M_{in}$`: ℝ
+G: ℝ -> ℝ
+`$σ_{c,}$`_k: ℝ
+`$w_{c,}$`_k: ℝ
+```
 
 Spatial Variation: The softness of the shadow being cast on a subject depends on the relative distances between the subject, the key light, and the object casting the shadow. Because this relationship varies over the image, our shadow masks incorporate a spatially-varying blur over Mss. While many prior works assume that the shadow region has a constant intensity [Zhang et al. 2019b], we note that a partially translucent occluder or an environment violating the assumption that lights are infinitely far away will cause shadows to have different local intensities. Accordingly, we similarly apply a spatially-varying per-pixel intensity variation to Mss as well, modeled as Perlin noise at 2 octaves with a persistence drawn uniformly at random from [0.05, 0.25] and an initial amplitude set to 1.0. The final mask with spatial variation incorporated is what we refer to as M above.
 
@@ -82,7 +112,15 @@ We construct our dataset by emulating the scrims and bounce cards employed by pr
 For each training instance, we select one of the 304 lights in the stage and dub it our key light with index ikey, and use its location to define the key light direction $l_{key}$ . Our harsh input image is defined to be one corresponding to OLAT weights wi = {Pkey if i = ikey, ε otherwise}, where Pkey is a randomly sampled intensity of the key light and ε is a small non-zero value that adds ambient light to
 prevent shadowed pixels from becoming fully black. The corresponding soft image is then rendered by splatting the key light energy to the set of its m nearest neighboring lights Ω(l), where m is drawn uniformly from a set of discrete numbers [5, 10, 20, 30, 40]. This can be thought of as convolving the key light source with a disc, similar in spirit to a diffuser or softbox. We then compute the location of the fill light (Figure 3(d)):
 
-$$eq 4$$
+``` iheartla
+
+`$l_{fill}$` = 2(`$l_{key}$`⋅n)n - `$l_{key}$`
+
+where
+
+`$l_{key}$`: ℝ^3
+n: ℝ^3
+```
 
 where n is the unit vector along the camera z-axis, pointing out of the Light Stage. For all data generation, we use a fixed fill light neigh- borhood size of 20, and a random fill intensity Pfill in [0, Pkey/10]. Thus, the soft output image is defined as one corresponding to OLAT weights
 
@@ -96,20 +134,37 @@ Human faces tend to be bilaterally symmetric: the left side of most faces closel
 
 Given an image I , we use the landmark detection system of [Kartynnik et al. 2019] to produce a model of facial geometry consisting of 468 2D vertices (Figure 4(b)) and a mesh topology (which is fixed for all instances). For each vertex j we precompute the index of its bilaterally symmetric vertex j, which corresponds to a vertex (uj ̄,vj ̄) at the same position as (uj,vj) but on the opposite side of the face. With this correspondence we could simply produce a “mirrored” version of I by applying a meshwarp to I where the position of each vertex j is moved to the position of its mirror vertex j. However, a straightforward meshwarp is prone to triangular-shaped artifacts and irregular behavior on foreshortened triangles or inaccurately-estimated keypoint locations. For this reason we instead use a “soft” warping approach based on an adaptive radial basis function (RBF) kernel: For each pixel in I we compute its RBF weight with respect to the 2D locations of all vertices, express that pixel location as a convex combination of all vertex locations, and then interpolate the “mirrored” pixel location by computing the same convex combination of all mirrored vertex locations. Put formally, we first compute the Euclidean distance from all pixel locations to all vertex locations:
 
-$$ eq 5 $$
+``` iheartla
+
+D_i,j = (x_i - u_j)^2 + (y_i - v_j)^2
+
+where
+
+x_i: ℝ
+y_i: ℝ
+u_j: ℝ
+v_j: ℝ
+```
 
 With this we compute a weight matrix consistent of normalized Gaussian distances:
 
-$$ eq 6 $$
+
 
 Unlike a conventional normalized RBF kernel, Wi , j
 using a different σ for each of the j vertices. Each vertex’s σ is selected such that each landmark’s influence in the kernel is inversely proportional to how many nearby neighbors it has for this particular image:
 
-$$ eq 7 $$
+``` iheartla
+
+w_i,j = exp(-D_i,j/σ_j)/( sum_`$j^{\prime}$` exp(-D_i,`$j^{\prime}$`/σ_`$j^{\prime}$`))
+
+where
+
+σ_j: ℝ
+```
 
 Where select(·, K ) returns the K ’th smallest element of an input vector. This results in a warp where sparse keypoints have significant influence over their local neighborhood, while the influence of densely packed keypoints is diluted. This weight matrix is then used to compute the weighted average of mirrored vertex locations, and this 2D location is used to bilinearly interpolate into the input image to produce it’s mirrored equivalent:
 
-$$ eq 8 $$
+$$asdf$$
 
 The only hyperparameter in this warping model is an integer value Kσ , which we set to 4 in all experiments. This proposed warping model is robust to asymmetric expressions and poses assuming the landmarks are accurate, but is sensitive to asymmetric skin features, e.g., birthmarks.
 
@@ -125,7 +180,19 @@ For all training samples, we run a face detector to obtain a face bounding box, 
 
 We supervise our two models using a weighted combination of pixel-space L1 loss (Lpix) and a perceptual feature space loss (Lfeat) which has been used successfully to train models such as image synthesis and image decomposition [Chen and Koltun 2017; Zhang et al. 2019a, 2018b]. Intuitively, the perceptual loss accounts for high-level semantics in the reconstructed image but may be invariant to some non-semantic image content. By additionally minimizing a per-pixel L1 loss our model is better able to recover low-frequency image content. The perceptual loss is computed by processing the reconstructed and ground truth images through a pre-trained VGG-19 network Φ(·) and computing the L1 difference between extracted features in selected layers as specified in [Zhang et al. 2018b]. The final loss function is formulated as:
 
-$$eq 9 $$
+
+``` iheartla
+
+`$L_{feat}$`(θ) = sum_d λ_d||Φ_d(`$I∗$`) - Φ_d(f(`$I_{in}$`;θ))|| where θ: ℝ
+`$L_{pix}$`(θ) = ||`$I∗$` - f(`$I_{in}$`;θ)|| where θ: ℝ
+L(θ) = 0.01 `$L_{feat}$`(θ) + `$L_{pix}$`(θ) where θ: ℝ
+where
+
+λ_d: ℝ
+`$I∗$`: ℝ^(p × q)
+Φ_d: ℝ^(p × q) -> ℝ^(p × q)
+f: ℝ^(p × q), ℝ -> ℝ^(p × q)
+```
 
 where I ∗ is the ground-truth shadow-removed or shadow-softened RGB image, f (·; θ ) denotes our neural network, and λd denotes the selected weight for the d-th VGG layer. Iin = I for foreign removal model and Iin = concat(I,I ̄,Pfill,m) for facial shadow softening model. This same loss is used to train both models separately. We minimize L with respect to both of our model weights θ using Adam [Kingma and Ba 2015] (β1 = 0.9, β2 = 0.999, ε = 10−8) for 500K iterations, with a learning rate of 10−4 that is decayed by a factor of 0.9 every 50K iterations.
 

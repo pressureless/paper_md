@@ -3,7 +3,7 @@ title: A Symmetric Objective Function for ICP
 date: \today
 author: SZYMON RUSINKIEWICZ, Princeton University
 ---
-❤️: second
+
 The Iterative Closest Point (ICP) algorithm, commonly used for alignment of 3D models, has previously been defined using either a point-to-point or point-to-plane objective. Alternatively, researchers have proposed computationally-expensive methods that directly minimize the distance function between surfaces. We introduce a new symmetrized objective function that achieves the simplicity and computational efficiency of point-to-plane optimization, while yielding improved convergence speed and a wider convergence basin. In addition, we present a linearization of the objective that is exact in the case of exact correspondences. We experimentally demonstrate the improved speed and convergence basin of the symmetric objective, on both smooth models and challenging cases involving noise and partial overlap.
 
 # INTRODUCTION
@@ -28,11 +28,11 @@ Since the original ICP algorithms by [Besl and McKay [1992]](#ref1) and [Chen an
 The variants described above all perform local minimization, requiring an initial guess. This may be based on exhaustive search, matching of descriptors (such as spin images [[Huber and Hebert 2003]](#ref14) or integral invariants [[Gelfand et al. 2005]](#ref12)), or finding constrained point arrangements [[Aiger et al. 2008]](#ref0). In contrast, [Yang et al. [2016]](#ref30) combine local registration with a branch-and-bound algorithm that yields a provably globally-optimal solution. The loss function, however, is still based on point-to-point, which is exploited for derivation of the error bounds for global search.
 
 In this paper, we derive an objective that is closest in spirit to simple point-to-plane minimization, but locally converges to zero for quadratic, rather than just planar, patches. This is done by considering the normals of both points in a pair, though we do so in a way unrelated to [Segal et al. [2009]](#ref25).
-❤️: third
+
 
 # METHOD
 ## Background and Motivation
-Consider the problem of aligning surfaces $P$ and $Q$. This involves finding a rigid-body transformation $(\proselabel{second}{R}|\proselabel{second}{t})$ such that applying the transformation to $P$ causes it to lie on top of $Q$. The original ICP algorithm of [Besl and McKay [1992]](#ref1) may be thought of as an instance of Expectation Maximization: the problem is solved by alternately computing pairs of corresponding points $(\prosedeflabel{second}{p}_i, \prosedeflabel{second}{q}_i)$, where $\proselabel{second}{q}_i$ is the closest point to $\proselabel{second}{p}_i$ given the current transformation, and finding the transformation minimizing the point-to-point objective:
+Consider the problem of aligning surfaces $P$ and $Q$. This involves finding<span class="def:second:R"> a rigid-body transformation $(\prosedeflabel{second}{R}|\proselabel{second}{t})$ such that applying the transformation to $P$ causes it to lie on top of $Q$</span>. The original ICP algorithm of [Besl and McKay [1992]](#ref1) may be thought of as an instance of Expectation Maximization: the problem is solved by alternately computing pairs of corresponding points $(\prosedeflabel{second}{p}_i, \prosedeflabel{second}{q}_i)$, where $\proselabel{second}{q}_i$ is the closest point to $\proselabel{second}{p}_i$ given the current transformation, and finding the transformation minimizing the point-to-point objective:
 
 ``` iheartla(second)
 `$\varepsilon_{point}$` = ∑_i ||R p_i + t - q_i||
@@ -58,7 +58,7 @@ If we consider the possibility of sampling $(\proselabel{second}{p}, \proselabel
 $$(\proselabel{second}{p}-\proselabel{second}{q})\cdot (\proselabel{second}{n_p} + \proselabel{second}{n_q})$$
 
 <figure>
-<img src="./resource/img/icp-1.png" alt="Trulli" style="width:50%" class = "center">
+<img src="./img/icp-1.png" alt="Trulli" style="width:50%" class = "center">
 <figcaption align = "center">Fig. 1. For any points $\proselabel{second}{p}$ and $\proselabel{second}{q}$ sampled from a circular arc, the vector between them $\proselabel{second}{p} − \proselabel{second}{q}$ is perpendicular to the sum of normals $\proselabel{second}{n_p} + \proselabel{second}{n_q}$ . This is the fundamental property exploited by the symmetric ICP formulation.</figcaption>
 </figure>
 Examining the behavior of this function in 2D (see Figure 1), we see that it is zero whenever $\proselabel{second}{p}$ and $\proselabel{second}{q}$ are sampled from a circle, since $\proselabel{second}{n_p}$ and $\proselabel{second}{n_q}$ have opposite projections onto $\proselabel{second}{p} − \proselabel{second}{q}$. As rigid-body transformations are applied to $P$, this expression will continue to evaluate to zero as long as $\proselabel{second}{p}$ and $\proselabel{second}{q}$ end up in a relative position consistent with their placement on some circle (Figure 2, top). A similar property is true in 3D: Equation $\ref{4}$ evaluates to zero as long as $\proselabel{second}{p}$ and $\proselabel{second}{q}$ and their normals are consistent with some cylinder. Because it is difficult to describe, and especially to visualize, the set of $(\proselabel{second}{p}, \proselabel{second}{n_p})$ that lie on arbitrary cylinders containing a fixed $(\proselabel{second}{n_q}, \proselabel{second}{n_q})$ - it is a 4D space - Section 4.1 investigates a different property: Equation $\ref{4}$ also holds whenever $\proselabel{second}{p}$ and $\proselabel{second}{q}$ are consistent with a locally-second-order surface centered between them. While this constraint still provides a great deal of freedom for $(\proselabel{second}{p}, \proselabel{second}{n_p})$ to move relative to $(\proselabel{second}{q}, \proselabel{second}{n_q})$, it is a "more useful" form of freedom than provided by the point-to-plane metric. In particular, it constrains $(\proselabel{second}{p}, \proselabel{second}{n_p})$ to be consistent with a plausible extension of $(\proselabel{second}{n_q}, \proselabel{second}{n_q})$, unlike point-to-plane (Figure 2, bottom). Note that achieving this property does not require the evaluation of any higher-order information (i.e., curvature), which is a major benefit for computational efficiency and noise resistance.
@@ -79,7 +79,7 @@ We have also explored a simpler version of this objective in which the normals a
 $$\proselabel{second}{\varepsilon_{symm}}  = \sum_i {\left[ \left( \proselabel{second}{R} \proselabel{second}{p}_i + \proselabel{second}{R}^{-1} \proselabel{second}{q}_i + \proselabel{second}{t} \right) \cdot \left(\proselabel{second}{{n_p}}_i + \proselabel{second}{{n_q}}_i \right) \right]}^{2} 
 $$
 <figure>
-<img src="./resource/img/icp-2.png" alt="Trulli" style="width:90%" class = "center">
+<img src="./img/icp-2.png" alt="Trulli" style="width:90%" class = "center">
 <figcaption align = "center">Fig.2. Top:As $\proselabel{second}{p}$ moves relative to $\proselabel{second}{q}$,the property$(\proselabel{second}{p}−\proselabel{second}{q})·(\proselabel{second}{n_p} +\proselabel{second}{n_q})=0$ holds as long as there is some circular arc with which $\proselabel{second}{p}$, $\proselabel{second}{q}$, $\proselabel{second}{n_p}$, and $\proselabel{second}{n_q}$ are consistent. Bottom: This is in contrast to the point-to-plane metric, which is zero when $\proselabel{second}{p}$ is in the plane defined by $\proselabel{second}{q}$ and $\proselabel{second}{n_q}$, regardless of $\proselabel{second}{p}$.</figcaption>
 </figure>
 Why might this be a reasonable simplification to make? Consider the sum of two unit-length vectors in 2D. Applying opposite rotations to the vectors preserves the direction of their sum, so that the contribution of each point pair to the two variants of the objective would be the same up to a scale. In 3D, this is not true for all rotation axes, but approaches true as np approaches nq . The experiments in Section 4.3 show that the two objectives lead to similar convergence, but $\proselabel{second}{\varepsilon_{symm}}$ leads to simpler derivations and implementation. Therefore, the remainder of this paper adopts $\proselabel{second}{\varepsilon_{symm}}$ as the symmetric objective.
@@ -157,7 +157,7 @@ Note that the property that the error vanishes near a second-order patch of surf
 
 Note also that, as $\proselabel{second}{p}$ and $\proselabel{second}{q}$ move away from being consistent with a second-order surface, the error in Equation $\ref{4}$ remains well-behaved: it is just linear in positions and normals. This is in contrast to the (squared) Euclidean distance function, whose Hessian diverges at the medial surface.
 <figure>
-<img src="./resource/img/icp-3.png" alt="Trulli" style="width:90%" class = "center">
+<img src="./img/icp-3.png" alt="Trulli" style="width:90%" class = "center">
 <figcaption align = "center">Fig. 3. A second-order patch of surface around m, the geodesic midpoint between $\proselabel{second}{p}$ and $\proselabel{second}{q}$. Because the variation of height and normal relative to m are even and odd, respectively, $\proselabel{second}{p} − \proselabel{second}{q}$ and $\proselabel{second}{n_p} + \proselabel{second}{n_q}$ are parallel and perpendicular to the tangent plane at $m$, and so Equation $\ref{4}$ holds.</figcaption>
 </figure>
 ## The Linearization is Exact for Exact Correspondences
@@ -173,7 +173,7 @@ We test a total of six objective functions, of which four are $\proselabel{secon
 
 - Quadratic: the method of [Mitra et al. [2004]](#ref19) that minimizes a locally-quadratic approximant to the squared Euclidean distance function. The implementation uses the "on demand" method described in that paper, in which the approximation uses curvature information at the closest point.
 <figure>
-<img src="./resource/img/icp-4.png" alt="Trulli" style="width:100%" class = "center">
+<img src="./img/icp-4.png" alt="Trulli" style="width:100%" class = "center">
 <figcaption align = "center">Fig. 4. Left: Error decrease due to one ICP iteration on the dragon model, aligned to itself. Ground-truth errors before and after the ICP iteration are shown on the x and y axes, respectively, of this log-log plot. The proposed symmetric objective results in significantly faster decrease of error at each iteration. Center: Error decrease due to one iteration of ICP, aligning bun090 to bun000 (illustrated in blue and red, respectively, with the areas of overlap in purple). Right: Error decrease in one ICP iteration, aligning two scans from the TUM RGB-D dataset. Note the slower convergence because of the high level of noise.</figcaption>
 </figure>
 - Two-plane: minimizing the sum of squared distances to planes defined by both $\proselabel{second}{n_p}$ and $\proselabel{second}{n_q}$ :
