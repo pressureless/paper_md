@@ -1,77 +1,128 @@
 # Model reduction and subspace splitting
+❤: siere
+Next, we define the splitting $G$ and $H$, crucial to the success of our method. The idea is to apply ERE in the subspace of the first s modes ($s ≪ n$: typically, $5 ≤ s ≤ 20$) and project it back to the original full space. In the bridge example of Figure 1, $n ≈ 100, 000$, so this is a rather large reduction.
 
-Next, we define the splitting G and H, crucial to the success of our method. The idea is to apply ERE in the subspace of the first s modes (s ≪ n: typically, 5 ≤ s ≤ 20) and project it back to the original full space. In the bridge example of Figure 1, n ≈ 100, 000, so this is a rather large reduction.
-
-Then we use SI on the remaining unevaluated part, as per Eq. (5).
-We use mass-PCA to find our reduced space. That is, considering at
-the beginning of each time step a solution mode of the form q(t) = √
-wexp(ı λt)fortheODEMq􏰊+Kq=0,wesolvethegeneralized eigenvalue problem
+Then we use SI on the remaining unevaluated part, as per Eq. (5). We use mass-PCA to find our reduced space. That is, considering at the beginning of each time step a solution mode of the form $q(t) = 
+w exp(ı\sqrt{λ}t)$ for the ODE $Mq + Kq = 0$, we solve the generalized eigenvalue problem
 
 $$ Kw = λMw $$
 
-for the s smallest eigenvalues λ and their corresponding eigen- vectors w (dominant modes). In Matlab, for instance, this can be achieved by calling the function eigs. In our implementation, we use the C++ Spectra library [Qiu 2019]. Denote this partial spectral decomposition by
+for the $s$ smallest eigenvalues $λ$ and their corresponding eigenvectors $w$ (dominant modes). In Matlab, for instance, this can be achieved by calling the function eigs. In our implementation, we use the C++ Spectra library [Qiu 2019]. Denote this partial spectral decomposition by
 
 $$KUs =MUsΛs$$
-where the “long and skinny” Us is n × s, has the first s eigenvectors w as its columns, and the small Λs is a diagonal s × s matrix with the eigenvalues λ1, ..., λs on the diagonal. Notice that both K and M are large sparse symmetric matrices. In addition, M is positive definite, so Us has M-orthogonal columns:
 
-$$UsTMUs =Is, UsTKUs =Λs. $$
+where the “long and skinny” $U_s$ is $n × s$, has the first s eigenvectors $w$ as its columns, and the small $Λ_s$ is a diagonal $s × s$ matrix with the eigenvalues $λ_1, ..., λ_s$ on the diagonal. Notice that both $K$ and $M$ are large sparse symmetric matrices. In addition, $M$ is positive definite, so $U_s$ has M-orthogonal columns:
 
-Next, we write Eq. (2) in the split form Eq. (3), with the splitting H and G defined based on the partial spectral decomposition Eq. (6). We define at each time step
+$$U_s^TMU_s =I_s, U_s^TKU_s = Λ_s. $$
+
+Next, we write Eq. (2) in the split form Eq. (3), with the splitting $H$ and $G$ defined based on the partial spectral decomposition Eq. (6). We define at each time step
 
 
-$$sadf$$
+``` iheartla(first)
+`$G(u)$` = [`$v_G$`
+          M⁻¹`$f_G$`]
+`$H(u)$` = [`$v_H$`
+          M⁻¹`$f_H$`]
+`$v_G$` = `$U_s$``$U_s$`^T Mv
+`$v_H$` =  v - `$v_G$`
+`$f_G$` =  M`$U_s$``$U_s$`^T f
+`$f_H$` =  f - `$f_G$`
+
+where 
+`$U_s$` : ℝ^(n × s)
+M : ℝ^(n × n)
+v : ℝ^n
+f : ℝ^n
+K : ℝ^(n × n)
+```
 
 
 We also need the Jacobian matrices
 
+``` iheartla(first)
+ 
+`$J_G$` = [0    `$U_s$``$U_s$`^TM
+      -`$U_s$``$U_s$`^TK`$U_s$``$U_s$`^TM 0 ]
+`$J_H$` =  [0     I_n
+            -M⁻¹K 0] - `$J_G$` 
 
+```
 
-$$aaa$$
-
-Notice that the ERE expression, hφ1(hJG )G(u), can be evaluated in the subspace first, and then projected back to the original space.
+Notice that the ERE expression, $hφ_1(hJ_G)G(u)$, can be evaluated in the subspace first, and then projected back to the original space.
 
 The additive method defined by inserting Eqs. (8) and (9) into Eq.(5) has three advantages:
 
-- (1) At each time step, the majority of the update comes from ERE
-in the dominating modes. Thus it is less affected by artificial
-damping from SI.
-- (2) The computation load of ERE is greatly reduced, because the
-stiff part is handled by SI (or BE for that matter). Furthermore, the evaluation of the exponential function in the subspace has only marginal cost since the crucial matrix involved has been diagonalized.
+- (1) At each time step, the majority of the update comes from ERE in the dominating modes. Thus it is less affected by artificial damping from SI.
+- (2) The computation load of ERE is greatly reduced, because the stiff part is handled by SI (or BE for that matter). Furthermore, the evaluation of the exponential function in the subspace has only marginal cost since the crucial matrix involved has been diagonalized.
 - (3) The “warm start” for SI makes its result closer to that of BE.
 
 
 ERE update in the subspace: To evaluate the update in the subspace of dimension s we rewrite Eq. (5) as
+ 
+``` iheartla(first)
 
-$$asdf$$
+`$u_+$` =  u + ( -h`$J_H$`)⁻¹(h `$H(u)$` + h[`$U_s$` 0
+                                               0   `$U_s$`] `$φ_1$`(h`$J_G^r$`) `$G^r(u)$`)
+where 
+h : ℝ
+`$φ_1$` : ℝ^(k×k) -> ℝ^(k×k)
+u : ℝ^(2n × 1)
+```
 
-where
-
-$$aaaaaaa$$
-
-The evaluation of the action of the matrix function φ1 involves only matrices of size 2s × 2s. Furthermore, the matrix function φ1 can be evaluated directly through the eigenpairs of JGr
-
-$$sss$$
-
-with el being the l t h column of the identity matrix.
-
-The large n ×n linear system solved in Eq. (10) is not sparse due to the fill-in introduced by the small subspace projection. Specifically, the off-diagonal blocks of the Jacobian matrix JG defined in Eq. (9a) are not sparse. If not treated carefully, solving the linear system in Eq. (5) and Eq. (10) can be prohibitively costly. Fortunately, this
-modification matrix has the low rank s. We can write
-
-$$JG =Y1Z1T +Y2Z2T$$
 
 where
+``` iheartla(first)
+ 
+`$J_G^r$` = [0     I_s
+            -`$U_s$`^TK`$U_s$` 0]
+`$G^r(u)$` = [`$U_s$`^TMv
+            `$U_s$`^Tf]
 
-Y1 = 0 , Z1 = MUs ,
-2 −UsUsTKUs 2 0
+```
+ 
+
+The evaluation of the action of the matrix function $φ_1$ involves only matrices of size $2s × 2s$. Furthermore, the matrix function $φ_1$ can be evaluated directly through the eigenpairs of $J_G^r$
+ $$ 
+\Bigg\{ ı\sqrt{λ_l}, \begin{bmatrix} e_l \\ ı\sqrt{λ_l}e_l  \end{bmatrix}  \Bigg\} , 
+\Bigg\{ -ı\sqrt{λ_l}, \begin{bmatrix} -e_l \\ ı\sqrt{λ_l}e_l  \end{bmatrix}  \Bigg\},
+l = 1,...,s,
+ $$
+ 
+
+with $e_l$ being the $l^{th}$ column of the identity matrix.
+
+The large $n×n$ linear system solved in Eq. (10) is not sparse due to the fill-in introduced by the small subspace projection. Specifically, the off-diagonal blocks of the Jacobian matrix $J_G$ defined in Eq. (9a) are not sparse. If not treated carefully, solving the linear system in Eq. (5) and Eq. (10) can be prohibitively costly. Fortunately, this modification matrix has the low rank $s$. We can write
+
+``` iheartla(second)
+`$J_G$` = `$Y_1$``$Z_1$`^T + `$Y_2$``$Z_2$`^T 
+``` 
+ 
+where 
+``` iheartla(second)
+`$Y_1$` =  [`$U_s$`
+             0]
+`$Z_1$` =  [ 0
+             M`$U_s$`] 
+`$Y_2$` =  [0
+            -`$U_s$``$U_s$`^TK`$U_s$`]
+`$Z_2$` =  [ M`$U_s$`
+             0] 
+
+where 
+`$U_s$` : ℝ^(n × s)
+M : ℝ^(n × n) 
+K : ℝ^(n × n)
+``` 
 
 The linear system in Eq. (10) becomes
-$$ I−hJH =(I−hJ)+hY1Z1T +hY2Z2T $$
 
-where the four matrices Yi and Zi are all “long and skinny” like Us , while the matrix J is square and large, but very sparse. Figure 3 illustrates this situation. For the linear system to be solved in Eq. (10) we may employ an iterative method such as conjugate gradient, whereby the matrix-vector products involving J or YiZiT are all straightforward to carry out efficiently. However, we have often found out that a direct solution method is more appropriate for these linear equations in our context. In our implementation we use pardiso [De Coninck et al. 2016; Kourounis et al. 2018; Verbosio et al. 2017]. For this we can employ the formula of Sherman, Morrison and Woodbury (SMW) [Nocedal and Wright 2006], given by
+$$ I−hJ_H =(I−hJ)+hY_1Z_1^T +hY_2Z_2^T $$
 
-$$ (A+YZT)−1 =A−1 −A−1Y(I +ZTA−1Y)−1ZTA−1 $$
+where the four matrices $Y_i$ and $Z_i$ are all “long and skinny” like $U_s$, while the matrix $J$ is square and large, but very sparse. Figure 3 illustrates this situation. For the linear system to be solved in Eq. (10) we may employ an iterative method such as conjugate gradient, whereby the matrix-vector products involving $J$ or $Y_iZ_i^T$ are all straightforward to carry out efficiently. However, we have often found out that a direct solution method is more appropriate for these linear equations in our context. In our implementation we use pardiso [De Coninck et al. 2016; Kourounis et al. 2018; Verbosio et al. 2017]. For this we can employ the formula of Sherman, Morrison and Woodbury (SMW) [Nocedal and Wright 2006], given by
 
-to solve the linear system in Eq. (10). In our specific notation we set at each time step A = I − h JH in Eq. (14), and apply the formula twice:onceforY = Y1, Z = Z1,andonceforY = Y2, Z = Z2. Note that the matrices I + ZT A−1Y in Eq. (14) are only 2s × 2s, and this results in an efficient implementation, so long as the subspace dimension s remains small.
+$$ (A+YZ^T)^{−1} =A^{−1}−A^{−1}Y(I +Z^TA^{−1}Y)^{−1}Z^TA^{−1} $$
+
+to solve the linear system in Eq. (10). In our specific notation we set at each time step $A = I − h J_H$ in Eq. (14), and apply the formula twice:once for $Y = Y_1$, $Z = Z_1$, and once for $Y = Y_2$, $Z = Z_2$. Note that the matrices $I + Z^T A^{−1}Y$ in Eq. (14) are only $2s × 2s$, and this results in an efficient implementation, so long as the subspace dimension s remains small.
 
 
 
