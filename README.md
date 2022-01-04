@@ -19,4 +19,5 @@ then ```python  process.py  --la_path=/path/to/iheartla-repos``` will generate c
 
 ```lektor build --output-path webpages``` will generate ```webpages``` directory, we can then copy the ```gallery``` and ```static``` subdirectories to github pages
 
-The generated site is here.
+## Online pages
+The generated site is [here](https://pressureless.github.io/demo/).
