@@ -5,6 +5,7 @@ Install [Lektor](https://www.getlektor.com/downloads/) through command ```curl -
 ## Gallery
 
 ```papers``` directory contains related files for each paper
+
 ```lektor_proj``` directory is used for gallery pages lektor project
 
 Download I❤️LA first, then ```python  process.py  --la_path=/path/to/iheartla-repos``` will generate content under ```lektor_proj```
