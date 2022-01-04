@@ -68,7 +68,7 @@ with open('./info.json') as f:
 			item_res_dir/output_html_file)
 		shutil.copy(Path("{}/{}/{}".format(paper_path, item['dir'], item['original'])), 
 			item_res_dir/item['original'])
-		if os.path.exists(Path("{}/{}/{}".format(paper_path, item['dir'], item['img_dir'])):
+		if os.path.exists(Path("{}/{}/{}".format(paper_path, item['dir'], item['img_dir']))):
 			shutil.copytree(Path("{}/{}/{}".format(paper_path, item['dir'], item['img_dir'])), 
 				item_res_dir/item['img_dir'])
 		# shutil.copy(Path("{}/la_file/{}".format(gallery_path, python_f_name)), item_res_dir/python_f_name)
