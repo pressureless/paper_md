@@ -8,7 +8,9 @@ Install [Lektor](https://www.getlektor.com/downloads/) through command ```curl -
 
 ```lektor_proj``` directory is used for gallery pages lektor project
 
-Download I❤️LA first, then ```python  process.py  --la_path=/path/to/iheartla-repos``` will generate content under ```lektor_proj```
+Download ```I❤️LA``` with ```local_func``` branch, 
+
+then ```python  process.py  --la_path=/path/to/iheartla-repos``` will generate content under ```lektor_proj```
 
 ```lektor_proj/assets/static/style.css``` and ```lektor_proj/templates/macros/gallery.html``` are used for the gallery pages
 
