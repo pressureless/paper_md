@@ -12,10 +12,13 @@ where
 `$E_r$` ∈ ℝ
 ```
 where <span class="def:E_r">$E_r$ is the internal energy of the rods</span>, <span class="def:E_q">$E_q$ is the energy of the connection constraints</span>, <span class="def:E_a">$E_a$ is the energy of the anchor constraints</span>, <span class="def:E_n">$E_n$ is the energy of the notch-limit constraints</span>, and <span class="def:E_p">$E_p$ is an additional notch penalty term that also serves to account for friction</span>. We perform the simulation by minimizing <span class="def:E">the entire energy $E$ for the rod centerline points $x$ </span>using a Gauss-Newton method in a similar fashion as proposed by Vekhter et al. [2019]. In Section 6.2 we perform an empirical evaluation of the accuracy of the simulation by comparing it to laser-scans of the makes.
-
+<figure>
+<img src="./img/img10.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 10. The influence of anchors and notches on the example Archway. Left: Anchors at the corners are not sufficient to push the grid into the right configuration. Center: Deployed state without notches, local buckling and irregularities in smoothness can be observed. Right: Notches relax the structure to a more natural, lower energy shape (cf. Sections 4.5 and 4.6).</figcaption>
+</figure>
 For the sake of readability, we will define the constraint energy terms only for a single constraint each. Er is the sum of stretching, bending and twisting energies of each individual rod. As a full explanation of the DER formulation is out of scope for this paper, we refer the reader to the work of [Bergou et al. 2010] for a detailed description of these terms.
 
-The connection constraint energy Eq is given by
+The connection constraint energy $E_q$ is given by
 ``` iheartla
 `$E_q$` = `$λ_{q,1}$`||`$q_g$`-`$q_h$`+t`$m_g$`||^2 + `$λ_{q,1}$`||`$q_h$`-`$q_g$`+t`$m_h$`||^2 + `$λ_{q,2}$`||`$\angle$`(`$m_g$`,`$m_h$`)||^2 
 where
@@ -70,6 +73,11 @@ where
 ε ∈ ℝ
 ```
 with <span class="def:ε">$ε$ denoting how far $q$ is allowed to move past the end of the edge</span> and <span class="def:μ">$μ$ acting as a weighting parameter</span>(we choose $ε = 0.0001$, $μ = 0.1$).
+
+<figure>
+<img src="./img/img11.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 11. The effect of the weighting parameter $μ$ in $E_p$ (from left to right): surface shaded with K and geodesics; $μ = 0.01$, rods slide onto geodesics; $μ = 0.1$, sliding in high $K$ areas reduced (our setting); $μ = 1$, sliding is heavily reduced. Refer to Section 7.3 for a further discussion on $μ$.</figcaption>
+</figure>
 
 Since $E_p$ is not 0 even inside the edge, it penalizes very small sliding movements that would otherwise accumulate over many iterations. In other words, $E_p$ creates a pseudo-frictional effect, which is controlled by $μ$. In a physical grid, friction creates a force acting against the sliding movement of a connection. If the driving force of the movement and the frictional force counterbalance, the movement stops. This situation has an analogy in our grids. A connection stops moving inside a notch if
 

@@ -121,7 +121,11 @@ The linear system in Eq. (10) becomes
 $$ I−h J_H =(I−h J)+h Y_1 Z_1^T +h Y_2 Z_2^T $$
 
 where the four matrices $Y_i$ and $Z_i$ are all “long and skinny” like $U_s$, while the matrix $J$ is square and large, but very sparse. Figure 3 illustrates this situation. For the linear system to be solved in Eq. (10) we may employ an iterative method such as conjugate gradient, whereby the matrix-vector products involving $J$ or $Y_iZ_i^T$ are all straightforward to carry out efficiently. However, we have often found out that a direct solution method is more appropriate for these linear equations in our context. In our implementation we use pardiso [De Coninck et al. 2016; Kourounis et al. 2018; Verbosio et al. 2017]. For this we can employ the formula of Sherman, Morrison and Woodbury (SMW) [Nocedal and Wright 2006], given by
-
+<figure>
+<img src="./img/img3.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 3. The matrix $I − h J_H$ in the linear system eq. (10) is not sparse (c). Fortunately, by Eq. (13) the fill-in to the original sparse matrix $I − h J (a)$ has low rank (b) allowing us to use the SMW formula $E_q$. (14).
+</figcaption>
+</figure>
 $$ (A+YZ^T)^{−1} =A^{−1}−A^{−1}Y(I +Z^TA^{−1}Y)^{−1}Z^TA^{−1} $$
 
 to solve the linear system in Eq. (10). In our specific notation we set at each time step $A = I − h J_H$ in Eq. (14), and apply the formula twice:once for $Y = Y_1$, $Z = Z_1$, and once for $Y = Y_2$, $Z = Z_2$. Note that the matrices $I + Z^T A^{−1}Y$ in Eq. (14) are only $2s × 2s$, and this results in an efficient implementation, so long as the subspace dimension s remains small.
