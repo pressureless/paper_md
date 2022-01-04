@@ -1,0 +1,84 @@
+{
+    "gallery": [
+        {
+            "dir": "ICP",
+            "title": "A Symmetric Objective Function for ICP",
+            "markdown":"icp",
+            "original":"A Symmetric Objective Function for ICP.pdf",
+            "img_dir":"img",
+            "whole_paper": 1
+        },
+        {
+            "dir": "Judder",
+            "title": "A Luminance-aware Model of Judder Perception",
+            "markdown":"judder",
+            "original":"A Luminance-aware Model of Judder Perception.pdf",
+            "img_dir":"img",
+            "whole_paper": 1
+        },
+        {
+            "dir": "Pipeline",
+            "title": "An Omnistereoscopic Video Pipeline for Capture and Display of Real-World VR",
+            "markdown":"pipeline",
+            "original":"An Omnistereoscopic Video Pipeline for Capture and Display of Real-World VR.pdf",
+            "img_dir":"img",
+            "whole_paper": 1
+        },
+        {
+            "dir": "Portrait",
+            "title": "Portrait Shadow Manipulation",
+            "markdown":"portrait",
+            "original":"Portrait Shadow Manipulation.pdf",
+            "img_dir":"img",
+            "whole_paper": 1
+        },
+        {
+            "dir": "Eccentricity",
+            "title": "A Perceptual Model for Eccentricity-dependent Spatio-temporal Flicker Fusion and its Applications to Foveated Graphics",
+            "markdown":"eccentricity",
+            "original":"A Perceptual Model for Eccentricity-dependent Spatio-temporal Flicker Fusion and its Applications to Foveated Graphics.pdf",
+            "img_dir":"img",
+            "whole_paper": 1
+        },
+        {
+            "dir": "Computational_Design",
+            "title": "Computational Design of Transforming Pop-up Books",
+            "markdown":"computation",
+            "original":"Computational Design of Transforming Pop-up Books.pdf",
+            "img_dir":"img",
+            "whole_paper": 0
+        },
+        {
+            "dir": "Nautilus",
+            "title": "Nautilus-Recovering Regional Symmetry Transformations for Image Editing ",
+            "markdown":"nautilus",
+            "original":"Nautilus- Recovering Regional Symmetry Transformations for Image Editing .pdf",
+            "img_dir":"img",
+            "whole_paper": 0
+        },
+        {
+            "dir": "Elastic",
+            "title": "On Elastic Geodesic Grids and Their Planar to Spatial Deployment",
+            "markdown":"elastic",
+            "original":"On Elastic Geodesic Grids and Their Planar to Spatial Deployment.pdf",
+            "img_dir":"img",
+            "whole_paper": 0
+        },
+        {
+            "dir": "a_perceptual_model",
+            "title": "A perceptual model of motion quality for rendering with adaptive refresh-rate and resolution",
+            "markdown":"perceptual",
+            "original":"A perceptual model of motion quality for rendering with adaptive refresh-rate and resolution.pdf",
+            "img_dir":"img",
+            "whole_paper": 0
+        },
+        {
+            "dir": "SIERE",
+            "title": "SIERE: a hybrid semi-implicit exponential integrator for efficiently simulating stiff deformable objects",
+            "markdown":"siere",
+            "original":"SIERE- a hybrid semi-implicit exponential integrator for efficiently simulating stiff deformable objects .pdf",
+            "img_dir":"img",
+            "whole_paper": 0
+        }
+    ]
+}

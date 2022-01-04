@@ -1,7 +1,10 @@
-*.json
+*/*/*.json
 *.ihla
 *.h
 *.m
-*.py
+*/*/*.py
 *.html
 /resource
+lektor_proj/assets/static/gallery_res/*
+lektor_proj/content/gallery/**
+lektor_proj/webpages/
