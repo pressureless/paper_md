@@ -20,7 +20,11 @@ A milestone in this context have been the works of Peleg et al. (1999, 2001), wh
 A key advantage of their omnistereoscopic representation in the context of VR is that only a small modification to the stitching process allows for changes of the virtual viewpoint position, enabling a more natural interaction and immersive experience of the VR content compared to static stereoscopic images. However, in practice, existing high-resolution omnistereo approaches (e.g., Richardt et al. (2013)) require a very large number of input views, in the order of several tens to hundreds, to generate convincing virtual head motion effects. Building a corresponding video camera array is a difficult practical challenge.
 
 In this article, we describe a complete and practicable pipeline for the capture and display of real-world VR video content. In particular, we try to address important questions that have remained open in previous works. On the practical side, we discuss a solution that allows the generation of plausible stereo panoramas, including virtual head motion, from a small number of input videos. Our prototype is a camera array consisting of only 16 machine vision cameras (see Figure 1). On the theoretical side, we provide an analysis that relates stereoscopic output parallax and the available virtual head motion to the camera array geometry, which is an important prerequisite in order to be able to capture convincing, immersive real-world VR. We further discuss additional tools such as multi-perspective projection in order to mix real-world VR with computer generated content.
-
+<figure>
+<img src="./img/img1.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 1. Given videos acquired by a sparse camera rig (see our prototype with 16 cameras on the left), we describe a complete pipeline for the generation of high-quality stereoscopic omnidirectional videos of dynamic scenes (bottom), with support for smooth parallax interpolation between different viewpoints (two top right images), enabling real-time virtual head motion in Virtual Reality applications despite the sparse video input.
+</figcaption>
+</figure>
 We show several real-world video panoramas that are suitable for real-time stereoscopic viewing with support for virtual head- motion, e.g., using an Oculus or Google Cardboard HMD. We compare to alternative solutions such as image-based rendering using depth, and to the Facebook Surround 360 system. In addition, we discuss and simulate alternative array and camera designs that, we hope, provide a useful guide for other researchers for building omnistereo video capture systems.
 
 # RELATED WORK
@@ -86,7 +90,11 @@ P(α) = K [R(α) ŧ] where α: ℝ
 We then define the dense lightfield for a single point in time as $L(α,x,y)$, which we have to reconstruct from the sparse camera input (see Figure 2 for an example of a synthetic scene). The value at a location $(α, x, y)$ corresponds to the measured irradiance along the ray
 
 $$R^T(α)(\lambda \cdot K^{-1}(x,y,1)^T - t)$$
-
+<figure>
+<img src="./img/img2.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 2. Dense lightfield representation of a synthetic scene. The x, y and α axes are shown in red, green, and blue, respectively.
+</figcaption>
+</figure>
 where $λ > 0$ represents the position along the ray.
 
 ## Lightfield Reconstruction
@@ -124,7 +132,11 @@ where
 `$α_i$`: ℝ 
 `$α_j$`: ℝ
 ```
-
+<figure>
+<img src="./img/img3.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 3. Transforming an input image with $φ$ yields a good approximation to the point trajectories even for points that are close.Thiscanbeillustratedby the fact that varying the cylinder radius $d$ used in $φ_d$ from 1 to ∞ interpolates between the input image and the image transformed by $φ$. Unless points are unreasonably close for typical capturing setups, i.e., $d ≪ 2r$ , the resulting transformations closely resemble each other. This is best visible when comparing the shapes of the transformed images.
+</figcaption>
+</figure>
 Although $φ_d$ does allow using image space correspondences for an accurate view interpolation, it still depends on the depth of the scene point as it determines the radius of the cylinder. However, Figure 3 illustrates that the transformation an image undergoes is almost constant when varying the cylinder radius from around $2r$ to ∞. This indicates that trajectories of points can be well approximated by using a very large cylinder radius, even when they are relatively close. By letting $d → ∞$, one can express the mapping in a depth independent way as
 
 ``` iheartla
@@ -141,7 +153,11 @@ with
 This is straightforward considering that $d → ∞$ is equivalent to letting the camera circle radius $r → 0$.
 
 Figure 4 depicts $α$-$x$-slices of $L(α, x, y)$ before and after transformation with φ. Curved lines become straightened after the transformation, which indicates that linear interpolation indeed is an appropriate approximation to the point trajectory. Due to this insight, we are now able to compute intermediate views based on image space correspondences as follows.
-
+<figure>
+<img src="./img/img4.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 4. Top: α-x slice of L(α, x, y) from Figure 2. Bottom: α-x slice after transforming with the mapping function φ . The fact that, after transformation, the curved lines are straightened illustrates that a linear interpolation in the transformed space can result in accurate point trajectories.
+</figcaption>
+</figure>
 Computing Intermediate Views. As a preprocessing step, we first compute forward and backward flows between all consecutive image pairs. To this end, we slightly adapt a commonly available method (Brox et al. 2004) and minimize the energy
 
 $$\begin{align*}
@@ -219,7 +235,16 @@ upto2π,where❤:ϕ = sin(C/D) ❤ , ❤:D = √(A^2 +B^2)❤, and ❤:γ = tan(
 With the panoramic image formation model, we can now understand the relation between the scene depth and the parallax in the output panoramas. As explained in Section 4.2, the stereoscopic output panorama is created from two column slices. For example, the left panorama is created from the slice at column $x_l$ , and the right panorama at column $x_r$ . For simplicity, in this section, we assume that all cameras in the rig have a fixed focal length $f$. Furthermore, we consider symmetric cases around the center column $x_c$ oftheinputimages,i.e.,$|x_l −x_c|=|x_r −x_c|$.Thedistance $x_r −x_l$ controls the virtual camera baseline (VCB). This is analogous to the distance between a pair of cameras in a conventional stereo rig controlling the resulting stereoscopic output parallax. To conduct experiments in a way that is invariant to the input image size, we consider the VCB angle, which is given by $2 · ω (x_r)$ according to Equation (9).
 
 Figure 5 verifies that the parallax in the stereoscopic output panorama decreases with larger scene depth and smaller VCB angle. Furthermore, it also shows how to choose the acquisition and synthesis parameters to match the disparity capabilities of desired output devices, such as head-mounted displays or autostereoscopic screens with a limited disparity range.
-
+<figure>
+<img src="./img/img5.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 5. Evolutionofthehorizontalparallaxofascenepointintheoutput panorama with respect to its depth for different virtual camera baseline (VCB) angles. The parallax is expressed in percentage of the panorama height (left y-axis) and in pixels (right y-axis). The input images have a resolution of 2000×2000 pixels with 80◦ field of view.
+</figcaption>
+</figure>
+<figure>
+<img src="./img/img6.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 6. Evolutionoftheminimumdepthvisible(distancefromtheacqui- sition circle) in two cameras with respect to the number of cameras on the rig and with different fields of view.
+</figcaption>
+</figure>
 
 ## Minimum Visible Depth
 In order to capture a large amount of parallax, objects have to be sufficiently close to the camera (Section 5.2). However, due to the sparse sampling, an object too close to the camera array might be observed by only one camera, and therefore cannot be correctly interpolated. An important question that naturally arises is: what is the minimum distance that can be observed by two cameras. We derive that the minimum distance is (see details in the Appendix)
@@ -232,7 +257,16 @@ where $r$ is the camera circle radius, $β$ is the field of view of the camera, 
 In Section 4.2 we mentioned that the trajectories of scene points can be well approximated solely by image space correspondences without knowing their actual depth. This section analyzes the approximation quality of the image space view interpolation in detail and shows that the deviation compared to a view interpolation based on scene depth is small. Our analysis covers different configurations of camera arrays as well as varying depth and elevation of world points. Here, the elevation of a world point is defined as the angle between the camera rig plane and the line connecting the world point and the camera rig center. The plots in Figure 7 show that the interpolation error is small and goes toward zero. When the world point is far away from the cameras , the field of view is wider (Figure 7(a)) and more cameras are used (Figure 7(b)).
 
 The above experiments, in conjunction with Figure 6, indicate that it is beneficial to use a camera array composed of many cameras with a wide field of view. On the other hand, using many cameras increases the requirements in terms of data bandwidth, memory, synchronization, and processing. A wider field of view decreases the effective resolution. Concretely, this means that users need to carefully consider the tradeoff between the scene volume that can be captured and the setup requirements; or adapt the acquisition setup according to the data provided in Figures 6 and 7.
-
+<figure>
+<img src="./img/img7.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 7. Interpolation error in percentage of the panorama height (left y-axis) and in pixels (right y-axis) from input images with a resolution of 2000×2000 pixels. (a) Interpolation error w.r.t. varying field of view (FOV) for an array composed of 20 cameras and a world point elevation of 0◦. (b) Interpolation error with varying numbers of cameras, FOV=100◦, and a world point elevation of 0◦. (c) Interpolation error with varying elevations of the world point, 20 cameras, and FOV=100◦.
+</figcaption>
+</figure>
+<figure>
+<img src="./img/img8.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 8. Example of two output panoramas $P$ $P'$ without (top two) and with (bottom two) fixing the panorama orientation. Fixing the orientation results in the expected behavior of closer points (red) exhibiting stronger motion parallax than far points (blue).
+</figcaption>
+</figure>
 ## Virtual Head Motion
 A particularly intriguing feature of the omnistereoscopic panorama representation is the ability to simulate virtual head motion, i.e., shifting the viewer’s location sideways within the captured scene. In practice, sideways head motion can be achieved simply by synthesizing the stereoscopic output panorama using two columns from the lightfield $L$ that are not symmetrically placed around the center column, which in turn provides a view of the scene from varying perspectives. This principle has been demonstrated, for example, in Peleg et al. (2001, 2013). However, in order to be applicable in real-time VR applications, e.g., using a head-tracked Oculus Rift, a user’s head motion has to be properly mapped.
 
@@ -242,21 +276,50 @@ After this registration, a virtual head motion effect that mimics a sideways hea
 
 # RESULTS
 In this section, we discuss results generated with our prototype array and the described processing pipeline. Please see the supplemental material for dynamic video results.
-
+<figure>
+<img src="./img/img9.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 9. Our two camera rig prototypes used for capturing panoramic content. The one on the left with a 3D printed camera mount has more accurate orientation and position of the cameras and lenses with a wider field of view compared to the hand-assembled rig on the right.
+</figcaption>
+</figure>
 Real-World Results. We show real-world results for different scenarios including static setups where the camera rig is fixed as well as dynamic setups with a moving camera array; see Figures 1 and 13. Our experiments cover both indoor and outdoor scenes. For capture, we have used two different 360◦ camera rig prototypes. One has been assembled by hand with approximate camera placement and orientation, while the other one has been created with a 3D printer (Figure 9). Both prototypes are equipped with n = 16 synchronized cameras that are more or less uniformly distributed on a circle of radius r = 20cm and r = 15cm, respectively, with cameras pointing outward.
 
 We used Lumenara Lt425 cameras equipped with Kowa lenses with a field of view of approximately 70◦ and 50◦, respectively, and captured videos at a resolution of 2048 × 2048 pixels per camera and 30 frames per second.
 
 We processed the acquired videos on a standard desktop computer equipped with an Intel i7 3.2Ghz and 64GB RAM. Our current C++ prototype implementation running on CPU takes about 20 minutes per time instance in total from the reading of the n input images to the generation of all the panoramas with the complete range of column disparities, including optical flow computation, which is the current bottleneck. This is an offline preprocess that does not require any user interaction. Once the panoramas are generated, our view-independent approach allows real-time headmotion effects. We expect significant speed improvements from an optimized GPU implementation.
 
+<figure>
+<img src="./img/img10.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 10. Top: Resulting panorama without using flow, i.e., setting all ui j = 0. Bottom: Resulting panorama when using flow.
+</figcaption>
+</figure>
+<figure>
+<img src="./img/img11.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 11. Reconstructed panoramas without (top) and with (bottom) considering the extrinsic and intrinsic camera parameters. Note the significant, spatially varying distortion of the scene in the top image, such as the car and window. A consistent result as in the bottom is crucial, in particular for dynamic scenes and for plausible virtual head motion effects.
+</figcaption>
+</figure>
+
 Necessity of Flow-based Correspondences. Figure 10 shows crops of panoramas with and without using the flow-based correspondences. The latter one is achieved by simply setting all flows ui j = 0 during panorama reconstruction. In this case, ghosting artifacts occur because homographies alone do not allow for an accu- rate reconstruction. Without using an accurate interpolation, creation of stereoscopic content and changes of viewpoint are not possible. In general, if the optical flow is inaccurate, artifacts may become visible in the output panorama. This is not specific to our method, but common for all flow-based techniques. Both Figures 10 and 19 can give an intuition of how our system behaves when supplied with inaccurate optical flow. Given that they constitute extreme cases and, still, the generated panoramic image is well recognizable, this shows that our system, in particular due to our pre-alignment, is designed to fail gracefully when supplied with inaccurate optical flow.
 
 Influence of Calibration. Figure 11 illustrates the errors that occur when neglecting the camera parameters in the reconstruction process (Section 4.2). Especially for our handmade prototype, the real camera pose can considerably deviate from the theoretically expected one. In this case, the flow-based interpolation will automatically compensate for these deviations and still produce a photometrically consistent panorama, e.g., without artifacts such as ghosting. However, this comes at the cost of distorting the scene geometry. Considering the camera parameters allows to produce geometrically consistent panoramas, which is crucial for creating stereoscopic content and viewpoint animations.
-
+<figure>
+<img src="./img/img12.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 12. Top: Head-motion effect on a close-up view of the indoor panorama. Note the significant parallax between the two images, especially the foreground person occluding the body of the background person and the metallic stool. See the video for a smooth interpolation. Bottom: Head-motion effect on a close-up view of an outdoor panorama.
+</figcaption>
+</figure>
 Virtual Head Motion. Our method produces accurate reconstructions, which enable a change of viewpoint. Figure 12 shows a close-up of different perspectives created from the same frame captured with our rig. For instance, the parallax between the foreground person and the metallic stool is clearly visible. By fixing points at infinity and animating, we can achieve an effect that corresponds to a sideways head motion. The accompanying video shows a real-time version of this effect displayed on an Oculus head mounted display.
 
 Compositing with CG. For mixing real-world and synthetic content in VR applications, it is straightforward to use the output panorama frames as dynamically changing environment maps for illuminating synthetic objects or refraction mapping (see Figure 17 for two examples). To insert computer generated content into the output video panoramas, we use the projection derived in Section 5.1, which renders objects appropriately distorted in agreement with our panoramic non-linear projection (see Figure 18).
 
+<figure>
+<img src="./img/img13.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 13. Stereoscopic panoramas created with our approach, shown as red-cyan anaglyph images.Please see the accompanying video.
+</figcaption>
+</figure>
+<figure>
+<img src="./img/img14.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 14. The close-ups show that the panorama created with the depth-based approach (top) contains considerably more ghosting artifacts than the panorama created with our flow-based approach (bottom).
+</figcaption>
+</figure>
 Comparison to a Depth-Based Pipeline. Our approach allows to create omnistereoscopic videos without explicit knowledge of scene geometry. However, if scene geometry was known, performing the view interpolation described in Section 4.2 would simply come down to rendering the scene with a common pinhole camera model as in Equation (3). Therefore, at a first glance, it may seem more desirable to follow a depth-based pipeline that estimates the 3D geometry of the scene and then reconstructs the desired lightfield by rendering novel views. We compare a depth-based result to ours in Figure 14.
 
 In practice, a depth-based approach suffers from a number of drawbacks: The kind of camera rigs used for creating omnistereoscopic video are not suitable for the popular and commonly available multi-view stereo approaches such as Fuhrmann et al. (2014), Furukawa and Ponce (2010), Galliani et al. (2015), and Zhang et al. (2009), which all did not yield any useable results for our scenario. This may be due to the fact that such methods are rather tailored to scenarios where a large number of cameras observes a part of a scene from different locations as opposed to a relatively small number of cameras observing different parts of a scene from almost the same location.
@@ -265,7 +328,11 @@ Thus, for a depth-based pipeline, we had to resort to a two-view stereo method. 
 
 Besides requiring multiple steps for obtaining a single depth-map, the depth-based approach is also much more dependent on accurate calibration information. In the extreme case where no calibration information is used, our flow-based approach is already able to produce photometrically accurate panoramas that only suffer from geometric distortion (as shown in Figure 11) while a depth-based approach is not applicable at all. The depth-based approach is sensitive to calibration errors since correspondences are only searched for along epipolar lines. Thus, stereo methods cannot deal with imperfections in the calibration and have less flexibility to resolve brittle situations that do not follow epipolar geometry. In contrast, pixel movement described by optical flow can often be sufficient and more stable in practice. The ability to deviate from epipolar constraints allows us to be more robust and remove ghosting artifacts, which leads to a visually more pleasing panoramic image (as shown in Figure 14). Figure 15 (bottom) illustrates how much the flow correspondences deviate from the epipolar constraints by visualizing our flow-based correspondences decomposed into magnitude along and across the epipolar line.
 
-
+<figure>
+<img src="./img/img15.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 15. Row 1: Input images. Row 2: Color coded inverse depth maps. Row 3: Magnitude of optical flow according to Equation (10). Row 4: Deviation of optical flow from epipolar constraints. The maximal distance is 7 pixels and the darker the color, the higher the distance. The flexibility to deviate from the epipolar constraint offered by optical flow allows to be more robust and to obtain a higher quality panoramic image (see Figure 14).
+</figcaption>
+</figure>
 Relation to Google Jump. Google Jump (Anderson et al. 2016) and our work have been developed concurrently. Both can be seen as extensions of Megastereo (Richardt et al. 2013) to dynamic scenes. As such, they have to deal with an order of magnitude less input views. This makes the correspondence estimation, which is required for correct view interpolation, more difficult. Both works use flow correspondences instead of depth for view interpolation. While Google Jump uses block matching and the bilateral solver for filtering matches in a second step, we find correspondences by dense optical flow incorporating prealignment.
 
 
@@ -275,7 +342,26 @@ We also describe how to achieve a virtual head motion effect for sideways headmo
 
 
 Comparison to Facebook Surround 360. Figure 16 compares our method to results obtained with Facebook’s recently released Surround 360 software (github.com/facebook/Surround360). We ran the full pipeline of Surround 360 including calibration steps such as the ring rectification and color adjustment. Furthermore, we supplied the intrinsic camera parameters that we also use in our algorithm. Judging by the source code, the ring rectification used in the Surround 360 algorithm jointly estimates a homography for every input camera in order to compensate for small deviations from an ideal camera setup, which would be obtained by evenly sampling α in Equation (3). However, the objective function used in the ring rectification step only penalizes deviations in the y-coordinate of corresponding points after projecting them on a spherical surface. Although the camera rig that we used (see Figure 9) is already quite close to such an ideal setup, compared to our approach the Surround 360 algorithm produces noticeable artifacts in many regions of the resulting panorama (see the close-ups in Figure 16).
-
+<figure>
+<img src="./img/img16.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 16. The panorama created with Facebook’s Surround 360 algorithm(top contains visible artifacts that are not present in our panorama(bottom).This is especially visible in the close-ups.
+</figcaption>
+</figure>
+<figure>
+<img src="./img/img17.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 17. Application of our results for dynamic environment map for objects with glossy (left) and diffuse (right) material.
+</figcaption>
+</figure>
+<figure>
+<img src="./img/img18.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 18. Example of adding virtual content into a multi-perspective panorama.
+</figcaption>
+</figure>
+<figure>
+<img src="./img/img19.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 19. Failure case:ghosting effect of an object too close to the camera array.
+</figcaption>
+</figure>
 Limitations. Our approach has some limitations and potential directions for future work. Our study provides insight guidelines for scene acquisition (Section 5), for example, in terms of minimum scene depth. When the derived minimum depth is violated, ghosting effects appear (Figure 19).
 
 The admissible range of virtual head motion depends on the radius of the camera array and the amount of camera overlap. To increase the overlap, a solution is to increase the number of cameras, which can become complicated in practice, or to use cameras with a wider field of view. Since a wider field of view corresponds to a loss in spatial resolution, a compromise has to be found in practice.
@@ -284,6 +370,110 @@ Creating a smooth head motion animation needs 10 to 20 panoramic image slices. C
 
 # CONCLUSION
 A practically feasible approach for omnistereoscopic video capture and display of the real-world, including support for virtual head motion currently is one of the key hindrances to a more widespread adoption of real-world VR. In this article, we built on the concept of omnistereoscopic panoramas and described both, a practical way of capturing and generating the necessary image data from a sparse array of cameras, as well as an analysis of the system parameters and a practical guide to achieve plausible stereoscopic output. By sharing our new insights, we hope that this work facilitates the widespread adoption and creation of realworld VR, given that this is currently such a thriving and exciting area in both academia and industry.
+
+# ACKNOWLEDGMENTS
+We are very grateful to Henning Zimmer for his tremendous help with the acquisition and his expertise on optical flow. We also thank Max Grosse for his invaluable help with the Oculus Rift. We also would like to thank Maurizio Nitti for creating the Robot scene, Alessia Marra for the experiments with the environment maps, and Jan Wezel for his help with building the camera rigs.
+
+# REFERENCES
+Aseem Agarwala, Maneesh Agrawala, Michael Cohen, David Salesin, and Richard Szeliski. 2006. Photographing long scenes with multi-viewpoint panoramas. TOG (SIGGRAPH) 25, 3 (2006), 853–861.
+
+Robert Anderson, David Gallup, Jonathan T. Barron, Janne Kontkanen, Noah Snavely, Carlos Hernandez Esteban, Sameer Agarwal, and Steven M. Seitz. 2016. Jump: Virtual reality video. TOG (SIGGRAPH Asia) 35, 6 (2016), 198:1–198:13. http://dl. acm.org/citation.cfm?id=2980257
+
+Clemens Birklbauer and Oliver Bimber. 2014. Panorama light-field imaging. CGF (Eu- rographics) 33, 2 (2014), 43–52.
+
+Matthew Brown and David G. Lowe. 2007. Automatic panoramic image stitching us- ing invariant features. IJCV 74, 1 (2007), 59–73.
+
+Thomas Brox, Andrés Bruhn, Nils Papenberg, and Joachim Weickert. 2004. High ac- curacy optical flow estimation based on a theory for warping. In ECCV. 25–36.
+
+Vincent Chapdelaine-Couture and Sébastien Roy. 2013. The omnipolar camera: A new approach to stereo immersive capture. In ICCP. 1–9.
+
+Vincent Couture, Michael S. Langer, and Sébastien Roy. 2011. Panoramic stereo video textures. In ICCV. 1251–1258.
+
+Alexei A. Efros and William T. Freeman. 2001. Image quilting for texture synthe- sis and transfer. In SIGGRAPH. 341–346. http://portal.acm.org/citation.cfm?id= 383259.383296
+
+Simon Fuhrmann, Fabian Langguth, and Michael Goesele. 2014. MVE – A multi-view reconstruction environment. In Eurographics Workshop on Graphics and Cultural Heritage.
+
+Yasutaka Furukawa and Jean Ponce. 2010. Accurate, dense, and robust multiview stereopsis. TPAMI 32, 8 (2010), 1362–1376. DOI:http://dx.doi.org/10.1109/TPAMI. 2009.161
+
+Silvano Galliani, Katrin Lasinger, and Konrad Schindler. 2015. Massively parallel mul- tiview stereopsis by surface normal diffusion. In ICCV. 873–881.
+
+Rajiv Gupta and Richard I. Hartley. 1997. Linear pushbroom cameras. TPAMI 19, 9 (1997), 963–975.
+
+Richard Hartley and Andrew Zisserman. 2004. Multiple View Geometry in Computer Vision. Cambridge University Press.
+
+Peter Hedman, Suhib Alsisan, Richard Szeliski, and Johannes Kopf. 2017. Casual 3D photography. TOG (SIGGRAPH Asia) 36, 6 (2017), 234:1–234:15.
+
+Heiko Hirschmüller. 2008. Stereo processing by semiglobal matching and mutual in- formation. TPAMI 30, 2 (2008), 328–341.
+
+Hiroshi Ishiguro, Masashi Yamamoto, and Saburo Tsuji. 1992. Omni-directional stereo. TPAMI 14, 2 (1992), 257–262.
+
+Jiaya Jia and Chi-Keung Tang. 2008. Image stitching using structure deformation. TPAMI 30, 4 (2008), 617–631.
+
+Sing Bing Kang, Richard Szeliski, and Matthew Uyttendaele. 2004. Seamless Stitching using Multi-Perspective Plane Sweep. Technical Report MSR-TR-2004-48. Microsoft Research.
+
+Johannes Kopf, Billy Chen, Richard Szeliski, and Michael Cohen. 2010. Street slide: Browsing street level imagery. TOG (SIGGRAPH) 29, 4 (2010), 96:1–8.
+
+Johannes Kopf, Matthew Uyttendaele, Oliver Deussen, and Michael F. Cohen. 2007. Capturing and viewing gigapixel images. TOG (SIGGRAPH) 26, 3 (2007), 93.
+
+Jungjin Lee, Bumki Kim, Kyehyun Kim, Younghui Kim, and Jun-yong Noh. 2016. Rich360: Optimized spherical representation from structured panoramic camera arrays. TOG (SIGGRAPH) 35, 4 (2016), 63.
+
+Kevin Matzen, Michael F. Cohen, Bryce Evans, Johannes Kopf, and Richard Szeliski. 2017. Low-cost 360 stereo photography and video capture. ACM Trans. Graph. 36, 4, Article 148 (2017), 12 pages.
+
+Shmuel Peleg and Moshe Ben-Ezra. 1999. Stereo panorama with a single camera. In CVPR. 1395–1401.
+
+Shmuel Peleg, Moshe Ben-Ezra, and Yael Pritch. 2001. Omnistereo: Panoramic stereo imaging. TPAMI 23, 3 (2001), 279–290.
+
+Federico Perazzi, Alexander Sorkine-Hornung, Henning Zimmer, Peter Kaufmann, Oliver Wang, S. Watson, and Markus H. Gross. 2015. Panoramic video from un- structured camera arrays. CGF (Eurographics) 34, 2 (2015), 57–68.
+
+Alex Rav-Acha, Giora Engel, and Shmuel Peleg. 2008. Minimal aspect distortion (MAD) mosaicing of long scenes. IJCV 78, 2–3 (2008), 187–206.
+
+Christian Richardt, Yael Pritch, Henning Zimmer, and Alexander Sorkine-Hornung. 2013. Megastereo: Constructing high-resolution stereo panoramas. In CVPR. 1256–1263.
+
+Augusto Román and Hendrik P. A. Lensch. 2006. Automatic multiperspective images. In Eurographics Symposium on Rendering Techniques (EGSR). 83–92.
+
+Steven M. Seitz and Jiwon Kim. 2002. The space of all stereo images. IJCV 48, 1 (2002), 21–38.
+
+Heung-Yeung Shum and Li-wei He. 1999. Rendering with concentric mosaics. In SIG- GRAPH. 299–306.
+
+Harry Shum and Sing Bing Kang. 2000. Review of image-based rendering techniques. In Visual Communications and Image Processing. 2–13.
+
+
+Heung-Yeung Shum, King To Ng, and Shing-Chow Chan. 2005. A virtual reality sys- tem using the concentric mosaic: Construction, rendering, and data compression. IEEE Transactions on Multimedia 7, 1 (2005), 85–95.
+
+Heung-Yeung Shum and Richard Szeliski. 2000. Systems and experiment paper: Con- struction of panoramic image mosaics with global and local alignment. IJCV 36, 2 (2000), 101–130. DOI:http://dx.doi.org/10.1023/A:1008195814169
+
+Andreas Simon, Randall C. Smith, and Richard R. Pawlicki. 2004. Omnistereo for panoramic virtual environment display systems. In IEEE VR. 67–74.
+
+Richard Szeliski. 2006. Image alignment and stitching: A tutorial. Foundations and Trends in Computer Graphics and Vision 2, 1 (2006), 1–104.
+
+
+Fan Zhang and Feng Liu. 2014. Parallax-tolerant image stitching. In CVPR. 3262– 3269.
+
+Fan Zhang and Feng Liu. 2015. Casual stereoscopic panorama stitching. In CVPR. 2002–2010.
+
+Guofeng Zhang, Jiaya Jia, Tien-Tsin Wong, and Hujun Bao. 2009. Consistent depth maps recovery from a video sequence. TPAMI 31, 6 (2009), 974–988. DOI:http:// dx.doi.org/10.1109/TPAMI.2009.52
+
+Zhengyou Zhang. 2000. A flexible new technique for camera calibration. TPAMI 22, 11 (2000), 1330–1334.
+
+Enliang Zheng, Rahul Raguram, Pierre Fite Georgel, and Jan-Michael Frahm. 2011. Efficient generation of multi-perspective panoramas. In International Conference on 3D Imaging, Modeling, Processing, Visualization and Transmission (3DIMPVT). 86–92.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -4,10 +4,26 @@ date: \today
 author: 
 - name: XUANER (CECILIA) ZHANG
   affiliation: University of California, Berkeley
+- name: JONATHAN T. BARRON
+  affiliation: Google Research
+- name: YUN-TA TSAI
+  affiliation: Google Research
+- name: ROHIT PANDEY
+  affiliation: Google
+- name: XIUMING ZHANG
+  affiliation: MIT
+- name: REN NG
+  affiliation: University of California, Berkeley
+- name: DAVID E. JACOBS
+  affiliation: Google Research
 abstract: |
- Casually-taken portrait photographs often suffer from unflattering lighting and shadowing because of suboptimal conditions in the environment. Aesthetic qualities such as the position and softness of shadows and the lighting ratio between the bright and dark parts of the face are frequently determined by the constraints of the environment rather than by the photographer. Professionals address this issue by adding light shaping tools such as scrims, bounce cards, and flashes. In this paper, we present a computational approach that gives casual photographers some of this control, thereby allowing poorly-lit portraits to be relit post-capture in a realistic and easily-controllable way. Our approach relies on a pair of neural networks—one to remove foreign shadows cast by external objects, and another to soften facial shadows cast by the features of the subject and to add a synthetic fill light to improve the lighting ratio. To train our first network we construct a dataset of real-world portraits wherein synthetic foreign shadows are rendered onto the face, and we show that our network learns to remove those unwanted shadows. To train our second network we use a dataset of Light Stage scans of human subjects to construct input/output pairs of input images harshly lit by a small light source, and variably softened and fill-lit output images of each face. We propose a way to explicitly encode facial symmetry and show that our dataset and training procedure enable the model to generalize to images taken in the wild. Together, these networks enable the realistic and aesthetically pleasing enhancement of shadows and lights in real-world portrait images.1
+ Casually-taken portrait photographs often suffer from unflattering lighting and shadowing because of suboptimal conditions in the environment. Aesthetic qualities such as the position and softness of shadows and the lighting ratio between the bright and dark parts of the face are frequently determined by the constraints of the environment rather than by the photographer. Professionals address this issue by adding light shaping tools such as scrims, bounce cards, and flashes. In this paper, we present a computational approach that gives casual photographers some of this control, thereby allowing poorly-lit portraits to be relit post-capture in a realistic and easily-controllable way. Our approach relies on a pair of neural networks—one to remove foreign shadows cast by external objects, and another to soften facial shadows cast by the features of the subject and to add a synthetic fill light to improve the lighting ratio. To train our first network we construct a dataset of real-world portraits wherein synthetic foreign shadows are rendered onto the face, and we show that our network learns to remove those unwanted shadows. To train our second network we use a dataset of Light Stage scans of human subjects to construct input/output pairs of input images harshly lit by a small light source, and variably softened and fill-lit output images of each face. We propose a way to explicitly encode facial symmetry and show that our dataset and training procedure enable the model to generalize to images taken in the wild. Together, these networks enable the realistic and aesthetically pleasing enhancement of shadows and lights in real-world portrait images.
 ---
-
+<figure>
+<img src="./img/img1.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 1. The results of our portrait enhancement method on real-world portrait photographs. Casual portrait photographs often suffer from undesirable shadows, particularly foreign shadows cast by external objects, and dark facial shadows cast by the face upon itself under harsh illumination. We propose an automated technique for enhancing these poorly-lit portrait photographs by removing unwanted foreign shadows, reducing harsh facial shadows, and adding synthetic fill lights.
+</figcaption>
+</figure>
 # INTRODUCTION
 The aesthetic qualities of a photograph are largely influenced by the interplay between light, shadow, and the subject. By controlling these scene properties, a photographer can alter the mood of an image, direct the viewer’s attention, or tell a specific story. Varying the position, size, or intensity of light sources in an environment can affect the perceived texture, albedo, and even three-dimensional shape of the subject. This is especially true in portrait photography, as the human visual system is particularly sensitive to subtle changes in the appearance of human faces. For example, soft lighting (e.g. light from a large area light source like an overcast sky) reduces skin texture, which may cause the subject to appear younger. Conversely, harsh lighting (e.g. light from a small or distant source like the midday sun) may exaggerate wrinkles and facial hair, making a subject appear older. Similarly, any shadows falling on the subject’s face can accentuate its three-dimensional structure or obfuscate it with distracting intensity edges that are uncorrelated with facial geometry. Other variables such as the lighting angle (the angle at which light strikes the subject) or the lighting ratio (the ratio of illumination intensity between the brightest and darkest portion of a subject’s face) can affect the dramatic quality of the resulting photograph, or may even affect some perceived quality of the subject’s personality: harsh lighting may look “serious”, or lighting from below may make the subject look “sinister”.
 
@@ -80,6 +96,16 @@ M: ℝ^(p × q)
 The lit image Il is assumed to contain the subject lit by all light sources in the scene (e.g. the sun and the sky), and the shadowed image Is is assumed to be the subject lit by everything other than the key (e.g. just the sky). The shadow mask M indicates which pixels are shadowed: M = 1 if fully shadowed, and M = 0 if fully lit. To generate a training sample, we need Il, Is, and M. Il is selected from an initial dataset described below, Is is a color transform of Il, and M comes from a silhouette dataset or a pseudorandom noise function.
 
 Because deep learning models are highly sensitive to the realism and biases of the data used during training, we take great care to synthesize as accurate a shadow mask and shadowed image as possi- ble with a series of augmentations on Is and M. Figure 2 presents an overview of the process and below we enumerate different aspects of our synthesis model and their motivation. In Section 5.2, we will demonstrate their efficacy through an ablation study.
+<figure>
+<img src="./img/img2.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 2. The pipeline of our foreign shadow synthesis model (Section 3.1). The colors of the “lit” image Il are randomly jittered to generate a “shadow” image $I_s$ . The input mask Min shown here is generated from an object silhouette, though it may also be generated with Perlin noise. Min is subjected to a subsurface scattering (SS) approximation of human skin to generate Mss, then a spatially-varying blur and per-pixel intensity variation to generate M. Il and Is are then blended according to the shadow mask M to generate a training sample I .
+</figcaption>
+</figure>
+<figure>
+<img src="./img/img3.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 3. Our facial shadow synthesis model. Our input image is a OLAT render corresponding to an environment with a single key light turned on as shown in (a). To soften the shadows by some variable amount, we distribute the key’s energy to a variable number of its neighbors, as shown in (b) and (c). We also add a number of fill lights on the opposite side of the Light Stage, to brighten the darker side of the face as shown in (d), with the fill light’s difference image visualized in (e). For clarity, only half of the Light Stage’s lights are rendered. See the supplemental video at 02:04 for a few more examples.
+</figcaption>
+</figure>
 
 Input Images: Our dataset is based on a set of 5,000 faces in the wild that we manually identified as not containing any foreign shadows. These images are real, in-the-wild JPEG data, and so they are varied in terms of subject, ethnicity, pose, and environment. Common accessories such as hats and scarves are included, but only if they do not cast shadows. We make one notable exception to this policy: glasses. Shadows from glasses are unavoidable and behave more like facial shadows than foreign. Accordingly, shadows from glasses are preserved in our ground truth. Please refer to the supplement for examples.
 
@@ -133,7 +159,11 @@ To train our facial shadow model, we use OLAT images of 85 subjects, each of whi
 
 ## Facial Symmetry
 Human faces tend to be bilaterally symmetric: the left side of most faces closely resembles the right side in terms of geometry and reflectance, except for the occasional blemish or minor asymmetry. However, images of faces are rarely symmetric because of facial shadows. Therefore, if a neural network can easily reason about the symmetry of image content on the subject’s face, it will be able to do a better job of reducing shadows cast upon that face. For this reason, we augment the image that is input to our neural networks with a “mirrored” version of that face, thereby giving the early layers of those networks the ability to straightforwardly reason about which image content is present on the opposite side of the face. Because the subject’s face is rarely perfectly vertical and oriented perpendicularly to the camera’s viewing direction, it is not sufficient to simply mirror the input image along the x-axis. We therefore estimate the geometry of the face and mirror the image using that estimated geometry, by warping image content near each vertex of a mesh to the location of its corresponding mirrored vertex. See Figure4foravisualization.
-
+<figure>
+<img src="./img/img4.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 4. The symmetry of human faces is a useful cue for reasoning about lighting: a face’s reflectance and geometry is likely symmetric, but the shadow cast upon that face is likely not symmetric. To leverage this, a landmark detection system is applied to the input image (a) and the recovered landmark (b) are used to produce a per-pixel mirrored version of the input image (c). This mirrored image is appended to the input image in our networks, which improves performance by allowing the network to directly reason about asymmetric image content (d) which is likely due to facial and foreign shadows.
+</figcaption>
+</figure>
 Given an image I , we use the landmark detection system of [Kartynnik et al. 2019] to produce a model of facial geometry consisting of 468 2D vertices (Figure 4(b)) and a mesh topology (which is fixed for all instances). For each vertex j we precompute the index of its bilaterally symmetric vertex j, which corresponds to a vertex (uj ̄,vj ̄) at the same position as (uj,vj) but on the opposite side of the face. With this correspondence we could simply produce a “mirrored” version of I by applying a meshwarp to I where the position of each vertex j is moved to the position of its mirror vertex j. However, a straightforward meshwarp is prone to triangular-shaped artifacts and irregular behavior on foreshortened triangles or inaccurately-estimated keypoint locations. For this reason we instead use a “soft” warping approach based on an adaptive radial basis function (RBF) kernel: For each pixel in I we compute its RBF weight with respect to the 2D locations of all vertices, express that pixel location as a convex combination of all vertex locations, and then interpolate the “mirrored” pixel location by computing the same convex combination of all mirrored vertex locations. Put formally, we first compute the Euclidean distance from all pixel locations to all vertex locations:
 
 ``` iheartla
@@ -166,7 +196,7 @@ where
 
 Where select(·, K ) returns the K ’th smallest element of an input vector. This results in a warp where sparse keypoints have significant influence over their local neighborhood, while the influence of densely packed keypoints is diluted. This weight matrix is then used to compute the weighted average of mirrored vertex locations, and this 2D location is used to bilinearly interpolate into the input image to produce it’s mirrored equivalent:
 
-$$asdf$$
+$$I = I\large( \sum_j W_{i,j} u_j, \sum_j W_{i,j} v_j \large) $$
 
 The only hyperparameter in this warping model is an integer value Kσ , which we set to 4 in all experiments. This proposed warping model is robust to asymmetric expressions and poses assuming the landmarks are accurate, but is sensitive to asymmetric skin features, e.g., birthmarks.
 
@@ -205,32 +235,206 @@ We use synthetic and real in-the-wild test sets to evaluate our foreign shadow r
 We evaluate our foreign shadow removal model with two datasets: (1) foreign-syn: We use a held-out set of the same synthetic data generation approach described in (Section 3.1), where the images (i.e., subjects) and shadow masks to generate test-set images are not present in the training set.
 
 2) foreign-real: We collect an additional dataset of in-the-wild images for which we can obtain ground-truth images that do not contain foreign shadows. This dataset enables the quantitative and qualitative comparison of our proposed model against prior work. This is accomplished by capturing high-framerate (60 fps) videos of stationary human subjects while moving a shadow-casting object in front of the subject. We collect this evaluation dataset outdoors, and use the sun as the dominant light source. For each captured video, we manually identify a set of “lit” images and a set of “shadowed” images. For each “shadowed” image, we automatically use homography to align it to each “lit” and find the one that gives the minimum mean pixel error as its counterpart. Because the foreign object is moving during capture, this collection method provides a diversity in the shape and the position of foreign shadows (see examples in Figure 5 and the supplemental video). In total, we capture 20 videos of 8 subjects during different times of day, which gives us 100 image pairs of foreign shadow with ground truth.
-
+<figure>
+<img src="./img/img5.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 5. An example of the shadow removal evaluation dataset we produce using video captured by a smartphone camera stabilized on a tripod. By filming a stationary subject under the shadow cast by a moving foreign occluder (a-c), we are able to obtain multiple input/ground-truth image pairs of the subject (a, c), (b, c). This provides us with an efficient way to collect a set of diverse foreign shadows for evaluation. Please see the supplemental video at 02:39 for more example video clips.
+</figcaption>
+</figure>
 We evaluate our facial shadow model with another dataset: (3) facial-syn: We use the same OLAT Light Stage data that is used to generate our facial model training data to generate a test set, by using a held-out set of 5 subjects that are not used during training. We record each harsh input shadow image and the soft ground-truth output image along with their corresponding light size m and fill light intensity Pfill for use. Note that though this dataset is produced through algorithmic means, the ground-truth outputs are a weighted combination of real observed Light Stage images, and are therefore an accurate reflection of the true appearance of the subject up to the sampling limitations of the Light Stage hardware.
 
 We qualitatively evaluate both our foreign shadow removal model and our facial shadow softening model using an additional dataset: (4) wild: We collect 100 “in the wild” portrait images of varied human subjects that contain a mix of different foreign and facial shadows. Images are taken from the Helen dataset [Le et al. 2012], the HDRnet dataset [Gharbi et al. 2017], and our own captures. These images are processed by our foreign shadow removal model, our facial shadow softening model, or both, to generate enhanced outputs that give a sense of the qualitative properties of both components of our model. See Figures 1, 8, 10, and the supplement for results.
 
 ## Ablation Study of Foreign Shadow Synthesis
 Our foreign shadow synthesis technique (Section 3.1) simulates the complicated effect of foreign shadows on the appearance of human subjects. We evaluate this technique by removing each of the three components and measuring model performance. Our three ablations are: 1) “No-SV”: synthesis without spatially varying blur or the intensity variation of the shadow, 2) “No-SS”: synthesis where the approximated subsurface scattering of skin has been removed, and 3) “No-Color”: synthesis where the color perturbation to generate the shadow image is not randomly changed. Quantitative results for this ablation study on our foreign-syn and foreign-real datasets can be found in Table 1, and qualitative results for a test image from foreign-real are shown in Figure 6.
-
+<figure>
+<img src="./img/img6.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 6. A visualization of an ablation study of our foreign shadow removal algorithm as different aspects of our foreign shadow synthesis model (Section 3.1) are removed. The “No-SV”, “No-SS”, and “No-Color” ablations show our model trained on synthesized data without modeling spatial variation, approximate subsurface scattering, or color perturbation, respectively. The top row shows the images generated by each model, and the bottom row shows the difference between each output and the ground truth image (f). Our complete model (e) clearly outperforms the others. Notice the red-colored residual along the shadow edge in the model trained without approximating subsurface scattering (c), and the color inconsistency in the removed region in the model trained without color perturbation (d). A quantitative evaluation on the entire set foreign-real is shown in Table 1.
+</figcaption>
+</figure>
+<figure>
+<img src="./img/table1.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Table 1. A quantitative ablation study of our foreign shadow synthesis model in terms of PSNR, SSIM, and LPIPS. Ablating any component of our synthesis model hurts the performance of the resulting model.
+</figcaption>
+</figure>
+<figure>
+<img src="./img/table2.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Table 2. A quantitative evaluation of our foreign shadow removal model. We compare against baseline methods of Guo et al. [2012], Hu et al. [2019] (SRD) and Cun et al. [2020] on both synthetic and real test sets. The input image itself is also included as point of reference. In terms of both image-quality (PSNR) and perceptual-quality (SSIM and LPIPS), our model produces better performance on all three metrics with a large margin. Visual comparisons can be seen in Figure 7.
+</figcaption>
+</figure>
+<figure>
+<img src="./img/table3.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Table 3. A comparison of our facial shadow reduction model against the PR-net of Sun et al. [2019] and an ablation of our model with symmetry. in terms of PSNR, SSIM, and LPIPS on the “facial-syn” test dataset. We see that PR-net performs poorly on images that contain harsh facial shadows, and removing the concatenated “mirrored” input during training (i.e., setting Iin = I ) lowers accuracy by all three metrics.
+</figcaption>
+</figure>
 ## Foreign Shadow Removal Quality
 Because no prior work appears to address the task of foreign shadow removal for human faces, we compare our model against general-purpose shadow removal methods: the state-of-the-art learning- based method of Cun et al. [2020]2 that uses a generative model to synthesize and then remove shadows, a customized network with attention mechanism designed by Hu et al. [2019]3 for shadow detection and removal, and the non-learning-based method of Guo et al. [2012] that relies on image segmentation and graph cuts. The original implementation from [Guo et al. 2012] is not available publicly, so we use a reimplementation4 that is able to reproduce the results of the original paper. We use the default parameters settings for this code, as we find that tuning its parameters did not improve performance for our task. Hu et al. [2019] provide two models trained on two general-purpose shadow removal benchmark datasets (SRD and ISTD), we use the SRD model as it performs better than the ISTD model on our evaluation dataset.
 
 We evaluate these baseline methods on our foreign-syn and foreign-real datasets, as these both contain ground truth shadow-free images. We compute PSNR, SSIM [Wang et al. 2004] and a learned perceptual metric LPIPS [Zhang et al. 2018a] between the ground truth and the output. Results are shown in Table 2 and Figure 7. Our model outperforms these baselines by a large margin. Please see video at 03:03 for more results.
+<figure>
+<img src="./img/img7.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 7. Foreign shadow removal results on images from our foreign-real test dataset. The method of Guo et al. [2012] often incorrectly identifies dark image regions as shadows and removes them, while also failing to identify real shadows (b). The deep learning approaches of Cun et al. [2020] and Hu et al. [2019] (c, d) do a better job of correctly identifying shadow regions but often fail to remove shadows completely, and also change the overall brightness and tone of the image in a way that does not preserve the authenticity of the input image. Our method is able to entirely remove foreign shadows while still preserving the overall appearance of the subject (e), thereby producing output images that more closely resemble the ground truth (f).
+
+</figcaption>
+</figure>
+<figure>
+<img src="./img/img8.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 8. Foreign shadow removal results of our model on our wild test dataset. Input images that contain unwanted foreign shadows (top) are processed by our foreign shadow removal model (bottom). Though real-world foreign shadows exhibit significant variety in terms of shape, softness, and color, our foreign shadow removal model is able to successfully generalize to these challenging real-world images despite having been trained entirely on our synthetic training data (Section 3.1).
+</figcaption>
+</figure>
+<figure>
+<img src="./img/img9.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 9.  Facial shadow softening results on facial-syn. We compare against the portrait relighting model (PR-net) Sun et al. [2019] by applying a blur to its estimated environment light and relighting the input image with that blurred environment map. PR-net is able to successfully soften low frequency shadows but struggles with harsh facial shadows (b). The ablation of our model without our symmetry component (Section 3.3) also underperforms on these harsh facial shadows (c). Our complete model successfully softens these hard shadows (d), as it is able to reason about the bilateral symmetry of the subject and “borrow” pixels with similar reflectance and geometry from the opposite side of the face.
+</figcaption>
+</figure>
+<figure>
+<img src="./img/img10.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 10. Facial shadow softening results on images from wild. Input images may contain harsh facial shadows, such as around the eyes (row 1) and by the subject’s cheek (row 3). Applying our facial shadow softening model with a variable “light size” m produces images with softer shadows (b, c). The specular reflection also gets suppressed, which is a desired photographic practice as specular highlights are often distracting and obscuring the surface of the subject. Additionally, the lighting ratio component of our model reduces the contrast induced by facial shadows (d) by adding a synthetic fill light with intensity Pfill, set here to the maximum value used in training (Section 3.2), in the direction opposite to the detected key light, as visualized in (e).
+</figcaption>
+</figure>
 
 ## Facial Shadow Softening Quality
 Transforming harsh facial shadows to soft in image space is roughly equivalent to relighting a face with a blurred version of the dominant light source in the original lighting environment. We compare our facial softening model against the portrait relighting method from Sun et al. [2019], by applying a Gaussian blur to the estimated environment map from the model and then pass to the decoder for relighting. The amount of blur to apply, however, cannot map exactly to our light size parameter. We experiment with a few blur kernel values and choose the one that produces the minimum mean pixel error with the ground truth. We do this for each image, and show qualitative comparisons in Figure 10. In Table 3, we compare our model against the Sun et al. [2019] baseline and against an ablation of our model without symmetry, and demonstrate an improvement with respect to both. For all comparisons, we use facial-syn, which has ground truth soft facial shadows. Please see video at 03:35 for more results.
 
 ## Preprocessing for Portrait Relighting
 Our method can also be used as a “preprocessing” step for image modification algorithms such as portrait relighting [Sun et al. 2019; Zhou et al. 2019], which modify or replace the illumination of the input image. Though often effective, these portrait relighting techniques sometimes produce suboptimal renderings when presented with input images that contain foreign shadows or harsh facial shadows. Our technique can improve a portrait relighting solution: our model can be used to remove these unwanted shadowing effects, producing a rendering that can then be used as input to a portrait relighting solution, resulting in an improved final rendering. See Figure 11 for an example.
-
+<figure>
+<img src="./img/img11.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 11. The portrait relighting technique of Sun et al. [2019] provides an alternative approach for shadow manipulation. However, applying this technique to input images that contain foreign shadows and harsh facial shadows (a) often results in relit images in which these foreign and facial shadows persist as artifacts (b). If this same portrait relighting technique is instead applied to the output images of our model (c), it produces a less jarring (though still somewhat suboptimal) rendering of the subject (d).
+</figcaption>
+</figure>
 # LIMITATIONS
 Our proposed model is not without its limitations, some of which we can identify in our wild dataset. When foreign shadows contain many finely-detailed structures (which are underrepresented in training), our output may retain visible residuals of those (Figure 12(a)). While exploiting the bilateral symmetry of the subject significantly improves our facial softening model’s performance, this causes our model to sometimes fail to remove shadows that also happen to be bilaterally symmetric (Figure 12(b)). Because the training data of our shadow softening model is rendered by increasing the light size—a simple lighting setup that introduces bias towards generating diffused-looking images. For example, when the “light size” is set high in Figure 10 (c), our shadow softening model generates images with a “flat” appearance and smooths out high frequency details in the hair regions that could have been preserved if different lighting setups are used for face and hair during training data generation.
-
+<figure>
+<img src="./img/img12.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 12. Example failure cases from our wild dataset. We notice limitations of our foreign shadow removal model in handling fine-detailed structures (a), of our facial shadow softening model reducing highly facial shadows (b), and of the models not correctly separating the two types of shadows (c).
+</figcaption>
+</figure>
 Our model assumes that shadows belong to one of two categories (“foreign” and “facial”) but these two categories are not always entirely distinct and easily-separated. Because of this, sufficiently harsh facial shadows may be erroneously detected and removed by our foreign shadow removal model (Figure 12(c)). This suggests that our model may benefit from a unified approach for both kinds of shadows, though this approach is somewhat at odds with the constraints provided by image formation and our datasets: a unified learning approach would require a unified source of training data, and it is not clear how existing light stage scans or in-the-wild photographs could be used to construct a large, diverse, and photorealistic dataset in which both foreign and facial shadows are present and available as ground-truth.
 
 Constructing a real-world dataset for our task that contains ground-truth is challenging. Though the foreign-real dataset used for qualitatively evaluating our foreign shadow removal algorithm is sufficiently diverse and accurate to evaluate different algorithms, it has some shortcomings. This dataset is not large enough to be used for training, and does not provide a means for evaluating facial shadow softening. This dataset also assumes that all foreign shadows are cast by a single occluder blocking the light of a single dominant illuminant, while real-world instances of foreign shadows often involve multiple illuminants and occluders. Additionally, to satisfy our single-illuminant assumption, this dataset had to be captured in real-world environments that have one dominant light source (e.g. , outdoors in the midday sun). This gave us little control over the lighting environment, and resulted in images with high dynamic ranges and therefore “deep” dark shadows, which may degrade (via noise and quantization) image content in shadowed regions. A real-world dataset that addresses these issues be invaluable for evaluating and improving portrait shadow manipulation algorithms.
 
+# CONCLUSION
+We have presented a new approach for enhancing casual portrait photographs with respect to lighting and shadows, particularly in terms of foreign shadow removal, facial shadow softening, and lighting ratio balancing. When synthesizing training data the foreign shadow removal task, we observe the value of in-the-wild images with a shadow synthesis model that accounts for the irregularity of foreign shadows in the real world. Motivated by the physical tools used by photographers in studio environments, we have demonstrated how Light Stage scans can be used to produce training data for facial shadow softening. We have presented a mechanism for allowing convolutional neural networks to exploit the inherent bilateral symmetry of human subjects, and we have demonstrated that this improves the performance of facial shadow softening. Given just a single image of a human subject taken in an unknown and unconstrained environment, our complete system is able to remove unwanted foreign shadows, soften harsh facial shadows, and balance the image’s lighting ratio to produce a flattering and realistic portrait image.
+
+# ACKNOWLEDGEMENTS
+We thank Augmented Perception from Google for collecting the light stage data. Ren Ng is supported by a Google Research Grant. This work is also supported by a number of individuals from various aspects. We thank Marc Levoy, Kevin (Jiawen) Chen and anony- mous reviewers for helpful discussions on the paper. We thank Michael Milne and Andrew Radin for insightful discussions on pro- fessional lighting principles and practice. We thank Timothy Brooks for demonstrating Photoshop portrait shadow editing, and to Xi- aowei Hu for running the baseline algorithm. We are also grateful to people who kindly consent to be in the video and result images.
+
+# REFERENCES
+
+Eli Arbel and Hagit Hel-Or. 2010. Shadow removal using intensity surfaces and texture anchor points. IEEE TPAMI (2010).
+
+Masashi Baba and Naoki Asada. 2003. Shadow Removal from a Real Picture. In SIGGRAPH.
+
+Jonathan T. Barron and Jitendra Malik. 2015. Shape, Illumination, and Reflectance from Shading. TPAMI (2015).
+
+Qifeng Chen and Vladlen Koltun. 2017. Photographic image synthesis with cascaded refinement networks. In ICCV.
+
+Yu Chen, Ying Tai, Xiaoming Liu, Chunhua Shen, and Jian Yang. 2018. Fsrnet: End-to- end learning face super-resolution with facial priors. In CVPR.
+
+Xiaodong Cun, Chi-Man Pun, and Cheng Shi. 2020. Towards Ghost-free Shadow Removal via Dual Hierarchical Aggregation Network and Shadow Matting GAN. AAAI.
+
+Paul Debevec, Tim Hawkins, Chris Tchou, Haarm-Pieter Duiker, Westley Sarokin, and Mark Sagar. 2000. Acquiring the reflectance field of a human face. In Proceedings of the 27th annual conference on Computer graphics and interactive techniques. 145–156.
+
+Emily L Denton, Soumith Chintala, Rob Fergus, et al. 2015. Deep Generative Image Models Using a Laplacian Pyramid of Adversarial Networks. In NIPS.
+
+Bin Ding, Chengjiang Long, Ling Zhang, and Chunxia Xiao. 2019. ARGAN: Attentive Recurrent Generative Adversarial Network for Shadow Detection and Removal. In ICCV.
+
+Craig Donner and Henrik Wann Jensen. 2006. A Spectral BSSRDF for Shading Human Skin. (2006).
+
+Randima Fernando. 2004. GPU Gems: Programming Techniques, Tips and Tricks for Real-Time Graphics. Pearson Higher Education.
+
+Graham D Finlayson, Mark S Drew, and Cheng Lu. 2009. Entropy minimization for shadow removal. IJCV (2009).
+
+Graham D Finlayson, Steven D Hordley, and Mark S Drew. 2002. Removing Shadows from Images. In ECCV.
+
+Damien Fourure, Rémi Emonet, Elisa Fromont, Damien Muselet, Alain Tremeau, and Christian Wolf. 2017. Residual Conv-Deconv Grid Network for Semantic Segmentation. In BMVC.
+
+Michaël Gharbi, Jiawen Chen, Jonathan T. Barron, Samuel W Hasinoff, and Frédo Durand. 2017. Deep bilateral learning for real-time image enhancement. In SIGGRAPH.
+
+
+Christopher Grey. 2014. Master lighting guide for portrait photographers. Amherst Media.
+
+Roger Grosse, Micah K Johnson, Edward H Adelson, and William T Freeman. 2009. Ground Truth Dataset and Baseline Evaluations for Intrinsic Image Algorithms. In ICCV.
+
+Maciej Gryka, Michael Terry, and Gabriel J. Brostow. 2015. Learning to Remove Soft Shadows. ACM TOG (2015).
+
+Ruiqi Guo, Qieyun Dai, and Derek Hoiem. 2012. Paired regions for shadow detection and removal. TPAMI (2012).
+
+Pat Hanrahan and Wolfgang Krueger. 1993. Reflection from Layered Surfaces Due to Subsurface Scattering. In SIGGRAPH.
+
+Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun. 2016. Deep Residual Learning for Image Recognition. In CVPR.
+
+Berthold K. P. Horn. 1974. Determining lightness from an image. Computer Graphics and Image Processing (1974).
+
+X Hu, CW Fu, L Zhu, J Qin, and PA Heng. 2019. Direction-aware Spatial Context Features for Shadow Detection and Removal. IEEE transactions on pattern analysis and machine intelligence (2019).
+
+Xiaowei Hu, Lei Zhu, Chi-Wing Fu, Jing Qin, and Pheng-Ann Heng. 2018. Direction-Aware Spatial Context Features for Shadow Detection. In CVPR.
+
+Jinggang Huang, Ann B Lee, and David Mumford. 2000. Statistics of range images. In CVPR.
+
+Henrik Wann Jensen, Stephen R Marschner, Marc Levoy, and Pat Hanrahan. 2001. A Practical Model for Subsurface Light Transport. In SIGGRAPH.
+
+Yury Kartynnik, Artsiom Ablavatski, Ivan Grishchenko, and Matthias Grundmann. 2019. Real-time Facial Surface Geometry from Monocular Video on Mobile GPUs. (2019).
+
+Liad Kaufman, Dani Lischinski, and Michael Werman. 2012. Content-Aware Automatic Photo Enhancement. In Computer Graphics Forum, Vol. 31. 2528–2540.
+
+Salman H Khan, Mohammed Bennamoun, Ferdous Sohel, and Roberto Togneri. 2015. Automatic Shadow Detection and Removal from a Single Image. IEEE TPAMI (2015).
+
+Diederik P. Kingma and Jimmy Ba. 2015. Adam: A Method for Stochastic Optimization. In ICLR.
+
+Aravind Krishnaswamy and Gladimir VG Baranoski. 2004. A biophysically-based spectral model of light interaction with human skin. In Computer Graphics Forum.
+
+Vuong Le, Jonathan Brandt, Zhe Lin, Lubomir Bourdev, and Thomas S Huang. 2012. Interactive facial feature localization. In ECCV.
+
+Li-Qian Ma, Jue Wang, Eli Shechtman, Kalyan Sunkavalli, and Shi-Min Hu. 2016. Appearance harmonization for single image shadow removal. In Computer Graphics Forum.
+
+Simon Niklaus and Feng Liu. 2018. Context-aware synthesis for video frame interpolation. In CVPR.
+
+Simon Niklaus, Long Mai, Jimei Yang, and Feng Liu. 2019. 3D Ken Burns effect from a single image. ACM TOG (2019).
+
+Liangqiong Qu, Jiandong Tian, Shengfeng He, Yandong Tang, and Rynson W. H. Lau. 2017. DeshadowNet: A Multi-Context Embedding Deep Network for Shadow Removal. In CVPR.
+
+Ravi Ramamoorthi and Pat Hanrahan. 2001. A Signal-Processing Framework for Inverse Rendering. In SIGGRAPH.
+
+Ronald A Rensink and Patrick Cavanagh. 2004. The Influence of Cast Shadows on Visual Search. Perception (2004).
+
+Imari Sato, Yoichi Sato, and Katsushi Ikeuchi. 2003. Illumination from Shadows. IEEE TPAMI (2003).
+
+Soumyadip Sengupta, Angjoo Kanazawa, Carlos D. Castillo, and David W. Jacobs. 2018. SfSNet: Learning Shape, Refectance and Illuminance of Faces in the Wild. In CVPR.
+
+Amnon Shashua and Tammy Riklin-Raviv. 2001. The Quotient Image: Class-Based Re-Rendering and Recognition with Varying Illuminations. IEEE TPAMI (2001).
+
+YiChang Shih, Sylvain Paris, Connelly Barnes, William T. Freeman, and Frédo Durand. 2014. Style Transfer for Headshot Portraits. SIGGRAPH (2014).
+
+Yael Shor and Dani Lischinski. 2008. The shadow meets the mask: Pyramid-based shadow removal. In Computer Graphics Forum.
+
+Zhixin Shu, Sunil Hadap, Eli Shechtman, Kalyan Sunkavalli, Sylvain Paris, and Dim- itris Samaras. 2017. Portrait lighting transfer using a mass transport approach. In SIGGRAPH.
+
+Tiancheng Sun, Jonathan T. Barron, Yun-Ta Tsai, Zexiang Xu, Xueming Yu, Graham Fyffe, Christoph Rhemann, Jay Busch, Paul E. Debevec, and Ravi Ramamoorthi. 2019. Single Image Portrait Relighting. SIGGRAPH (2019).
+
+Dmitry Ulyanov, Andrea Vedaldi, and Victor Lempitsky. 2018. Deep image prior. In CVPR.
+
+Jifeng Wang, Xiang Li, and Jian Yang. 2018. Stacked Conditional Generative Adversarial Networks for Jointly Learning Shadow Detection and Shadow Removal. In CVPR.
+
+Zhou Wang, Alan C. Bovik, Hamid R. Sheikh, and Eero P. Simoncelli. 2004. Image Quality Assessment: From Error Visibility to Structural Similarity. IEEE TIP (2004).
+
+Tai-Pang Wu, Chi-Keung Tang, Michael S Brown, and Heung-Yeung Shum. 2007. Natural shadow matting. ACM TOG (2007).
+
+Raymond A Yeh, Chen Chen, Teck Yian Lim, Alexander G Schwing, Mark Hasegawa-Johnson, and Minh N Do. 2017. Semantic image inpainting with deep generative models. In CVPR.
+
+Ling Zhang, Qingan Yan, Yao Zhu, Xiaolong Zhang, and Chunxia Xiao. 2019b. Effective Shadow Removal Via Multi-Scale Image Decomposition. The Visual Computer (2019).
+
+Richard Zhang, Phillip Isola, Alexei A. Efros, Eli Shechtman, and Oliver Wang. 2018a. The Unreasonable Effectiveness of Deep Features as a Perceptual Metric. In CVPR.
+
+Xuaner Zhang, Kevin Matzen, Vivien Nguyen, Dillon Yao, You Zhang, and Ren Ng. 2019a. Synthetic defocus and look-ahead autofocus for casual videography. ACM Transactions on Graphics (TOG) 38, 4 (2019), 1–16.
+
+Xuaner Zhang, Ren Ng, and Qifeng Chen. 2018b. Single Image Reflection Removal with Perceptual Losses. In CVPR.
+
+Quanlong Zheng, Xiaotian Qiao, Ying Cao, and Rynson WH Lau. 2019. Distraction-aware shadow detection. In CVPR. 5167–5176.
+
+Hao Zhou, Sunil Hadap, Kalyan Sunkavalli, and David W Jacobs. 2019. Deep Single-Image Portrait Relighting. In ICCV.
+
+Lei Zhu, Zijun Deng, Xiaowei Hu, Chi-Wing Fu, Xuemiao Xu, Jing Qin, and Pheng-Ann Heng. 2018. Bidirectional Feature Pyramid Network with Recurrent Attention Residual Modules for Shadow Detection. In ECCV.
 
 
 

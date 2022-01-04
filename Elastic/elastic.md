@@ -2,7 +2,7 @@
 ❤: elastic
 To simulate the physical behavior of the deployed grid, we use a simulation based on discrete elastic rods [Bergou et al. 2010] and build upon the solution of [Vekhter et al. 2019]. We refer the reader to those papers for the details. Note, that the associated material frames of the rods do not need to be isotropic, which allows us also to model the exact cross sections of lamellas with a ratio of 1 : 10.
 
-A central aspect of the kinematics of elastic geodesic grids is the ability of grid members to slide at connections, denoted in the following as $q$. In general, they do not coincide with the vertices of the discretized grid members. To handle them, we introduce <span class="def:β_q">barycentric coordinates $β_q$ to describe the location of a connection on a rod-edge</span>. We also take the physical thickness $t$ of the lamellas into account, which is modeled by an offset between the members $g$ and $h$ at each connection. Hence, a connection $q$ consists of two points $\proselabel{q_g}$ and $\proselabel{q_h}$ with an offset $t$. Apart from sliding, members are allowed to rotate around connections about an axis that is parallel to the cross product of the edges $\proselabel{q_g}$ and $\proselabel{q_h}$ lie on.
+A central aspect of the kinematics of elastic geodesic grids is the ability of grid members to slide at connections, denoted in the following as $q$. In general, they do not coincide with the vertices of the discretized grid members. To handle them, we introduce <span class="def:β_q">barycentric coordinates $β_q$ to describe the location of a connection on a rod-edge</span>. We also take the physical thickness $t$ of the lamellas into account, which is modeled by an offset between the members $g$ and $h$ at each connection. Hence, a connection $q$ consists of two points $q_g$ and $q_h$ with an offset $t$. Apart from sliding, members are allowed to rotate around connections about an axis that is parallel to the cross product of the edges $q_g$ and $q_h$ lie on.
 
 Simulation. Our aim is to find the equilibrium state of the given elastic grid, which corresponds to an optimization problem of minimizing the energy functional
 
@@ -30,7 +30,7 @@ t ∈ ℝ
 ```
 with $m_g$ and $m_h$ denoting the material vectors of $g$ and $h$ at $q$ respectively. The term $tm$ accounts for the thickness of the rods, while $λ_{q,1}$ and $λ_{q,2}$ are the constraint weights for the position and direction terms.
 
-The anchor constraint energy $\proselabel{E_a}$ensures that both the position $q$ and material vector $m$ of the given connection do not deviate from the position $q_a$ and material vector $m_a$ of the corresponding anchor. It is given by
+The anchor constraint energy $E_a$ ensures that both the position $q$ and material vector $m$ of the given connection do not deviate from the position $q_a$ and material vector $m_a$ of the corresponding anchor. It is given by
 
 ``` iheartla
 `$E_a$` = `$λ_{a,1}$`||q-`$q_a$`||^2 + `$λ_{a,2}$`||`$\angle$`(m,`$m_a$`)||^2 
@@ -59,9 +59,9 @@ where
 ```
 
 
-with $\proselabel{elastic}{β^{(−)}}$ and $\proselabel{elastic}{β^{(+)}}$ denoting the barycentric coordinates of the notch bounds on their corresponding edges. The term is only active when the connection lies on the same rod-edge as one of the notch bounds, so $\proselabel{elastic}{δ^{(−)}} = 1$ or $\proselabel{elastic}{δ^{(+)}} = 1$ when the connection lies on one of these edges, and 0 otherwise.
+with $β^{(−)}$ and $β^{(+)}$ denoting the barycentric coordinates of the notch bounds on their corresponding edges. The term is only active when the connection lies on the same rod-edge as one of the notch bounds, so $δ^{(−)} = 1$ or $δ^{(+)} = 1$ when the connection lies on one of these edges, and 0 otherwise.
 
-The additional notch penalty term $\proselabel{E_p}$ controls the movement of a connection q between two adjacent edges. If $q$ switches edges, it needs to be reprojected to the neighboring edge at the next iteration of the simulation. Within an iteration, $\proselabel{E_p}$ prevents $q$ from moving too far beyond the end of the current edge:
+The additional notch penalty term $E_p$ controls the movement of a connection q between two adjacent edges. If $q$ switches edges, it needs to be reprojected to the neighboring edge at the next iteration of the simulation. Within an iteration, $E_p$ prevents $q$ from moving too far beyond the end of the current edge:
 
 ``` iheartla
 `$E_p$` = (μ log((ε + `$β_q$`)))^2 + (μ log((ε + 1 - `$β_q$`)))^2
@@ -69,13 +69,13 @@ where
 μ ∈ ℝ
 ε ∈ ℝ
 ```
-with <span class="def:ε">$ε$ denoting how far $q$ is allowed to move past the end of the edge</span> and <span class="def:μ">$μ$ acting as a weighting parameter</span>(we choose $\proselabel{ε} = 0.0001$, $\proselabel{μ} = 0.1$).
+with <span class="def:ε">$ε$ denoting how far $q$ is allowed to move past the end of the edge</span> and <span class="def:μ">$μ$ acting as a weighting parameter</span>(we choose $ε = 0.0001$, $μ = 0.1$).
 
-Since $\proselabel{E_p}$ is not 0 even inside the edge, it penalizes very small sliding movements that would otherwise accumulate over many iterations. In other words, $\proselabel{E_p}$ creates a pseudo-frictional effect, which is controlled by $\proselabel{μ}$. In a physical grid, friction creates a force acting against the sliding movement of a connection. If the driving force of the movement and the frictional force counterbalance, the movement stops. This situation has an analogy in our grids. A connection stops moving inside a notch if
+Since $E_p$ is not 0 even inside the edge, it penalizes very small sliding movements that would otherwise accumulate over many iterations. In other words, $E_p$ creates a pseudo-frictional effect, which is controlled by $μ$. In a physical grid, friction creates a force acting against the sliding movement of a connection. If the driving force of the movement and the frictional force counterbalance, the movement stops. This situation has an analogy in our grids. A connection stops moving inside a notch if
 
-$$\frac{\partial \proselabel{E_q}}{\partial \proselabel{β_q}} + \frac{\partial \proselabel{E_p}}{\partial \proselabel{β_q}} = 0 $$
+$$\frac{\partial E_q}{\partial β_q} + \frac{\partial E_p}{\partial β_q} = 0 $$
 
-is fulfilled. Figure 11 depicts the effects of different values for $\proselabel{μ}$.
+is fulfilled. Figure 11 depicts the effects of different values for $μ$.
 
 
 

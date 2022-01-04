@@ -3,7 +3,7 @@
 ❤: perceptual
 Blur introduced by eye motion, hold-type blur, and spatial resolution will result in the loss of sharpness. To quantify this in terms of loss of perceived quality, we map the physical amount of blur to the perceived quality difference in JND units. Our blur quality function is inspired by the energy models of blur detection [Watson and Ahumada 2011]. Such mapping is applied to the orthogonal ($σ_O$) and parallel ($σ_P$) components of the anisotropic blur separately, resulting in two independent quality values ($Q_O$ and $Q_P$).
 
-As we are interested in content-independent predictions, we assume the worst-case scenario: an infinitely thin line (Dirac delta function $δ(x)$), which contains uniform energy across all spatial frequencies. When convolved with <span class="def:σ">a Gaussian blur kernel $σ$ in the spatial domain</span>, the resulting image is a Gaussian function with standard deviation $\proselabel{σ}$. The Fourier transform of this signal is also a Gaussian, given by:
+As we are interested in content-independent predictions, we assume the worst-case scenario: an infinitely thin line (Dirac delta function $δ(x)$), which contains uniform energy across all spatial frequencies. When convolved with <span class="def:σ">a Gaussian blur kernel $σ$ in the spatial domain</span>, the resulting image is a Gaussian function with standard deviation $σ$. The Fourier transform of this signal is also a Gaussian, given by:
 
 ``` iheartla
 m(ω;σ) = exp(-2π^2 ω^2 σ^2) where ω ∈ ℝ, σ∈ ℝ
@@ -21,7 +21,7 @@ CSF ∈ ℝ->ℝ
 ```
 where CSF is Barten’s CSF model with the recommended standard observer parameters and the background luminance of 100 $cd/m^2$ [Barten 2003].
 
-To compute the overall energy in a distorted signal, we sample a range of frequencies $\proselabel{ω}_i={1,2,...,64}$[cpd],andcomputethe blur energy as:
+To compute the overall energy in a distorted signal, we sample a range of frequencies $ω_i={1,2,...,64}$[cpd],andcomputethe blur energy as:
 
 ``` iheartla
 `$E_b$`(σ) = sum_i ( (m̃(ω_i ; σ))/`$m̃_{t,b}$`)^`$β_b$`  where σ ∈ ℝ

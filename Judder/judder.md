@@ -12,6 +12,11 @@ abstract: |
 In this work, we pursue a practical examination of motion artifacts in the modern display landscape. In vision science such artifacts can be classified in various ways based on distinct features of the perceivable error (Section 2.2)—we will simplify this discussion and refer to these effects collectively as judder. When excessive, it ruins the quality of motion in a video and makes the content difficult or unpleasant to watch. Details of moving objects may be lost completely, and certain scenes can become disturbing or even entirely un-watchable. This is especially true for camera pans, which are the focus of this work. Pans are characterized by a swivel motion, generally horizontal, such that the majority of the filmed scene appears to move in the direction opposite to the camera rotation.
 
 Judder is widespread in modern display systems but not when looking at real-life objects, chiefly due to static presentation: That is, a display presents us with a quickly changing series of still frames. When images are updated at the traditionally used frequency (known as frame rate, historically set at 24 unique frames per second for cinema), there often remains a perceptible residual difference between a real-life object and its displayed counterpart (see Figure 1). When frame rates are increased, judder is reduced or even becomes imperceptible to viewers. 
+<figure>
+<img src="./img/img1.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 1. This figure represents the horizontal movement of an image. Unlike the continuous case (left), the discrete static presentation (middle) of moving objects naturally leads to a mismatch within the human visual system. Instead of varying smoothly, object position jumps ahead or lags behind the continuous original, generating perceptual artifacts. Higher frame rates (right) reduce this artifact.
+</figcaption>
+</figure>
 
 Although judder can be seen as undesirable if one aims to reproduce reality exactly, some audiences have become accustomed to a certain look when consuming cinematic content, including the 24 frame-per-second (FPS) presentation format. This appearance is strongly associated with artistic presentation, Hollywood or other higher-budget production, and professional quality. When the frame rate is increased, some viewers balk at the smooth motion, which is then perceived as an artifact itself (Giardina 2012). This is often referred to as the soap opera effect, associated with low-cost or home production. This reaction is generally not present when considering non-cinematic forms of entertainment (Wilcox et al. 2015). In sports, video games and low-budget productions, high frame rates have become standard and judder is expected to be minimized. Further, a dichotomy between users that prefer smooth motion and others who prefer a certain level of “cinematic” judder exists: When considering cinematic content, we see that judder is a unique artifact that we may want to preserve, within some threshold—not too high so as to not ruin the quality of the content but not too low or we risk making viewers unhappy with the content’s new look.
 
@@ -81,7 +86,11 @@ Shutter Angle. More generally, motion blur reduces the retinal- image contrast o
 Motion Direction. Previous research on judder (Daly et al. 2015) hypothesized that horizontal motions may produce more judder than vertical for some stimuli due to the better performance of horizontal smooth pursuit over vertical (Ke et al. 2013), but no data are provided to compare these results quantitatively.
 
 To gauge whether directionality of motion is an integral part of judder perception, we ran a brief user study. The experimental procedure, stimulus, and analysis were identical to Experiment 1 described in Section 4.2 and 5, but the only variables were frame rate at 24, 30, and 60 FPS and directionality, with the edge moving top-to-bottom (vertical) or left-to-right (horizontal). Thirteen users participated, with results shown in Figure 2. Frame rate was a significant factor (F = 410.58, p ≪ 0.01). Direction was not found to be significant (F = 2.24, p = 0.14) with horizontal and vertical showing very similar behavior in terms of judder. In the rest of this work, we focus on horizontal movement, as this is the most common case in cinema and television.
-
+<figure>
+<img src="./img/img2.png" alt="Trulli" style="width:50%" class = "center">
+<figcaption align = "center">Fig. 2. Vertical bars depict 95% confidence intervals.
+</figcaption>
+</figure>
 ## Experimental Procedure
 Participants were seated comfortably in a dark room. A chin rest was not employed as we felt that simulating natural viewing conditions would be more important than restricting head movements.
 The experiment was performed with binocular viewing and natural pupil size. The display was placed at a standard three picture heights from the participants (Poynton 2012, p9).
@@ -101,6 +110,11 @@ Experiment 1. This experiment had the following variables:
 - Speed=[17,11,7,5]secondpanacrossthescreen
 - MichelsonContrast=[0.5,0.75,0.95]
 We employed a traditional vision science stimulus termed “disembodied moving edge” (Savoy and Burns 1989) on a gray background. The edge moved across the screen left-to-right with the desired speed. The edge consisted of two vertical, adjacent columns of pixels with values M and m symmetric about the mean and calculated to match the desired contrast (see Appendix A), which then smoothly decayed toward the mean away from the edge.
+<figure>
+<img src="./img/img3.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 3. Stimuli used in our experiments. In each trial, the displayed image represented by the red rectangle, pans across the scene horizontally at the desired speed.
+</figcaption>
+</figure>
 
 Experiment 2. This experiment had the following variables:
 - Framerate=[30,60,120]Hz
@@ -125,6 +139,22 @@ Experiment 1. Twelve participants took part. As expected from Section 4.1, signi
 
 The results of this experiment can be seen in Figure 4; for simplicity, the plotted data have been averaged over the contrast dimension and participants. By comparing the three plots, we note that frame rate has a powerful effect on mitigating judder, with results at 120 and 60Hz showing little perceived judder, while 30Hz stimuli were all perceived with high levels of judder. A clear trend from the 30Hz plot is that, at this frame rate, judder increases uniformly with luminance. In addition, speed has a nearly linear effect on perceived judder.
 
+<figure>
+<img src="./img/img4.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 4. Results for experiment 1 (moving edge), averaged over participants and contrasts. Vertical lines depict standard error over all samples. Results for 120 (right) and 60 FPS (mid) show little judder. Thirty FPS (left) appeared considerably distorted—judder increases almost linearly with speed, and there is a neat separation between luminance levels (plotted in red, green, and blue), with higher luminances considered to have more judder.
+</figcaption>
+</figure>
+<figure>
+<img src="./img/img5.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 5. Results for experiment 2 (panning complex images), averaged over participants and images. Vertical lines depict standard error over all samples. Results are similar to experiment 1, with 120 (right) and 60 FPS (mid) not showing much judder. Thirty FPS (left) continues to present a positive and clearly separable correlation of judder with speed and luminance.
+</figcaption>
+</figure>
+<figure>
+<img src="./img/img6.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 6. Results for experiment3(panning thorny cactus image,with shutter angle variations),averaged over participants and shutter angles. Verticallines depict standard error over all samples. Note that here we probe different frame rates. Sixty FPS (right) shows little judder, while 30 FPS (mid) exhibits similar behavior to experiments 1 and 2. Twenty-four FPS (left) shows even stronger judder responses, with a larger separation between the first luminance level of 2.5cd/m2 and the remaining levels, indicating that an increase in brightness has a strong impact on perceived judder.
+</figcaption>
+</figure>
+
 Experiment 2. Eleven participants took part. Once again, mean luminance (F = 52.09, p ≪ 0.01), frame rate (F = 849.78, p ≪ 0.01), and speed (F = 40.26, p ≪ 0.01) were found to be significant factors. Type of image shown (F = 1.62, p = 0.20) was not significant.
 
 The results can be seen in Figure 5, averaged out over the three different image types and participants for simplicity. The product of this experiment is similar to experiment 1, which validates our expectation that judder perception for more realistic stimuli still follows the expected trends.
@@ -136,8 +166,8 @@ The results can be seen in Figure 6, averaged out over shutter angle and users, 
 Variables that were not found to be significant were not included in our perceptual model of judder, although this result does not necessarily indicate that contrast, shutter angle, or type of image will never affect judder. It is possible, for example, that stronger distortions such as non-photorealistic blurring above 360◦ could significantly affect judder perception, but such values were not tested in this work, as they would strongly alter the look of the scene and thus do not lead to a satisfactory solution to mitigate judder.
 
 # JUDDER MODEL
-To obtain an easily expressible model of judder J based on the most important factors, mean luminance L, frame rate F, and speed S, we combine the results of experiments 1–3 to design a single empirical model. We fit the perceptual data provided by user study participants into a second degree polynomial model:
-❤: first
+To obtain an easily expressible model of judder $J$ based on the most important factors, mean luminance $L$, frame rate $F$, and speed $S$, we combine the results of experiments 1–3 to design a single empirical model. We fit the perceptual data provided by user study participants into a second degree polynomial model:
+❤: judder
 ``` iheartla
 
 J = P(α(F), β(L), S)
@@ -147,9 +177,9 @@ S ∈ ℝ
 P ∈ ℝ, ℝ, ℝ -> ℝ
 
 ``` 
-where α and β are nonlinearities employed in perceptual modeling; specifically, for luminance we employ α the logarithm function and for frame rate β is the multiplicative inverse, i.e., we model on frame duration. For details on the resulting function, please see Section A.3.
+where $α$ and $β$ are nonlinearities employed in perceptual modeling; specifically, for luminance we employ $α$ the logarithm function and for frame rate β is the multiplicative inverse, i.e., we model on frame duration. For details on the resulting function, please see Section A.3.
 
-This is an excellent fit to the psychophysical data, with a mean absolute error of 0.24 (equivalent to 9.4%) between measured and predicted judder at the probed points. To present the reader with an error metric that relates to physical quantities, we also computed the mean error in the log-luminance domain (to avoid under representing errors in low-luminance conditions). Given N as the number of measured conditions, O(i) being the observed means for each condition and M(i) values predicted by our model, we calculate the error E as
+This is an excellent fit to the psychophysical data, with a mean absolute error of 0.24 (equivalent to 9.4%) between measured and predicted judder at the probed points. To present the reader with an error metric that relates to physical quantities, we also computed the mean error in the log-luminance domain (to avoid under representing errors in low-luminance conditions). Given $N$ as the number of measured conditions, $O(i)$ being the observed means for each condition and $M(i)$ values predicted by our model, we calculate the error E as
 
 ``` iheartla(second)
 
@@ -160,10 +190,20 @@ M ∈ ℝ -> ℝ
 
 ``` 
 
-resulting in E at approximately 1.37%. A visualization of this model for a speed of 1/7 pictures per second can be seen in Figure 7 (left). A rendering of the overlaid surfaces for various speeds and a cross section of the resulting shapes for a given frame rate can be seen in Figure 8.
+resulting in $E$ at approximately 1.37%. A visualization of this model for a speed of 1/7 pictures per second can be seen in Figure 7 (left). A rendering of the overlaid surfaces for various speeds and a cross section of the resulting shapes for a given frame rate can be seen in Figure 8.
 
-Finally, our model allows us to compute iso-lines over which perceived judder is expected to remain constant—this is a good opportunity to explore the hitherto unknown perceptual consequences of changes in judder due to different display technologies. In Figure 7 (right), we see that the predicted frame rate necessary to match the judder of a 24Hz, 2.5cd/m2 stimulus at 1/7 pic/s (a typical cinema frame rate and brightness at traditionally peak acceptable speed) displayed at 10cd/m2 is approximately 31Hz. This is significantly lower than the frame rates available in modern home theater displays. In addition, we calculate that if operating on speed, rather than frame rate, the judder of a traditionally fast 5s pan at 2.5cd/m2 is equivalent to that of an extremely slow 17s pan at a higher luminance of 15cd/m2. This further demonstrates that novel display technologies will require content creators to adapt their processes to deal with the newly introduced increase in perceptual sensitivity, as the increase in brightness will incur prohibitive judder even for slow moving objects unless frame rates are increased.
+<figure>
+<img src="./img/img7.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 7. A rendering of our judder model for a speed of 1/7 pictures per second. Vertical bars depict 95% confidence intervals. The horizontal line is an isoline with constant predicted judder, plotted separately in the inset. Note that a cinema reference of $2.5cd/m^2$ and 24 FPS, has an equivalent predicted judder for $10cd/m^2$ of roughly 31 FPS.
+</figcaption>
+</figure>
 
+Finally, our model allows us to compute iso-lines over which perceived judder is expected to remain constant—this is a good opportunity to explore the hitherto unknown perceptual consequences of changes in judder due to different display technologies. In Figure 7 (right), we see that the predicted frame rate necessary to match the judder of a 24Hz, 2.5cd/m2 stimulus at 1/7 pic/s (a typical cinema frame rate and brightness at traditionally peak acceptable speed) displayed at 10cd/m2 is approximately 31Hz. This is significantly lower than the frame rates available in modern home theater displays. In addition, we calculate that if operating on speed, rather than frame rate, the judder of a traditionally fast 5s pan at $2.5cd/m^2$ is equivalent to that of an extremely slow 17s pan at a higher luminance of $15cd/m^2$. This further demonstrates that novel display technologies will require content creators to adapt their processes to deal with the newly introduced increase in perceptual sensitivity, as the increase in brightness will incur prohibitive judder even for slow moving objects unless frame rates are increased.
+<figure>
+<img src="./img/img8.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 8. On the left, we show our judder model plotted for a variety of speeds: 5, 10, and 17s pans. The plot is rotated for clarity. On the right, we see a cross section of various speeds projected on the luminance plane.
+</figcaption>
+</figure>
 # VALIDATION
 To test the validity of our model with more complex stimuli, we ran a Validation experiment. Using the same setup as the experiments described in Section 3, 15 participants were shown short reference videos at a lower frame rate and brightness. They were then presented with another version of the same video, but at a higher frame rate. The experimental task was to find the best match in terms of judder by controlling the mean luminance of the test stimulus through logmean offsets. Five stimuli were employed, two shots from Nocturne,2 dubbed Ballet and Kids, and one shot from Big Buck Bunny. All stimuli contained camera pans and were likely to generate some perceivable judder and can be seen in the accompanying video. The details for each of the five tested cases can be seen in Table 1, with additional details presented in Appendix A.4.
 
@@ -179,9 +219,7 @@ b ∈ ℝ
 ``` 
 
 
-where a and b are known constants and L is the mean luminance. If we introduce the simplifying assumption that the critical flicker fusion rate (CFF) is linearly correlated through a factor M with judder-sensitivity, then we can obtain a log-luminance equivalence like the one queried in this experiment. Denoting Fa and Fb as the
-A Luminance-aware Model of Judder Perception • 142:7
-two frame rates and La , Lb as the luminances:
+where a and b are known constants and L is the mean luminance. If we introduce the simplifying assumption that the critical flicker fusion rate ($CFF$) is linearly correlated through a factor M with judder-sensitivity, then we can obtain a log-luminance equivalence like the one queried in this experiment. Denoting $F_a$ and $F_b$ as the two frame rates and $L_a$ , $L_b$ as the luminances:
 
 
 ``` iheartla
@@ -191,14 +229,16 @@ two frame rates and La , Lb as the luminances:
 M ∈ ℝ
 `$L_a$` ∈ ℝ
 ```
-
+<figure>
+<img src="./img/table.png" alt="Trulli" style="width:100%" class = "center">
+</figure>
 ``` iheartla
 
 `$F_b$` = M⋅ CFF(`$L_b$`)
 
 `$L_b$` ∈ ℝ
 ```
-Solving for Lb , we obtain the matching luminance prediction:
+Solving for $L_b$ , we obtain the matching luminance prediction:
 
 
 ``` iheartla(third)
@@ -213,12 +253,20 @@ b ∈ ℝ
 ```
 
 The results of this experiment can be seen in Figure 9, along with the predicted luminance match given by our model with the appropriate pan speed. Participants found the assignment to be challenging, as it included a cross-dimensional matching task across different image brightnesses. The prediction given by the static Ferry-Porter law only takes mean luminance into account and, even with the free parameter M, underestimates the luminance required to match our stimuli in every case: Using Equation (2) we obtain a mean luminance error of 17.1%. Our model achieves a mean error of 6.51%, improving the prediction in every case and falling within the 95% confidence interval in all but one case.
-
+<figure>
+<img src="./img/img9.png" alt="Trulli" style="width:20%" class = "center">
+<figcaption align = "center">Fig. 9. The horizontal axis shows the experimental conditions as seen in Table 1. The vertical axis shows the luminance selected by users to match judder compared to model predictions. Vertical bars show 95% confidence intervals.
+</figcaption>
+</figure>
 ## Applications to Content Creation
 An application of our model is flagging content that is likely to produce high levels of judder in post production. Given the content and a target display, a shot boundary detector is applied to segment the video into shots. We recover the frame rate of the video and, for each shot, we calculate the mean luminance and translation speed. We proceed to apply our model as presented in Section 6. We demonstrate this technique by applying our model to the entire Big Buck Bunny short, which is composed of 128 shots. Shots that contain speed values less than the minimum explored in our user studies (i.e., a 17s pan or 2 deg/s average) were excluded from the computation, and judder prediction was set to zero. In this case, we simulate a cinema projector with a maximum and minimum brightness of 50 and 0.05cd/m2, respectively, and a gamma of 2.4 with a user sitting at three picture heights from the screen. Figure 10 shows the resulting judder prediction.
 
 Similarly to the task of users in the validation experiment described in Section 7, content flagged as having excessive judder can be tone-mapped to a lower mean luminance range automatically. As an example, we selected shot 47 of Big Buck Bunny that showed a judder value of 7.1 in Figure 10. We can adapt the 7s rule as referenced in Section 4.1 to produce an estimate of a high boundary for acceptable judder: We set speed to the eponymous 7s pan, frame rate to a standard 24Hz, and mean luminance to 2.5cd/m2. The resulting value is 5.1 on our judder scale. We proceed to fix the speed and frame rate of the selected shot, and model judder for various mean luminance levels. We find that in order for this shot to have a predicted judder of 5.1, its mean luminance must be reduced from 16 to 3.1cd/m2 or approximately 0.72 log units. The judder scale for this shot, as well as a sample image tone mapped using a simple log-luminance offset, are shown in Figure 11. A comprehensive review of modern tone mapping methods was presented by Eilertsen et al. (2017).
-
+<figure>
+<img src="./img/img10.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 10. WeestimatedperceivedjudderforeachshotinBigBuckBunny. From top to bottom, we show the parameters used in our model—frame rate, mean luminance, and mean speed, and, finally, our model’s prediction. This system can help flag problematic shots within a feature film at an early stage during post processing.
+</figcaption>
+</figure>
 # CONCLUSIONS, LIMITATIONS, AND FUTURE WORK
 We proposed the first model that predicts the magnitude of perceived judder for a given video. We gathered psychophysical data on a number of relevant factors using simple stimuli and later demonstrated that these measurements are also valid for complex scenes. Our experiments generated valuable data that can provide guidance to content creators considering emerging display technologies, such as necessary updates to existing rules of thumb in cinematography. This information can also be useful to display manufacturers and content providers when considering technical requirements for consumer technologies. Finally, perceptual judder modeling is crucial for frame rate re-sampling applications to avoid judder or other undesirable artifacts such as the “soap opera effect.”
 
@@ -260,7 +308,109 @@ To compute a judder prediction using our model for an arbitrary scene, a speed m
 The authors thank Shane Ruggieri for helping prepare the video for the article and Sema Berkiten for final edits. We thank Shane, Thad Beier, and Jim Crenshaw for the insightful discussions on industry practices relating to judder manageulent and motion in general. We thank Thomas Wan and the immersive experience team for help with the experimental setup and hardware. We thank the user study participants for their efforts. We thank Timo Kunkel and Sema for help with style and Seth Frey for help with the statistical analysis.
 
 # REFERENCES
-Robert S. Allison, Laurie M. Wilcox, Roy C. Anthony, John Helliker, and Bert Dunk. 2016. Expert viewers’ preferences for higher frame rate 3D film. J. Imag. Sci. Tech- nol. 60, 6 (2016), 60402–1.
+Robert S. Allison, Laurie M. Wilcox, Roy C. Anthony, John Helliker, and Bert Dunk. 2016. Expert viewers’ preferences for higher frame rate 3D film. J. Imag. Sci. Technol. 60, 6 (2016), 60402–1.
+
+Tunç Ozan Aydin, Martin Čadík, Karol Myszkowski, and Hans-Peter Seidel. 2010. Video quality assessment for computer graphics applications. ACM Trans. Graph. 29, 6 (2010), 161.
+
+Peter G. J. Barten. 1989. The square root integral (SQRI): A new metric to describe the effect of various display parameters on perceived image quality. In Human Vision, Visual Processing, and Digital Display, Vol. 1077. International Society for Optics and Photonics, 73–83.
+
+P. J. Bex, G. K. Edgar, and A. T. Smith. 1995. Sharpening of drifting, blurred images. Vis. Res. 35, 18 (1995), 2539–2546.
+
+Stephen H. Burum. 2007. American Cinematographer Manual. Vol. 1. American Cinematographer.
+
+Jacob Cohen. 1992. A power primer. Psychol. Bull. 112, 1 (1992), 155.
+
+Scott Daly, Ning Xu, James Crenshaw, and Vikrant J Zunjarrao. 2015. A psychophysical study exploring judder using fundamental signals and complex imagery. SMPTE Motion Imag. J. 124, 7 (2015), 62–70.
+
+Scott J. Daly. 1992. Visible differences predictor: An algorithm for the assessment of image fidelity. In Human Vision, Visual Processing, and Digital Display III, Vol. 1666. International Society for Optics and Photonics, 2–16.
+
+DCI. 2012. Digital Cinema Initiatives, LLC. High Frame Rates Digital Cinema Recommended Practice. Retrieved from http://www.dcimovies.com/Recommended_Practice/.
+
+H. de Lange Dzn. 1958. Research into the dynamic nature of the human Fovea-cortex systems with intermittent and modulated light. II. Phase shift in brightness and delay in color perception. J. Opt. Soc. Am. 48, 11 (1958), 784–789.
+
+Kurt Debattista, Keith Bugeja, Sandro Spina, Thomas Bashford-Rogers, and Vedad Hulusic. 2018. Frame rate vs resolution: A subjective evaluation of spatiotemporal perceived quality under varying computational budgets. In Computer Graphics Forum, Vol. 37. Wiley Online Library, 363–374.
+
+Andrew M. Derrington and David R. Badcock. 1985. Separate detectors for simple and complex grating patterns? Vis. Res. 25, 12 (1985), 1869–1878.
+
+Piotr Didyk, Tobias Ritschel, Elmar Eisemann, Karol Myszkowski, Hans-Peter Seidel, and Wojciech Matusik. 2012. A luminance-contrast-aware disparity model and applications. ACM Trans. Graph. 31, 6 (2012).
+
+Alexey Dosovitskiy, Philipp Fischer, Eddy Ilg, Philip Hausser, Caner Hazirbas, Vladimir Golkov, Patrick van der Smagt, Daniel Cremers, and Thomas Brox. 2015. Flownet: Learning optical flow with convolutional networks. In Proceedings of the IEEE International Conference on Computer Vision. 2758–2766.
+
+Gabriel Eilertsen, Rafal K. Mantiuk, and Jonas Unger. 2017. A comparative review of tone-mapping algorithms for high dynamic range video. Computer Graphics Forum (2017). DOI:https://doi.org/10.1111/cgf.13148
+
+Toshiyuki Fujine, Yuhji Kikuchi, Michiyuki Sugino, and Yasuhiro Yoshida. 2007. Reallife in-home viewing conditions for flat panel displays and statistical characteristics of broadcast video signal. Jpn. J. Appl. Phys. 46, 3S (2007), 1358.
+
+M. A. Georgeson and G. D. Sullivan. 1975. Contrast constancy: Deblurring in human vision by spatial frequency channels. J. Physiol. 252, 3 (1975), 627–656.
+
+Carolyn Giardina. 2012. Peter Jackson responds to “Hobbit” footage critics, explains 48-frames strategy. The Hollywood Reporter (2012).
+
+Gunnar Johansson. 1973. Visual perception of biological motion and a model for its analysis. Percept. Psychophys. 14, 2 (1973), 201–211.
+
+Sally R. Ke, Jessica Lam, Dinesh K. Pai, and Miriam Spering. 2013. Directional asymmetries in human smooth pursuit eye movements. Invest. Ophthalmol. Vis. Sci. 54, 6 (2013), 4409–4421.
+
+D. H. Kelly. 1983. Spatiotemporal variation of chromatic and achromatic contrast thresholds. J. Opt. Soc. Am. 73, 6 (1983), 742–750.
+
+Min H. Kim, Tim Weyrich, and Jan Kautz. 2009. Modeling human color perception under extended luminance levels. In ACM Transactions on Graphics (TOG), Vol. 28. ACM, 27.
+
+James Larimer, Jennifer Gille, and James Wong. 2001. 41.2: Judder-induced edge flicker in moving objects. In SID Symposium Digest of Technical Papers, Vol. 32. Wiley Online Library, 1094–1097.
+
+Feng Li, Jeff B. Pelz, and Scott J. Daly. 2010. Effects of stimulus size and velocity on steady-state smooth pursuit induced by realistic images. In Human Vision and Electronic Imaging XV, Vol. 7527. International Society for Optics and Photonics, 752717.
+
+Ziwei Liu, Raymond Yeh, Xiaoou Tang, Yiming Liu, and Aseem Agarwala. 2017. Video frame synthesis using deep voxel flow. In Proceedings of the International Conference on Computer Vision (ICCV’17), Vol. 2.
+
+Dhruv Mahajan, Fu-Chung Huang, Wojciech Matusik, Ravi Ramamoorthi, and Peter Belhumeur. 2009. Moving gradients: A path-based method for plausible image interpolation. In ACM Transactions on Graphics (TOG), Vol. 28. ACM, 42.
+
+Rafal Mantiuk, Kil Joong Kim, Allan G. Rempel, and Wolfgang Heidrich. 2011. HDR- VDP-2: A calibrated visual metric for visibility and quality predictions in all luminance conditions. In ACM Transactions on Graphics (TOG), Vol. 30. ACM, 40.
+
+Sean T. McCarthy. 2016. How independent are HDR, WCG, and HFR in human visual perception and the creative process. SMPTE Motion Imag. J. 125, 4 (2016), 24–33.
+
+Craig H. Meyer, Adrian G. Lasker, and David A. Robinson. 1985. The upper limit of human smooth pursuit velocity. Vis. Res. 25, 4 (1985), 561–563.
+
+Simone Meyer, Oliver Wang, Henning Zimmer, Max Grosse, and Alexander Sorkine-Hornung. 2015. Phase-based frame interpolation for video. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR’15). IEEE, 1410–1418.
+
+Jeffrey B. Mulligan. 1992. Motion transparency is restricted to two planes. Invest. Ophthalmol. Vis. Sci. 33, 4 (1992), 1049.
+
+Mike Nilsson. 2015. Ultra high definition video formats and standardisation. BT Media and Broadcast Research Paper (2015). Technical Report.
+
+Shin’ya Nishida. 2011. Advancement of motion psychophysics: Review 2001–2010. J.Vis. 11, 5 (2011), 11–11.
+
+K. C. Noland. 2016. High frame rate television: Sampling theory, the human visual system, and why the Nyquist-Shannon theorem does not apply. SMPTE Motion Imag. J. 125, 3 (Apr. 2016), 46–52. DOI:https://doi.org/10.5594/JMI.2016.2531998
+
+Charles Poynton. 2012. Digital Video and HD: Algorithms and Interfaces. Elsevier.
+
+Alan Roberts. 2002. The film look: It’s not just jerky motion. BBC R&D White Paper WHP 53 (2002).
+
+R. Savoy and M. Burns. 1989. Isolated cone classes and the disembodied edge: New stimuli for psychophysics and neurophysiology. Invest. Ophthalmol. Vis. Sci. 30 (1989), 220.
+
+Tom R. Scherzer and Vebjørn Ekroll. 2009. Intermittent occlusion enhances the smoothness of sampled motion. J. Vis. 9, 10 (2009), 16–16.
+
+Tatsuto Takeuchi and Karen K. De Valois. 2005. Sharpening image motion based on the spatio-temporal characteristics of human vision. In Human Vision and Electronic Imaging X, Vol. 5666. International Society for Optics and Photonics, 83– 95.
+
+Krzysztof Templin, Piotr Didyk, Karol Myszkowski, and Hans-Peter Seidel. 2016. Em- ulating displays with continuously varying frame rates. ACM Trans. Graph. 35, 4 (2016), 67.
+
+Christopher W. Tyler and Russell D. Hamer. 1990. Analysis of visual modulation sensitivity. IV. Validity of the Ferry–Porter law. J. Opt. Soc. Am. A 7, 4 (1990), 743–758.
+
+Floris L. Van Nes and Maarten A. Bouman. 1967. Spatial modulation transfer in the human eye. J. Opt. Soc. Am. 57, 3 (1967), 401–406.
+
+Carl Vondrick, Hamed Pirsiavash, and Antonio Torralba. 2016. Generating videos with scene dynamics. In Advances in Neural Information Processing Systems. 613–621.
+
+Andrew Watson and Albert Ahumada. 2016. The pyramid of visibilty. J. Vis. 16, 12 (2016), 567–567.
+
+Andrew B. Watson. 2013. High frame rates and human vision: A view through the window of visibility. SMPTE Motion Imag. J. 122, 2 (2013), 18–32.
+
+Andrew B. Watson, Albert J. Ahumada, and Joyce E. Farrell. 1986. Window of visibil- ity: A psychophysical theory of fidelity in time-sampled visual motion displays. J. Opt. Soc. Am. A 3, 3 (1986), 300–307.
+
+Andrew B. Watson and K. Boff. 1986. Temporal sensitivity. Handbook of Perception and Human Performance 1 (1986), 6–1.
+
+Andrew B. Watson and Jesus Malo. 2002. Video quality measures based on the stan- dard spatial observer. In Proceedings of the 2002 International Conference on Image Processing, Vol. 3. IEEE, III–III.
+
+Joyce H. D. M. Westerink and Kees Teunissen. 1995. Perceived sharpness in complex moving images. Displays 16, 2 (1995), 89–97.
+
+Laurie M. Wilcox, Robert S. Allison, John Helliker, Bert Dunk, and Roy C. Anthony. 2015. Evidence that viewers prefer higher frame-rate film. ACM Trans. Appl. Percept. 12, 4 (2015), 15.
+
+Jiefu Zhai, Keman Yu, Jiang Li, and Shipeng Li. 2005. A low complexity motion com- pensated frame interpolation method. In Proceedings of the IEEE International Symposium on Circuits and Systems 2005 (ISCAS’05). IEEE, 4927–4930.
+
+
 
 
 
