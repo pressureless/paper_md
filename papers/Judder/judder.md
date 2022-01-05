@@ -307,20 +307,9 @@ To compute a judder prediction using our model for an arbitrary scene, a speed m
 # ACKNOWLEDGMENTS
 The authors thank Shane Ruggieri for helping prepare the video for the article and Sema Berkiten for final edits. We thank Shane, Thad Beier, and Jim Crenshaw for the insightful discussions on industry practices relating to judder manageulent and motion in general. We thank Thomas Wan and the immersive experience team for help with the experimental setup and hardware. We thank the user study participants for their efforts. We thank Timo Kunkel and Sema for help with style and Seth Frey for help with the statistical analysis.
 
-# REFERENCES
-Robert S. Allison, Laurie M. Wilcox, Roy C. Anthony, John Helliker, and Bert Dunk. 2016. Expert viewers’ preferences for higher frame rate 3D film. J. Imag. Sci. Technol. 60, 6 (2016), 60402–1.
-
-Tunç Ozan Aydin, Martin Čadík, Karol Myszkowski, and Hans-Peter Seidel. 2010. Video quality assessment for computer graphics applications. ACM Trans. Graph. 29, 6 (2010), 161.
-
-Peter G. J. Barten. 1989. The square root integral (SQRI): A new metric to describe the effect of various display parameters on perceived image quality. In Human Vision, Visual Processing, and Digital Display, Vol. 1077. International Society for Optics and Photonics, 73–83.
-
-P. J. Bex, G. K. Edgar, and A. T. Smith. 1995. Sharpening of drifting, blurred images. Vis. Res. 35, 18 (1995), 2539–2546.
-
-Stephen H. Burum. 2007. American Cinematographer Manual. Vol. 1. American Cinematographer.
-
-Jacob Cohen. 1992. A power primer. Psychol. Bull. 112, 1 (1992), 155.
-
-Scott Daly, Ning Xu, James Crenshaw, and Vikrant J Zunjarrao. 2015. A psychophysical study exploring judder using fundamental signals and complex imagery. SMPTE Motion Imag. J. 124, 7 (2015), 62–70.
+# REFERENCES 
+   
+   
 
 Scott J. Daly. 1992. Visible differences predictor: An algorithm for the assessment of image fidelity. In Human Vision, Visual Processing, and Digital Display III, Vol. 1666. International Society for Optics and Photonics, 2–16.
 
@@ -407,10 +396,7 @@ Andrew B. Watson and Jesus Malo. 2002. Video quality measures based on the stan-
 Joyce H. D. M. Westerink and Kees Teunissen. 1995. Perceived sharpness in complex moving images. Displays 16, 2 (1995), 89–97.
 
 Laurie M. Wilcox, Robert S. Allison, John Helliker, Bert Dunk, and Roy C. Anthony. 2015. Evidence that viewers prefer higher frame-rate film. ACM Trans. Appl. Percept. 12, 4 (2015), 15.
-
-Jiefu Zhai, Keman Yu, Jiang Li, and Shipeng Li. 2005. A low complexity motion com- pensated frame interpolation method. In Proceedings of the IEEE International Symposium on Circuits and Systems 2005 (ISCAS’05). IEEE, 4927–4930.
-
-
+ 
 
 
 
