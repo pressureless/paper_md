@@ -1,3 +1,6 @@
+---
+full_paper: False
+---
 # PHYSICAL SIMULATION
 ❤: elastic
 To simulate the physical behavior of the deployed grid, we use a simulation based on discrete elastic rods [Bergou et al. 2010] and build upon the solution of [Vekhter et al. 2019]. We refer the reader to those papers for the details. Note, that the associated material frames of the rods do not need to be isotropic, which allows us also to model the exact cross sections of lamellas with a ratio of 1 : 10.

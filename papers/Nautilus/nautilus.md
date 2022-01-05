@@ -1,3 +1,6 @@
+---
+full_paper: False
+---
 # APPLICATIONS
 To demonstrate the practical utility and versatility of our method, we have implemented several image editing applications where the knowledge of the symmetric transformation and its spatial support simplifies the task or removes the need for manual input. We compare our results on each of these applications to their current state-of-the-art methods, and demonstrate that our general framework is able to replicate and improve upon their quality.
 <!-- <figure>

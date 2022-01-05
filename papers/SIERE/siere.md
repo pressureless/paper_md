@@ -1,3 +1,6 @@
+---
+full_paper: False
+---
 # Model reduction and subspace splitting
 ❤: siere
 Next, we define the splitting $G$ and $H$, crucial to the success of our method. The idea is to apply ERE in the subspace of the first s modes ($s ≪ n$: typically, $5 ≤ s ≤ 20$) and project it back to the original full space. In the bridge example of Figure 1, $n ≈ 100, 000$, so this is a rather large reduction.

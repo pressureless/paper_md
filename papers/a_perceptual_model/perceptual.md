@@ -1,4 +1,6 @@
-
+---
+full_paper: False
+---
 ### From $\proselabel{σ}$ to quality
 ❤: perceptual
 Blur introduced by eye motion, hold-type blur, and spatial resolution will result in the loss of sharpness. To quantify this in terms of loss of perceived quality, we map the physical amount of blur to the perceived quality difference in JND units. Our blur quality function is inspired by the energy models of blur detection [Watson and Ahumada 2011]. Such mapping is applied to the orthogonal ($σ_O$) and parallel ($σ_P$) components of the anisotropic blur separately, resulting in two independent quality values ($Q_O$ and $Q_P$).

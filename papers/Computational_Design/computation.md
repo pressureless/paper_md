@@ -1,3 +1,6 @@
+---
+full_paper: False
+---
 # Optimization
 ## Energy function
 ❤: computation
