@@ -18,7 +18,7 @@ abstract: |
 </figcaption>
 </figure>
 # INTRODUCTION
-
+❤: eccentricity
 Emerging virtual and augmented reality (VR/AR) systems have unlocked new user experiences by offering unprecedented levels of immersion. With the goal of showing digital content that is indistinguishable from the real world, VR/AR displays strive to match the perceptual limits of human vision. That is, a resolution, framerate, and field of view (FOV) that matches what the human eye can perceive. However, the required bandwidths for graphics processing units to render such high-resolution and high-framerate content in interactive applications, for networked systems to stream, and for displays and their interfaces to transmit and present this data is far from achievable with current hardware or standards.
 
 
@@ -85,7 +85,7 @@ These assumptions allow us to reduce the sample space to only two dimensions: ec
 
 Another fact to consider is that an eccentricity-dependent model that varies with spatial frequency must adhere to the uncertainty principle. That is, low spatial frequencies cannot be well localized in eccentricity. For example, the lowest spatial frequency of 0 cpd is a stimulus that is constant across the entire retina whereas very high spatial frequencies can be well localized in eccentricity. This behavior is appropriately modeled by wavelets. As such, we select our stimuli to be a set of 2D Gabor wavelets. As a complex sinusoid modulated by a Gaussian envelope, these wavelets are defined by the form:
 
-``` iheartla(first)
+``` iheartla
 cos, sin from trigonometry
 
 𝑔(x,`$x_0$`, 𝜃,𝜎,`$𝑓_𝑠$`) = exp(-||x-`$x_0$`||^2/(2𝜎^2)) cos(2π`$𝑓_𝑠$`x ⋅[cos(𝜃) sin(𝜃)]) where x: ℝ^n,`$x_0$`: ℝ^n,`$𝑓_𝑠$`: ℝ, 𝜎 : ℝ, 𝜃 : ℝ
@@ -130,7 +130,7 @@ Each of our measured data points is parametrized by its spatial frequency $𝑓_
 
 We formulate our model as
 
-``` iheartla(first)
+``` iheartla
 
 Ψ(𝑒, `$𝑓_𝑠$`)= m(0, 𝑝₀ 𝜏(`$𝑓_𝑠$`) +𝑝₁ 𝜏(`$𝑓_𝑠$`)+𝑝₂ + (𝑝₃ 𝜏(`$𝑓_𝑠$`)^2 + 𝑝₄ 𝜏(`$𝑓_𝑠$`) +𝑝₅)⋅ 𝜁(`$𝑓_𝑠$`)𝑒 + (𝑝₆ 𝜏(`$𝑓_𝑠$`)^2 +𝑝₇ 𝜏(`$𝑓_𝑠$`) + 𝑝₈)⋅𝜁(`$𝑓_𝑠$`)𝑒^2) where `$𝑓_𝑠$` : ℝ, 𝑒: ℝ
 
@@ -177,7 +177,7 @@ Due to technical constraints, the highest $𝑓_𝑠$ measured was 2 cpd. At the
 For this purpose, we utilize the acuity model of Geisler and Perry [1998]. It predicts acuity limit 𝐴 for 𝑒 as
 
 
-``` iheartla(first)
+``` iheartla
 
 A(𝑒)= ln(64) 2.3/(0.106⋅(𝑒+2.3) )  where 𝑒 : ℝ
 
@@ -199,7 +199,7 @@ Our experiments were conducted at half of our display peak luminance 𝐿 = 380 
 </figure>
 Four of the subjects from experiment 1 performed the same procedure for a subset of conditions with a display modified first with one and then two additional ND8 filters yielding effective luminance values of 23.9 and 3.0 cd/m2. We then applied a formula of [@stanley1995effect] to compute the pupil diameter under these conditions as
 
-``` iheartla(first)
+``` iheartla
 
 d(L)= 7.75-5.75((La/846)^0.41/((La/846)^0.41 + 2))  where L : ℝ
 where 
@@ -208,7 +208,7 @@ a : ℝ
 ```
 where $𝑎 = 80 × 87 = 6960 deg^2$ is the adapting area of our display. This allows us to derive corresponding retinal illuminance levels for our experiments using $𝑙 (𝐿) = 𝜋𝑑(𝐿)^2/4 · 𝐿$ as 67.3, 321 and 1488 Td and obtain a linear transformation of our original model $Ψ(𝑒, 𝑓_𝑠)$ to account for $𝐿$ with an eccentricity-dependent slope as
 
-``` iheartla(first)
+``` iheartla
  
 𝑠(𝑒,`$𝑓_𝑠$`) = 𝜁(`$𝑓_𝑠$`)(q_0 𝑒^2 + q_1 𝑒) + q_2  where `$𝑓_𝑠$` : ℝ, 𝑒: ℝ
 
@@ -261,7 +261,7 @@ For the purpose of this thought experiment, we use a biorthogonal Haar wavelet, 
 
 For traditional spatial-only foveation, we process each frame independently and after a 2D DWT we remove coefficients outside of the acuity limit. We compute eccentricity assuming gaze in the center of the screen and reject coefficients for which $Ψ(𝑒, 𝑓_𝑠 ) = 0$. From our model definition, such signals cannot be perceived regardless of $𝑓_𝑡$ as they lie outside of the vision acuity gamut. The resulting compression gain compared to the baseline can be seen for various display configurations in Figure 6.
 
-Next, for our model we follow the same procedure but we addi- tionally decompose each coefficient of the spatial DWT using 1D temporal DWT. This yields an additional set of temporal coefficients 𝑓𝑡 and we discard all values with $Ψ(𝑒, 𝑓_𝑠 ) < 𝑓_𝑡 $.
+Next, for our model we follow the same procedure but we additionally decompose each coefficient of the spatial DWT using 1D temporal DWT. This yields an additional set of temporal coefficients 𝑓𝑡 and we discard all values with $Ψ(𝑒, 𝑓_𝑠 ) < 𝑓_𝑡 $.
 
 
 For this experiment, we assume a screen with the same peak luminance of $380 cd/m^2$ as our display prototype and a pixel density of 60 pixel per degree (peak $𝑓_𝑠 = 30$ cpd) for approximately retinal display or a fifth of that for a display closer to existing VR systems. The tested aspect ratio of 165:135 approximates the human binocular visual field [@ruch1960medical]. We consider displays with a maximum framerate of 100 Hz (peak reproducible $𝑓_𝑡 = 50$ Hz) and 200 Hz, capable of reaching the maximum CFF in our model. The conventional spatial-only foveation algorithm is not affected by this choice.

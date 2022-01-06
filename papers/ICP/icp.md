@@ -98,7 +98,7 @@ where $a$ and $θ$ are the axis and angle of rotation. We observe that the last 
 $$\begin{align*}R v & \approx v \cos θ + (a \times  v)\sin θ \\
      & = \cos θ (v + (ã\times v))\end{align*}$$
 
-where ❤icp:ã = a tan(θ)❤ . Substituting into (6),
+where ❤ã = a tan(θ)❤ . Substituting into (6),
 $$\varepsilon_{symm} \approx \sum_i \left( \cos θ(p_i - q_i)\cdot n_i + \cos θ(ã \times (p_i+q_i))\cdot n_i + t \cdot n_i \right)\notag$$
 ``` iheartla
 tan, cos from trigonometry
