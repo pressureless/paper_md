@@ -47,7 +47,7 @@ In the second main section, we then provide a detailed analysis of various aspec
 ## Camera Setup and Parameterization
 We consider a sparse camera array composed of $n$ cameras covering a complete 360-degree field of view; see Figure 1. In a preprocess, we estimate the camera calibration parameters (extrinsic and intrinsic) with standard calibration techniques [@zhang2000flexible] and bundle adjustment, and then radially undistort the images.
 ❤: first
-In an ideal setup, the cameras lie on a circle of radius $r$, and the camera intrinsic calibration matrix can be written
+In an ideal setup, the cameras lie on <span class="def:r">a circle of radius $r$</span>, and the camera intrinsic calibration matrix can be written
 
 ``` iheartla
 
@@ -64,7 +64,7 @@ where
 `$c_y$`: ℝ: principal point
 ```
 
-where $\prosedeflabel{f_x}$ and $\prosedeflabel{f_y}$ denote the focal length in pixels in the horizontal and vertical directions, and $(\prosedeflabel{c_x},\prosedeflabel{c_y})$ the principal point [@Hartley2003]. Noting $\prosedeflabel{α}$ the angle of the camera along the circle, the pose of each camera is defined as
+where <span class="def:f_x">$\prosedeflabel{f_x}$ and $\prosedeflabel{f_y}$ denote the focal length in pixels in the horizontal and vertical directions</span>, and <span class="def:c_x">$(\prosedeflabel{c_x},\prosedeflabel{c_y})$ the principal point </span>[@Hartley2003]. Noting $\prosedeflabel{α}$ the angle of the camera along the circle, the pose of each camera is defined as
 
 ``` iheartla
 
@@ -98,16 +98,16 @@ $$R^T(α)(\lambda \cdot K^{-1}(x,y,1)^T - t)$$
 where $λ > 0$ represents the position along the ray.
 
 ## Lightfield Reconstruction
-Our aim is to reconstruct $L(α, x, y)$ from a sparse set of input views $Iˆ$ with $i =1,...,n$.The first step is to map the captured input images into the coordinate frame of $L$ by associating each input image Iˆ withacameraangleα usingtheestimatedcameracalibration.In order to approximate the ideal camera setup described in the previous section, where all cameras reside on a circle, we align each
-input image $Iˆ$ with the expected input at angle $α_i$ by applying the corresponding homography. Referring to the thus transformed images as $I_i$, we now have
+Our aim is to reconstruct $L(α, x, y)$ from a sparse set of input views $\hat{I}_i$ with $i =1,...,n$.The first step is to map the captured input images into the coordinate frame of $L$ by associating each input image $\hat{I}_i$ with a camera angle $α_i$ using the estimated camera calibration. In order to approximate the ideal camera setup described in the previous section, where all cameras reside on a circle, we align each
+input image $\hat{I}_i$ with the expected input at angle $α_i$ by applying the corresponding homography. Referring to the thus transformed images as $I_i$, we now have
 
 $$L(α_i, x, y) \approx I_i(x, y)$$
 
-Then, the problem of reconstructing $L$ comes down to performing an accurate view interpolation in α. For an accurate image space approach, it is important to understand how a given 3D point X moves in (x,y) when varying the camera angle α.
+Then, the problem of reconstructing $L$ comes down to performing an accurate view interpolation in $α$. For an accurate image space approach, it is important to understand how a given 3D point $X$ moves in $(x,y)$ when varying the camera angle $α$.
 
-Trajectories of Scene Points in Image Space. Rather than considering the projection of a fixed 3D point when rotating the camera about the origin o by some angle α , changing the point of view can provide a more intuitive understanding: by keeping the camera fixed and rotating the 3D point with the inverse rotation instead, the same trajectory can be obtained. The path can thus be interpreted as observing a 3D point that travels along a cylindrical surface.
+Trajectories of Scene Points in Image Space. Rather than considering the projection of a fixed 3D point when rotating the camera about the origin $o$ by some angle $α$, changing the point of view can provide a more intuitive understanding: by keeping the camera fixed and rotating the 3D point with the inverse rotation instead, the same trajectory can be obtained. The path can thus be interpreted as observing a 3D point that travels along a cylindrical surface.
 
-Assuming that the depth at a given location $x = (x,y)⊤$ is known, the nonlinear path in image space can be reconstructed by backprojecting according to Equation (4), rotating the resulting 3D point X, and finally projecting it with Equation (3).1 When representing the 3D point X in cylindrical coordinates, its change in position is linear in the angle α. Let the map φd : R2 → R2 denote the backprojection onto a cylinder with radius d followed by a conversion to cylindrical coordinates. Then, knowing two corresponding image points xi and xj measured at angles αi and αj and their radial depth d w.r.t . to the origin o allows to define the nonlinear path in image space
+Assuming that the depth at a given location $x = (x,y)^⊤$ is known, the nonlinear path in image space can be reconstructed by backprojecting according to Equation (4), rotating the resulting 3D point $X$, and finally projecting it with Equation (3). When representing the 3D point $X$ in cylindrical coordinates, its change in position is linear in the angle $α$. Let the map $φ_d : R^2 → R^2$ denote the backprojection onto a cylinder with radius $d$ followed by a conversion to cylindrical coordinates. Then, knowing two corresponding image points $x_i$ and $x_j$ measured at angles $α_i$ and $α_j$ and their radial depth $d$ w.r.t . to the origin $o$ allows to define the nonlinear path in image space
 
 ``` iheartla
 
@@ -148,14 +148,14 @@ y: ℝ
 
 with
 
-❤ω(x) = atan((x-`$c_x$`)/`$f_x$`) where x: ℝ  ❤ and ❤first:s(x) = (y-`$c_y$`)⋅cos(ω(x)) where x: ℝ  ❤
+❤ω(x) = atan((x-`$c_x$`)/`$f_x$`) where x: ℝ  ❤ and ❤s(x) = (y-`$c_y$`)⋅cos(ω(x)) where x: ℝ  ❤
 
 This is straightforward considering that $d → ∞$ is equivalent to letting the camera circle radius $r → 0$.
 
-Figure 4 depicts $α$-$x$-slices of $L(α, x, y)$ before and after transformation with φ. Curved lines become straightened after the transformation, which indicates that linear interpolation indeed is an appropriate approximation to the point trajectory. Due to this insight, we are now able to compute intermediate views based on image space correspondences as follows.
+Figure 4 depicts $α$-$x$-slices of $L(α, x, y)$ before and after transformation with $φ$. Curved lines become straightened after the transformation, which indicates that linear interpolation indeed is an appropriate approximation to the point trajectory. Due to this insight, we are now able to compute intermediate views based on image space correspondences as follows.
 <figure>
 <img src="./img/img4.png" alt="Trulli" style="width:100%" class = "center">
-<figcaption align = "center">Fig. 4. Top: α-x slice of L(α, x, y) from Figure 2. Bottom: α-x slice after transforming with the mapping function φ . The fact that, after transformation, the curved lines are straightened illustrates that a linear interpolation in the transformed space can result in accurate point trajectories.
+<figcaption align = "center">Fig. 4. Top: $α$-$x$ slice of $L(α, x, y)$ from Figure 2. Bottom: $α$-$x$ slice after transforming with the mapping function $φ$. The fact that, after transformation, the curved lines are straightened illustrates that a linear interpolation in the transformed space can result in accurate point trajectories.
 </figcaption>
 </figure>
 Computing Intermediate Views. As a preprocessing step, we first compute forward and backward flows between all consecutive image pairs. To this end, we slightly adapt a commonly available method [@brox2004high] and minimize the energy
@@ -167,7 +167,7 @@ $$\begin{align*}
 \end{align*}
 $$
 
-As it is commonly done, we use a robust penalization function $Ψ(s2)=√s2+ε2$, where $ε=10^{−3}$ is a small constant and J denotes the Jacobian. However, instead of directly computing correspondences between the original input images Ii and Ij , we propose to leverage the cameras intrinsic and extrinsic calibration information to guide the flow estimation. To achieve this, we effectively preregister Ij to Ii using the homography induced by the plane at infinity Hij = KjRijK−1 [@Hartley2003]. Incorporating the homographyi Hi j into the minimization problem allows for a better initialization since accounting for the camera intrinsics and the relative rotation between the cameras allows to bring all objects into closer alignment in image space. In fact, distant objects can already be well aligned by this homography such that the correspondence estimation problem now mostly comes down to refining initial matches on closer objects. Since optical flow estimation is a non-convex problem, having a better initialization is important as it makes it less likely to get stuck in local minima. Besides yielding a better initialization, incorporating the homography into the minimization problem offers an additional advantage: since a homography can describe a nonlinear mapping in image space, it can account for some of the linear and nonlinear parts of the overall correspondence field between the original input images Ii and Ij , which otherwise may be hard to reconstruct with a first order smoothness term that pushes the correspondence field to be piecewise constant.
+As it is commonly done, we use a robust penalization function $Ψ(s^2)=\sqrt{s^2+ε^2}$, where $ε=10^{−3}$ is a small constant and $J$ denotes the Jacobian. However, instead of directly computing correspondences between the original input images $I_i$ and $I_j$, we propose to leverage the cameras intrinsic and extrinsic calibration information to guide the flow estimation. To achieve this, we effectively preregister $I_j$ to $I_i$ using the homography induced by the plane at infinity $H_{ij} = K_jR_{ij}K_i^{−1}$ [@Hartley2003]. Incorporating the homographyi $H_{ij}$ into the minimization problem allows for a better initialization since accounting for the camera intrinsics and the relative rotation between the cameras allows to bring all objects into closer alignment in image space. In fact, distant objects can already be well aligned by this homography such that the correspondence estimation problem now mostly comes down to refining initial matches on closer objects. Since optical flow estimation is a non-convex problem, having a better initialization is important as it makes it less likely to get stuck in local minima. Besides yielding a better initialization, incorporating the homography into the minimization problem offers an additional advantage: since a homography can describe a nonlinear mapping in image space, it can account for some of the linear and nonlinear parts of the overall correspondence field between the original input images $I_i$ and $I_j$ , which otherwise may be hard to reconstruct with a first order smoothness term that pushes the correspondence field to be piecewise constant.
 
 Initially, we anticipated a temporal consistency term in the flow estimation would be required to tackle temporal flickering. However, in practice, we observed that the results obtained by our independently computed flows are temporally sufficiently consistent (see supplementary video). The same observation has also been made by [@perazzi2015panoramic] for monoscopic panoramic video stitching.
 
@@ -185,7 +185,7 @@ $$
 L(α,x,y)=(1−t(α))·I^{w_{ij}}_i(x)+t(α)·I^{w_{ji}}_j(x) 
 $$
 
-where $I^{w_{ij}}$ corresponds to $I_i$ forward-warped using $w_{ij}$ . A single panoramic image can then be obtained by fixing $x$, i.e., a particular image column, to obtain an $α$-$y$ slice of L (see Figure 2). Correspondingly, a stereoscopic output panorama can be created by picking two $α$-$y$ slices at different column positions $x$.
+where $I_i^{w_{ij}}$ corresponds to $I_i$ forward-warped using $w_{ij}$ . A single panoramic image can then be obtained by fixing $x$, i.e., a particular image column, to obtain an $α$-$y$ slice of $L$(see Figure 2). Correspondingly, a stereoscopic output panorama can be created by picking two $α$-$y$ slices at different column positions $x$.
 
 Usually, it is desirable to have square pixels in the output panorama. Therefore, we determine the sampling rate in α such that the pixel width in the output panorama matches the pixel height in the input image. The pixel height in the input image corresponds to $1/f_y$ when considering an image plane at distance 1. With $n$ samples, the pixel size in the output panorama is $2π/n$. Thus, we use $n = 2π f_y$ samples in $α$ when aiming for square pixels.
 
@@ -223,16 +223,16 @@ X,Y,Z: ℝ
 Two solutions exist:
 
 ``` iheartla
-tan from trigonometry
+arcsin, arctan from trigonometry
 `$α_1$` = ϕ - γ
 `$α_2$` = π - ϕ - γ  
  
 ```
 
-upto2π,where❤ϕ = sin(C/D) ❤ , ❤D = √(A^2 +B^2)❤, and ❤γ = tan(B/A)❤. To obtain $α$, we simply pick the solution for which $X$ lies in front of the camera. Given $α$, it is straightforward to obtain $y$ by the projection of Equation (13).
+up to 2π, where ❤ϕ = arcsin(C/D) ❤ , ❤D = √(A^2 +B^2)❤, and ❤γ = arctan(B/A)❤. To obtain $α$, we simply pick the solution for which $X$ lies in front of the camera. Given $α$, it is straightforward to obtain $y$ by the projection of Equation (13).
 
 ## Amount of Stereoscopic Parallax
-With the panoramic image formation model, we can now understand the relation between the scene depth and the parallax in the output panoramas. As explained in Section 4.2, the stereoscopic output panorama is created from two column slices. For example, the left panorama is created from the slice at column $x_l$ , and the right panorama at column $x_r$ . For simplicity, in this section, we assume that all cameras in the rig have a fixed focal length $f$. Furthermore, we consider symmetric cases around the center column $x_c$ oftheinputimages,i.e.,$|x_l −x_c|=|x_r −x_c|$.Thedistance $x_r −x_l$ controls the virtual camera baseline (VCB). This is analogous to the distance between a pair of cameras in a conventional stereo rig controlling the resulting stereoscopic output parallax. To conduct experiments in a way that is invariant to the input image size, we consider the VCB angle, which is given by $2 · ω (x_r)$ according to Equation (9).
+With the panoramic image formation model, we can now understand the relation between the scene depth and the parallax in the output panoramas. As explained in Section 4.2, the stereoscopic output panorama is created from two column slices. For example, the left panorama is created from the slice at column $x_l$ , and the right panorama at column $x_r$ . For simplicity, in this section, we assume that all cameras in the rig have a fixed focal length $f$. Furthermore, we consider symmetric cases around the center column $x_c$ oftheinputimages,i.e.,$|x_l −x_c|=|x_r −x_c|$.The distance $x_r −x_l$ controls the virtual camera baseline (VCB). This is analogous to the distance between a pair of cameras in a conventional stereo rig controlling the resulting stereoscopic output parallax. To conduct experiments in a way that is invariant to the input image size, we consider the VCB angle, which is given by $2 · ω (x_r)$ according to Equation (9).
 
 Figure 5 verifies that the parallax in the stereoscopic output panorama decreases with larger scene depth and smaller VCB angle. Furthermore, it also shows how to choose the acquisition and synthesis parameters to match the disparity capabilities of desired output devices, such as head-mounted displays or autostereoscopic screens with a limited disparity range.
 <figure>
@@ -270,7 +270,7 @@ The above experiments, in conjunction with Figure 6, indicate that it is benefic
 ## Virtual Head Motion
 A particularly intriguing feature of the omnistereoscopic panorama representation is the ability to simulate virtual head motion, i.e., shifting the viewer’s location sideways within the captured scene. In practice, sideways head motion can be achieved simply by synthesizing the stereoscopic output panorama using two columns from the lightfield $L$ that are not symmetrically placed around the center column, which in turn provides a view of the scene from varying perspectives. This principle has been demonstrated, for example, in [@peleg2001omnistereo]. However, in order to be applicable in real-time VR applications, e.g., using a head-tracked Oculus Rift, a user’s head motion has to be properly mapped.
 
-One issue is that picking a $α$-$y$ slice from the lightfield L for generating a panorama (Section 4.2) not only changes the perspective onto the scene, but also modifies the orientation of the panorama (see Figure 8). In order to synthesize proper output panoramas required for virtual head motion effects, the orientation between the panoramas must stay consistent. This means that points at infinity must be fixed in the generated panoramas, i.e., be at the same location. Let P and P′ be two panoramas generated from extracting α-y slices from L by fixing the columns x and x′, respectively. Noting α and α′, the orientation of a point at infinity in P and P′, we must then have α = α′. In practice, this can be achieved by shifting P′ by ω(x′) − ω(x) where ω(x) is defined in Equation (9) (see details in the Appendix). Figure 8 illustrates the effect of fixing points at infinity on a synthetic sequence.
+One issue is that picking a $α$-$y$ slice from the lightfield $L$ for generating a panorama (Section 4.2) not only changes the perspective onto the scene, but also modifies the orientation of the panorama (see Figure 8). In order to synthesize proper output panoramas required for virtual head motion effects, the orientation between the panoramas must stay consistent. This means that points at infinity must be fixed in the generated panoramas, i.e., be at the same location. Let P and P′ be two panoramas generated from extracting α-y slices from L by fixing the columns x and x′, respectively. Noting α and α′, the orientation of a point at infinity in P and P′, we must then have α = α′. In practice, this can be achieved by shifting P′ by $ω(x′) − ω(x)$ where $ω(x)$ is defined in Equation (9) (see details in the Appendix). Figure 8 illustrates the effect of fixing points at infinity on a synthetic sequence.
 
 After this registration, a virtual head motion effect that mimics a sideways head motion can be achieved by tracking the sideways headmotion of a user and selecting the panorama based on this data. In our prototype, we typically use a subset (just 10–20) of all panoramic images as this is sufficient for creating a convincing head motion effect. These views are precomputed and then loaded by the VR viewer in real time. This approach directly transfers to the stereoscopic case where one simply selects both the left and the right panoramas based on the head position. The described approach allows for a real-time head motion effect in stereo as it comes down to selecting two appropriate panoramas. Although the head motion parallax induced by the sideways head motion is usually best observed when the user is not rotating at the same time, this is not strictly required. Our system also supports the scenario where sideways head motion and rotation occur simultaneously. Results of head motion with fixed orientation in stereo are available in the supplementary video.
 
