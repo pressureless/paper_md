@@ -34,36 +34,36 @@ In this paper, we derive an objective that is closest in spirit to simple point-
 
 # METHOD
 ## Background and Motivation
-Consider the problem of aligning surfaces $P$ and $Q$. This involves finding<span class="def:second:R"> a rigid-body transformation $(R|t)$ such that applying the transformation to $P$ causes it to lie on top of $Q$</span>. The original ICP algorithm of [@besl1992method] may be thought of as an instance of Expectation Maximization: the problem is solved by alternately computing pairs of corresponding points $(p_i, q_i)$, where $q_i$ is the closest point to $p_i$ given the current transformation, and finding the transformation minimizing the point-to-point objective:
+Consider the problem of aligning surfaces $P$ and $Q$. This involves finding<span class="def:R t"> a rigid-body transformation $( R | t )$ such that applying the transformation to $P$ causes it to lie on top of $Q$</span>. The original ICP algorithm of [@besl1992method] may be thought of as an instance of Expectation Maximization: the problem is solved by alternately computing<span class="def:p q"> pairs of corresponding points $( p _i, q _i)$, where $q _i$ is the closest point to $p _i$ given the current transformation</span>, and finding the transformation minimizing the point-to-point objective:
 
 ``` iheartla
 `$\varepsilon_{point}$` = ∑_i ||R p_i + t - q_i||
 R ∈ ℝ^(3 × 3)
 ``` 
 
-Because this iteration converges slowly, authors including [@fitzgibbon2003robust], [Mitra et al. [@mitra2004registration], and [@pottmann2006geometry] have re-cast alignment as iterative minimization of the squared Euclidean distance function of $Q$, sampled at points $p_i$. The most accurate way to accomplish this is to pre-compute a data structure that stores at each point in space (an approximation to) the squared distance field, then use it at run-time in an optimization based on Levenberg-Marquardt [@fitzgibbon2003robust] or Newton’s method [@mitra2004registration]. This leads to fast convergence and a wide convergence basin, though at significant computational and storage cost. A simpler approach is to approximate the distance function based on the local surface at each corresponding point $q_i$. The "on-demand" method of [@mitra2004registration] approximates the surface as locally quadratic, which requires evaluation of second-order surface properties (i.e., curvatures). Even more straightforward is to approximate the surface around $q_i$ as planar, which only requires evaluation of surface normals ${n_q}_{,i}$ . Indeed, this approach dates back to the work of [@chen1992object], who minimized what has come to be called the point-to-plane objective:
+Because this iteration converges slowly, authors including [@fitzgibbon2003robust], [Mitra et al. [@mitra2004registration], and [@pottmann2006geometry] have re-cast alignment as iterative minimization of the squared Euclidean distance function of $Q$, sampled at points $p _i$. The most accurate way to accomplish this is to pre-compute a data structure that stores at each point in space (an approximation to) the squared distance field, then use it at run-time in an optimization based on Levenberg-Marquardt [@fitzgibbon2003robust] or Newton’s method [@mitra2004registration]. This leads to fast convergence and a wide convergence basin, though at significant computational and storage cost. A simpler approach is to approximate the distance function based on the local surface at each corresponding point $q _i$. The "on-demand" method of [@mitra2004registration] approximates the surface as locally quadratic, which requires evaluation of second-order surface properties (i.e., curvatures). Even more straightforward is to approximate the surface around $q _i$ as planar, which only requires evaluation of surface normals ${ n_q }_{,i}$ . Indeed, this approach dates back to the work of [@chen1992object], who minimized what has come to be called the point-to-plane objective:
 ``` iheartla
 `$\varepsilon_{plane}$` = ∑_i ((R p_i + t - q_i) ⋅ `$n_q$`_i)^2
 ```
 
 It can be shown that minimizing this objective is equivalent to Gauss-Newton minimization of squared Euclidean distance.
 
-The latter does indeed improve convergence rate relative to the point-to-point objective, and point-to-plane minimization has become the workhorse of most modern ICP-like implementations. However, point-to-plane ICP has been observed to have a narrower convergence basin than point-to-point [@mitra2004registration]. In addition, the residual at optimal alignment is zero only when the surface is locally flat, if the correspondences are not perfect (which is necessarily the case if point sets {$p_i$} and {$q_i$} differ in their sampling of the surface, as with 3D scans). This is important because the zero-set of the objective function defines what transformations are "free," in the sense that the surface is allowed to slide along itself to permit geometric features elsewhere to lock down the transformation. This is exploited by work such as the normalspace sampling of [@rusinkiewicz2001efficient], the covariance-eigenvector-directed sampling of [@gelfand2003geometrically], and the stable sampling of [@brown2007global], all of which bias the sampling to regions that are most necessary to constrain the aligning transformation.
+The latter does indeed improve convergence rate relative to the point-to-point objective, and point-to-plane minimization has become the workhorse of most modern ICP-like implementations. However, point-to-plane ICP has been observed to have a narrower convergence basin than point-to-point [@mitra2004registration]. In addition, the residual at optimal alignment is zero only when the surface is locally flat, if the correspondences are not perfect (which is necessarily the case if point sets {$p _i$} and {$q _i$} differ in their sampling of the surface, as with 3D scans). This is important because the zero-set of the objective function defines what transformations are "free," in the sense that the surface is allowed to slide along itself to permit geometric features elsewhere to lock down the transformation. This is exploited by work such as the normalspace sampling of [@rusinkiewicz2001efficient], the covariance-eigenvector-directed sampling of [@gelfand2003geometrically], and the stable sampling of [@brown2007global], all of which bias the sampling to regions that are most necessary to constrain the aligning transformation.
 
 We therefore seek to develop a new objective function whose zero-set allows a greater class of surfaces to "slide along" themselves at zero penalty. Thinking within the framework of Expectation Maximization, this makes the method as robust as possible to mis-estimation of point correspondences in the Expectation step.
 
 ## A Symmetric Objective Function
 Because the surfaces $P$ and $Q$ should be, up to noise, the same, we consider what residual the objective function will attain if we were to sample a pair of nearby points $(p, q)$ on that surface. In the point-to-plane case, the error is
-$$(p-q)\cdot n_q$$
-If we consider the possibility of sampling $(p, q)$ anywhere within some small region of a surface, this will be zero only if the surface is perfectly flat. However, consider the more symmetric function
+$$( p - q )\cdot n_q $$
+If we consider the possibility of sampling $( p , q )$ anywhere within some small region of a surface, this will be zero only if the surface is perfectly flat. However, consider the more symmetric function
 
-$$(p-q)\cdot (n_p + n_q)$$
+$$( p - q )\cdot ( n_p + n_q )$$
 
 <figure>
 <img src="./img/icp-1.png" alt="Trulli" style="width:50%" class = "center">
-<figcaption align = "center">Fig. 1. For any points $p$ and $q$ sampled from a circular arc, the vector between them $p − q$ is perpendicular to the sum of normals $n_p + n_q$ . This is the fundamental property exploited by the symmetric ICP formulation.</figcaption>
+<figcaption align = "center">Fig. 1. For any points $p$ and $q$ sampled from a circular arc, the vector between them $ p − q $ is perpendicular to the sum of normals $ n_p + n_q $ . This is the fundamental property exploited by the symmetric ICP formulation.</figcaption>
 </figure>
-Examining the behavior of this function in 2D (see Figure 1), we see that it is zero whenever $p$ and $q$ are sampled from a circle, since $n_p$ and $n_q$ have opposite projections onto $p − q$. As rigid-body transformations are applied to $P$, this expression will continue to evaluate to zero as long as $p$ and $q$ end up in a relative position consistent with their placement on some circle (Figure 2, top). A similar property is true in 3D: Equation $\ref{4}$ evaluates to zero as long as $p$ and $q$ and their normals are consistent with some cylinder. Because it is difficult to describe, and especially to visualize, the set of $(p, n_p)$ that lie on arbitrary cylinders containing a fixed $(n_q, n_q)$ - it is a 4D space - Section 4.1 investigates a different property: Equation $\ref{4}$ also holds whenever $p$ and $q$ are consistent with a locally-second-order surface centered between them. While this constraint still provides a great deal of freedom for $(p, n_p)$ to move relative to $(q, n_q)$, it is a "more useful" form of freedom than provided by the point-to-plane metric. In particular, it constrains $(p, n_p)$ to be consistent with a plausible extension of $(n_q, n_q)$, unlike point-to-plane (Figure 2, bottom). Note that achieving this property does not require the evaluation of any higher-order information (i.e., curvature), which is a major benefit for computational efficiency and noise resistance.
+Examining the behavior of this function in 2D (see Figure 1), we see that it is zero whenever $p$ and $q$ are sampled from a circle, since $n_p$ and $n_q$ have opposite projections onto $p − q$. As rigid-body transformations are applied to $P$, this expression will continue to evaluate to zero as long as $p$ and $q$ end up in a relative position consistent with their placement on some circle (Figure 2, top). A similar property is true in 3D: Equation $\ref{4}$ evaluates to zero as long as $p$ and $q$ and their normals are consistent with some cylinder. Because it is difficult to describe, and especially to visualize, the set of $( p , n_p )$ that lie on arbitrary cylinders containing a fixed $( n_q , n_q )$ - it is a 4D space - Section 4.1 investigates a different property: Equation $\ref{4}$ also holds whenever $p$ and $q$ are consistent with a locally-second-order surface centered between them. While this constraint still provides a great deal of freedom for $( p , n_p )$ to move relative to $( q , n_q )$, it is a "more useful" form of freedom than provided by the point-to-plane metric. In particular, it constrains $( p , n_p )$ to be consistent with a plausible extension of $( n_q , n_q )$, unlike point-to-plane (Figure 2, bottom). Note that achieving this property does not require the evaluation of any higher-order information (i.e., curvature), which is a major benefit for computational efficiency and noise resistance.
 
 To formulate an objective function, we consider minimizing Equation $\ref{4}$ with respect to transformations applied to the surfaces $P$ and/or $Q$. Although most previous work applies a rigid-body transformation to only one of the surfaces (e.g., the transformation in $\varepsilon_{plane}$ is applied only to $P$), we consider a symmetric split of the transformation: we imagine evaluating the metric in a fixed, "neutral" coordinate system and applying opposite transformations to $P$ and $Q$. Thus, we can formulate a symmetric objective as:
 ``` iheartla
@@ -74,15 +74,15 @@ where the final transformation from $P$ to $Q$ is now $R  T  R$ (with $T$ being 
 This splitting of rotations has a number of advantages when we consider linearizing the objective (Section 3.3):
 
 - It reduces linearization error by optimizing for half of the rotation angle.
-- It further reduces error, because the error in linearizing $Rp − q$ is proportional to $p · a$, where a is the rotation axis, while the error in linearizing $Rp − R^{-1}q$ is proportional to $(p − q) · a$. Except for extreme misalignment, $p − q$ is usually smaller than $p$ (i.e., the distance from $p$ to the origin).
+- It further reduces error, because the error in linearizing $R p − q$ is proportional to $p · a$, where a is the rotation axis, while the error in linearizing $R p − R ^{-1} q$ is proportional to $( p − q ) · a$. Except for extreme misalignment, $p − q$ is usually smaller than $p$ (i.e., the distance from $p$ to the origin).
 - It enables reduction of linearization error to zero when correspondences are exact (Section 4.2).
 
 We have also explored a simpler version of this objective in which the normals are not rotated. That is, the direction of minimization per point pair remains fixed, while the points themselves are rotated in opposite directions:
-$$\varepsilon_{symm}  = \sum_i {\left[ \left( R p_i + R^{-1} q_i + t \right) \cdot \left({n_p}_i + {n_q}_i \right) \right]}^{2} 
+$$\varepsilon_{symm}  = \sum_i {\left[ \left( R p _i + R ^{-1} q _i + t \right) \cdot \left({ n_p }_i + { n_q }_i \right) \right]}^{2} 
 $$
 <figure>
 <img src="./img/icp-2.png" alt="Trulli" style="width:90%" class = "center">
-<figcaption align = "center">Fig.2. Top:As $p$ moves relative to $q$,the property$(p−q)·(n_p +n_q)=0$ holds as long as there is some circular arc with which $p$, $q$, $n_p$, and $n_q$ are consistent. Bottom: This is in contrast to the point-to-plane metric, which is zero when $p$ is in the plane defined by $q$ and $n_q$, regardless of $p$.</figcaption>
+<figcaption align = "center">Fig.2. Top:As $p$ moves relative to $q$,the property$( p − q )·( n_p + n_q )=0$ holds as long as there is some circular arc with which $p$, $q$, $n_p$, and $n_q$ are consistent. Bottom: This is in contrast to the point-to-plane metric, which is zero when $p$ is in the plane defined by $q$ and $n_q$, regardless of $p$.</figcaption>
 </figure>
 Why might this be a reasonable simplification to make? Consider the sum of two unit-length vectors in 2D. Applying opposite rotations to the vectors preserves the direction of their sum, so that the contribution of each point pair to the two variants of the objective would be the same up to a scale. In 3D, this is not true for all rotation axes, but approaches true as np approaches nq . The experiments in Section 4.3 show that the two objectives lead to similar convergence, but $\varepsilon_{symm}$ leads to simpler derivations and implementation. Therefore, the remainder of this paper adopts $\varepsilon_{symm}$ as the symmetric objective.
 
@@ -91,15 +91,15 @@ The traditional method for converting an objective function involving rotations 
 
 We instead pursue a linearization that starts with the Rodrigues rotation formula for the effect of a rotation $R$ on a vector $v$:
 
-$$R v = v \cos θ + (a \times v)\sin θ + a(a\cdot v)(1-\cos θ)$$
+$$R v = v \cos θ + ( a \times v )\sin θ + a ( a \cdot v )(1-\cos θ )$$
 
-where $a$ and $θ$ are the axis and angle of rotation. We observe that the last term in (7) is quadratic in the incremental rotation angle $θ$, so we drop it to linearize:
+where<span class='def:a θ'>$a$ and $θ$ are the axis and angle of rotation</span>. We observe that the last term in (7) is quadratic in the incremental rotation angle $θ$, so we drop it to linearize:
 
-$$\begin{align*}R v & \approx v \cos θ + (a \times  v)\sin θ \\
-     & = \cos θ (v + (ã\times v))\end{align*}$$
+$$\begin{align*} R v & \approx v \cos θ + ( a \times  v)\sin θ \\
+     & = \cos θ (v + ( ã \times v))\end{align*}$$
 
 where ❤ã = a tan(θ)❤ . Substituting into (6),
-$$\varepsilon_{symm} \approx \sum_i \left( \cos θ(p_i - q_i)\cdot n_i + \cos θ(ã \times (p_i+q_i))\cdot n_i + t \cdot n_i \right)\notag$$
+$$\varepsilon_{symm} \approx \sum_i \left( \cos θ ( p _i - q _i)\cdot n _i + \cos θ ( ã \times ( p _i+ q _i))\cdot n _i + t \cdot n _i \right)\notag$$
 ``` iheartla
 tan, cos from trigonometry
 
@@ -114,18 +114,18 @@ q_i ∈ ℝ³
 `$n_p$`_i ∈ ℝ³
 t ∈ ℝ³
 ```
-where ❤icp:n_i = `$n_q$`_i + `$n_p$`_i❤ and ❤icp:t̃ = t/cos(θ)❤. We now make the additional approximation of weighting the objective by $1/\cos^2 θ$ , which approaches 1 for small $θ$ . Finally, for better numerical stability, we normalize the $(p_i, q_i)$ by translating each point set to the origin and adjusting the solved-for translation appropriately. This yields:
+where ❤icp:n_i = `$n_q$`_i + `$n_p$`_i❤ and ❤icp:t̃ = t/cos(θ)❤. We now make the additional approximation of weighting the objective by $1/\cos^2 θ$ , which approaches 1 for small $θ$ . Finally, for better numerical stability, we normalize the $( p _i, q _i)$ by translating each point set to the origin and adjusting the solved-for translation appropriately. This yields:
 
-$$\sum_i \left[ (p̃_i - q̃_i)\cdot n_i + ((p̃_i + q̃_i)\times n_i) \cdot ã + n_i \cdot t̃ \right]^2$$
+$$\sum_i \left[ (p̃_i - q̃_i)\cdot n _i + ((p̃_i + q̃_i)\times n _i) \cdot ã + n _i \cdot t̃ \right]^2$$
 
-where $p̃_i = p_i − p$ and $q̃_i = q_i − q$. This is a least-squares problem in $ã$ and $t̃$, and the final transformation from $P$ to $Q$ is:
+where $p̃_i = p _i −p$ and $q̃_i = q _i −q$. This is a least-squares problem in $ã$ and $t̃$, and the final transformation from $P$ to $Q$ is:
 
-$$trans(q)\circ rot(θ, \frac{a}{||a||}) \circ trans(t \cos θ) \circ rot(θ, \frac{a}{||a||}) \circ trans(-p)
+$$trans( q )\circ rot( θ , \frac{ a }{|| a ||}) \circ trans( t \cos θ ) \circ rot( θ , \frac{ a }{|| a ||}) \circ trans(- p )
 $$
 
-where $ θ = tan^{−1} ||ã||$
+where $ θ = tan^{−1} ||  ã  ||$
 
-Note that the new linearization results in the same system of equations as would the traditional approach. What changes is how the solved-for variables $ã$ and $t̃$ are interpreted. This produces a modest increase in accuracy but, more importantly, is necessary to obtain the property that the linearization is exact for exact correspondences (see Section 4.2). We may interpret (10) as a Gauss-Newton step applied to (6), using the Gibbs representation of rotations.
+Note that the new linearization results in the same system of equations as would the traditional approach. What changes is how the solved-for variables $ã$ and $t̃$ are interpreted. This produces a modest increase in accuracy but, more importantly, is necessary to obtain the property that the linearization is exact for exact correspondences (see Section 4.2). We may interpret (10) as a Gauss-Newton step applied to (6), using the Gibbs representation of rotations.
 
 
 # THEORETICAL AND EXPERIMENTAL RESULTS
@@ -163,7 +163,7 @@ Note also that, as $p$ and $q$ move away from being consistent with a second-ord
 <figcaption align = "center">Fig. 3. A second-order patch of surface around m, the geodesic midpoint between $p$ and $q$. Because the variation of height and normal relative to m are even and odd, respectively, $p − q$ and $n_p + n_q$ are parallel and perpendicular to the tangent plane at $m$, and so Equation $\ref{4}$ holds.</figcaption>
 </figure>
 ## The Linearization is Exact for Exact Correspondences
-Unlike the traditional linearization of rotations, we observe that the linear least-squares problem in (10) produces an exact result when correspondences $(p_i, q_i)$ are correct. This is because the approximation of $1/(\cos θ)^2$ as 1 involves a multiplicative factor that may be interpreted as a weight, and so the only additive term that is actually dropped contains a factor of $( p̃_i − q̃_i ) · a$. However, if correspondences are correct and  the points are center-of-mass normalized, then $p̃_i − q̃_i$ is guaranteed to be perpendicular to the rotation axis, and hence zero error is introduced by the linearization. We have verified experimentally that this is the case, up to roundoff error.
+Unlike the traditional linearization of rotations, we observe that the linear least-squares problem in (10) produces an exact result when correspondences $( p _i, q _i)$ are correct. This is because the approximation of $1/(\cos θ )^2$ as 1 involves a multiplicative factor that may be interpreted as a weight, and so the only additive term that is actually dropped contains a factor of $( p̃ _i − q̃ _i ) · a$. However, if correspondences are correct and  the points are center-of-mass normalized, then $p̃ _i − q̃ _i$ is guaranteed to be perpendicular to the rotation axis, and hence zero error is introduced by the linearization. We have verified experimentally that this is the case, up to roundoff error.
 
 This an unexpected result, because previous techniques that solve for exact rotations have tended to involve nonlinear optimization, and hence require multiple iterations. There do exist several closed-form solutions for the minimization of $\varepsilon_{point}$, but all are based on SVD or eigenvector problems [@eggert1997estimating]. To the best of our knowledge, there are no published techniques that exactly optimize $\varepsilon_{plane}$ or any related metric with a single linear solve, even for exact correspondences.
 
