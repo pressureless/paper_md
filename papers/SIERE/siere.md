@@ -1,12 +1,12 @@
 ---
 full_paper: False
 ---
-# Model reduction and subspace splitting
 ❤: siere
+# Model reduction and subspace splitting
+
 Next, we define the splitting $G$ and $H$, crucial to the success of our method. The idea is to apply ERE in the subspace of the first s modes ($s ≪ n$: typically, $5 ≤ s ≤ 20$) and project it back to the original full space. In the bridge example of Figure 1, $n ≈ 100, 000$, so this is a rather large reduction.
 
-Then we use SI on the remaining unevaluated part, as per Eq. (5). We use mass-PCA to find our reduced space. That is, considering at the beginning of each time step a solution mode of the form $q(t) = 
-w exp(ı\sqrt{λ}t)$ for the ODE $M q  + K q = 0$, we solve the generalized eigenvalue problem
+Then we use SI on the remaining unevaluated part, as per Eq. (5). We use mass-PCA to find our reduced space. That is, considering at the beginning of each time step a solution mode of the form $q(t) = w exp(ı\sqrt{λ}t)$ for the ODE $M q  + K q = 0$, we solve the generalized eigenvalue problem
 
 $$ K w = λ M w $$
 
@@ -51,7 +51,7 @@ We also need the Jacobian matrices
 
 ```
 
-Notice that the ERE expression, $h φ_1(h J_G) G(u)$, can be evaluated in the subspace first, and then projected back to the original space.
+Notice that the ERE expression, $h φ_1 ( h J_G ) G(u) $, can be evaluated in the subspace first, and then projected back to the original space.
 
 The additive method defined by inserting Eqs. (8) and (9) into Eq.(5) has three advantages:
 

@@ -66,7 +66,7 @@ Many approaches in graphics, such as frame interpolation, temporal upsampling [@
 To develop an eccentricity-dependent model of flicker fusion, we need a display that is capable of showing stimuli at a high framerate and over a wide FOV. In this section, we first describe a custom high-speed VR display that we built to support these requirements. We then proceed with a detailed discussion of the user study we conducted and the resulting values for eccentricity and spatial frequency–dependent CFF we estimated.
 
 ## Display Prototype
-Our prototype display is designed in a near-eye display form factor to support a wide FOV. As shown in Figure 2(a), we removed the back panel of a View-Master Deluxe VR Viewer and mounted a semi-transparent optical diffuser (Edmund Optics #47-679) instead of a display panel, which serves as a projection screen. This View-Master was fixed to an SR Research headrest to allow users to comfortably view stimuli for extended periods of time. To support a sufficiently high framerate, we opted for a Digital Light Projector (DLP) unit (Texas Instruments DLP3010EVM-LC Evaluation Board) that rear-projects images onto the diffuser towards the viewer. A neutral density (ND16) filter was placed in this light path to reduce the brightness to an eye safe level, measured to be 380 cd/m2 at peak.
+Our prototype display is designed in a near-eye display form factor to support a wide FOV. As shown in Figure 2(a), we removed the back panel of a View-Master Deluxe VR Viewer and mounted a semi-transparent optical diffuser (Edmund Optics #47-679) instead of a display panel, which serves as a projection screen. This View-Master was fixed to an SR Research headrest to allow users to comfortably view stimuli for extended periods of time. To support a sufficiently high framerate, we opted for a Digital Light Projector (DLP) unit (Texas Instruments DLP3010EVM-LC Evaluation Board) that rear-projects images onto the diffuser towards the viewer. A neutral density (ND16) filter was placed in this light path to reduce the brightness to an eye safe level, measured to be 380 cd/$m^2$ at peak.
 
 The DLP has a resolution of 1280 × 720, and a maximum frame rate of 1.5 kHz for 1-bit video, 360 Hz for 8-bit monochromatic video, or 120 Hz for 24-bit RGB video. We positioned the projector such that the image matched the size of the conventional View-Master display. Considering the magnification of the lenses, this display provides a pixel pitch of 0.1’ (arc minutes) and a monocular FOV of 80◦ horizontally and 87◦ vertically.
 
@@ -175,7 +175,7 @@ Figure 3 shows that the fitted Ψ represents the expected effects well. The ecce
 
 Due to technical constraints, the highest $𝑓_𝑠$ measured was 2 cpd. At the same time, the acuity of human vision has an upper limit of 60 cpd based on peak cone density [@deering1998limits] and 40–50 cpd based on empirical data [@guenter2012foveated; @robson1981probability; @thibos1987vision]. To minimize this gap and to generalize our model to other display designs we extrapolate the CFF at higher spatial frequencies using existing models of spatial acuity.
 
-For this purpose, we utilize the acuity model of Geisler and Perry [1998]. <span class='def:𝐴'>It predicts acuity limit $𝐴$ </span>for $𝑒$ as
+For this purpose, we utilize the acuity model of [@geisler1998real]. <span class='def:𝐴'>It predicts acuity limit $𝐴$ </span>for $𝑒$ as
 
 
 ``` iheartla
@@ -184,7 +184,7 @@ For this purpose, we utilize the acuity model of Geisler and Perry [1998]. <span
 
 ```
 
-with parameters fitted to measurements of Robson and Graham [1981]. Their study of pattern detection rather than resolution is well aligned with our own study design and conservative visual performance assessment. Similarly, their bright adaptation luminance of 500 cd/$m^2$ is also close to our display.
+with parameters fitted to measurements of [@robson1981probability]. Their study of pattern detection rather than resolution is well aligned with our own study design and conservative visual performance assessment. Similarly, their bright adaptation luminance of 500 cd/$m^2$ is also close to our display.
 
 $𝐴 ( 𝑒 )$ predicts limit of spatial perception. We reason that at this absolute limit flicker is not detectable and, therefore, the CFF is not defined. We represent this situation by zero CFF values in the same way as for imperceptible stimuli in our study and force our model to satisfy $Ψ ( 𝑒 , 𝐴 ( 𝑒 )) = 0$.
 
@@ -210,10 +210,11 @@ a : ℝ
 where $𝑎 = 80 × 87 = 6960$ $deg^2$ is the adapting area of our display. This allows us to derive corresponding retinal illuminance levels for our experiments using ❤ 𝑙(𝐿) = π𝑑(𝐿)^2/4 ⋅ 𝐿 where 𝐿 : ℝ❤ as 67.3, 321 and 1488 Td and obtain a linear transformation of our original model $Ψ ( 𝑒 , 𝑓_𝑠 )$ to account for $𝐿$ with an eccentricity-dependent slope as
 
 ``` iheartla
- `$Ψˆ$`(𝑒, `$𝑓_𝑠$`, 𝐿) = (𝑠(𝑒, `$𝑓_𝑠$`) ⋅ (log_10(𝑙(𝐿)/`$𝑙_0$`)) + 1) Ψ(𝑒, `$𝑓_𝑠$`) where `$𝑓_𝑠$` : ℝ, 𝑒: ℝ, 𝐿 : ℝ
+ `$\hat{Ψ}$`(𝑒, `$𝑓_𝑠$`, 𝐿) = (𝑠(𝑒, `$𝑓_𝑠$`) ⋅ (log_10(𝑙(𝐿)/`$𝑙_0$`)) + 1) Ψ(𝑒, `$𝑓_𝑠$`) where `$𝑓_𝑠$` : ℝ, 𝑒: ℝ, 𝐿 : ℝ
+
+```
+``` iheartla
 𝑠(𝑒,`$𝑓_𝑠$`) = 𝜁(`$𝑓_𝑠$`)(q_0 𝑒^2 + q_1 𝑒) + q_2  where `$𝑓_𝑠$` : ℝ, 𝑒: ℝ
-
-
 ```
 
 where ❤`$𝑙_0$` = 1488❤ Td is our reference retinal illuminance, $ 𝜁 ( 𝑓_𝑠 )$ encodes localization uncertainty for low $𝑓_𝑠$ as in Equation 3 and ❤q = (5.71 ⋅ 10^(-6), -1.78 ⋅ 10^(-4), 0.204)❤ are parameters obtained by a fit with our full model.
