@@ -7,6 +7,7 @@ author:
 abstract: |
  In this article, we describe a complete pipeline for the capture and display of real-world Virtual Reality video content, based on the concept of omnistereoscopic panoramas. We address important practical and theoretical issues that have remained undiscussed in previous works. On the capture side, we show how high-quality omnistereo video can be generated from a sparse set of cameras (16 in our prototype array) instead of the hundreds of input views previously required. Despite the sparse number of input views, our approach allows for high quality, real-time virtual head motion, thereby providing an important additional cue for immersive depth perception compared to static stereoscopic video. We also provide an in-depth analysis of the required camera array geometry in order to meet specific stereoscopic output constraints, which is fundamental for achieving a plausible and fully controlled VR viewing experience. Finally, we describe additional insights on how to integrate omnistereo video panoramas with rendered CG content. We provide qualitative comparisons to alternative solutions, including depth-based view synthesis and the Facebook Surround 360 system. In summary, this article provides a first complete guide and analysis for reimplementing a system for capturing and displaying realworld VR, which we demonstrate on several real-world examples captured with our prototype.
 ---
+❤: pipeline
 
 # INTRODUCTION
 Technologies for Virtual and Augmented Reality are currently experiencing a new boom. Companies such as Facebook (Surround 360), Google (Jump), Jaunt VR, GoPro (Omni), Samsung (Gear VR), Microsoft (Hololens), Magic Leap, Oculus, and many others are marketing omnidirectional camera systems and head-mounted displays. While the basic concepts underlying Virtual Reality (VR) systems have been around already for a few decades, the performance of hardware and software for capture, rendering, and display is now getting to a point where more immersive experiences are possible.
@@ -46,7 +47,8 @@ In the second main section, we then provide a detailed analysis of various aspec
 # PANORAMA CREATION FROM SPARSE INPUT
 ## Camera Setup and Parameterization
 We consider a sparse camera array composed of $n$ cameras covering a complete 360-degree field of view; see Figure 1. In a preprocess, we estimate the camera calibration parameters (extrinsic and intrinsic) with standard calibration techniques [@zhang2000flexible] and bundle adjustment, and then radially undistort the images.
-❤: first
+
+
 In an ideal setup, the cameras lie on <span class="def:r">a circle of radius $r$</span>, and the camera intrinsic calibration matrix can be written
 
 ``` iheartla
@@ -64,7 +66,7 @@ where
 `$c_y$`: ℝ: principal point
 ```
 
-where <span class="def:f_x">$\prosedeflabel{f_x}$ and $\prosedeflabel{f_y}$ denote the focal length in pixels in the horizontal and vertical directions</span>, and <span class="def:c_x">$(\prosedeflabel{c_x},\prosedeflabel{c_y})$ the principal point </span>[@Hartley2003]. Noting $\prosedeflabel{α}$ the angle of the camera along the circle, the pose of each camera is defined as
+where <span class="def:f_x f_y">$f_x$ and $f_y$ denote the focal length in pixels in the horizontal and vertical directions</span>, and <span class="def:c_x c_y">$( c_x , c_y )$ the principal point </span>[@Hartley2003]. Noting <span class="def:α">$α$ the angle of the camera along the circle, the pose of each camera is defined as
 
 ``` iheartla
 
@@ -73,7 +75,7 @@ sin, cos, atan from trigonometry
 R(α) = [-sin(α) 0 -cos(α)
       0   1  0
       cos(α)     0    -sin(α)] where α: ℝ
-ŧ = [0;0;-r]
+`$\textbf{t}$` = [0;0;-r]
 where
 
 r: ℝ
@@ -83,35 +85,35 @@ The corresponding camera projection matrix that maps 3D world coordinates to pix
 
 ``` iheartla
 
-P(α) = K [R(α) ŧ] where α: ℝ
+P(α) = K [R(α) `$\textbf{t}$`] where α: ℝ
 
 ```
 
-We then define the dense lightfield for a single point in time as $L(α,x,y)$, which we have to reconstruct from the sparse camera input (see Figure 2 for an example of a synthetic scene). The value at a location $(α, x, y)$ corresponds to the measured irradiance along the ray
+We then define the dense lightfield for a single point in time as $L ( α, x, y)$, which we have to reconstruct from the sparse camera input (see Figure 2 for an example of a synthetic scene). The value at a location $( α, x, y)$ corresponds to the measured irradiance along the ray
 
-$$R^T(α)(\lambda \cdot K^{-1}(x,y,1)^T - t)$$
+$$ R ^T( α )(\lambda \cdot K ^{-1}( x, y,1)^T - \textbf{t} )$$
 <figure>
 <img src="./img/img2.png" alt="Trulli" style="width:100%" class = "center">
 <figcaption align = "center">Fig. 2. Dense lightfield representation of a synthetic scene. The x, y and α axes are shown in red, green, and blue, respectively.
 </figcaption>
 </figure>
-where $λ > 0$ represents the position along the ray.
+where $ λ > 0$ represents the position along the ray.
 
 ## Lightfield Reconstruction
-Our aim is to reconstruct $L(α, x, y)$ from a sparse set of input views $\hat{I}_i$ with $i =1,...,n$.The first step is to map the captured input images into the coordinate frame of $L$ by associating each input image $\hat{I}_i$ with a camera angle $α_i$ using the estimated camera calibration. In order to approximate the ideal camera setup described in the previous section, where all cameras reside on a circle, we align each
+Our aim is to reconstruct $ L ( α , x , y )$ from a sparse set of input views $\hat{I}_i$ with $i =1,...,n$.The first step is to map the captured input images into the coordinate frame of $L$ by associating each input image $\hat{I}_i$ with a camera angle $α_i$ using the estimated camera calibration. In order to approximate the ideal camera setup described in the previous section, where all cameras reside on a circle, we align each
 input image $\hat{I}_i$ with the expected input at angle $α_i$ by applying the corresponding homography. Referring to the thus transformed images as $I_i$, we now have
 
-$$L(α_i, x, y) \approx I_i(x, y)$$
+$$L ( α _i, x , y ) \approx I _i ( x , y )$$
 
 Then, the problem of reconstructing $L$ comes down to performing an accurate view interpolation in $α$. For an accurate image space approach, it is important to understand how a given 3D point $X$ moves in $(x,y)$ when varying the camera angle $α$.
 
 Trajectories of Scene Points in Image Space. Rather than considering the projection of a fixed 3D point when rotating the camera about the origin $o$ by some angle $α$, changing the point of view can provide a more intuitive understanding: by keeping the camera fixed and rotating the 3D point with the inverse rotation instead, the same trajectory can be obtained. The path can thus be interpreted as observing a 3D point that travels along a cylindrical surface.
 
-Assuming that the depth at a given location $x = (x,y)^⊤$ is known, the nonlinear path in image space can be reconstructed by backprojecting according to Equation (4), rotating the resulting 3D point $X$, and finally projecting it with Equation (3). When representing the 3D point $X$ in cylindrical coordinates, its change in position is linear in the angle $α$. Let the map $φ_d : R^2 → R^2$ denote the backprojection onto a cylinder with radius $d$ followed by a conversion to cylindrical coordinates. Then, knowing two corresponding image points $x_i$ and $x_j$ measured at angles $α_i$ and $α_j$ and their radial depth $d$ w.r.t . to the origin $o$ allows to define the nonlinear path in image space
+Assuming that the depth at a given location $\textbf{x}= (x,y)^⊤$ is known, the nonlinear path in image space can be reconstructed by backprojecting according to Equation (4), rotating the resulting 3D point $X$, and finally projecting it with Equation (3). When representing the 3D point $X$ in cylindrical coordinates, its change in position is linear in the angle $α$. Let the map $φ_d : R^2 → R^2$ denote the backprojection onto a cylinder with radius $d$ followed by a conversion to cylindrical coordinates. Then, knowing two corresponding image points $x_i$ and $x_j$ measured at angles $α_i$ and $α_j$ and their radial depth $d$ w.r.t . to the origin $o$ allows to define the nonlinear path in image space
 
 ``` iheartla
 
-x(α) = `$φ^{-1}_d$`((1-t(α)) ⋅ `$φ_d$`(`$x_i$`) + t(α)⋅ `$φ_d$`(`$x_j$`))  where α: ℝ 
+`$\textbf{x}$`(α) = `$φ^{-1}_d$`((1-t(α)) ⋅ `$φ_d$`(`$x_i$`) + t(α)⋅ `$φ_d$`(`$x_j$`))  where α: ℝ 
 
 where
 
@@ -152,7 +154,7 @@ with
 
 This is straightforward considering that $d → ∞$ is equivalent to letting the camera circle radius $r → 0$.
 
-Figure 4 depicts $α$-$x$-slices of $L(α, x, y)$ before and after transformation with $φ$. Curved lines become straightened after the transformation, which indicates that linear interpolation indeed is an appropriate approximation to the point trajectory. Due to this insight, we are now able to compute intermediate views based on image space correspondences as follows.
+Figure 4 depicts $α-x$-slices of $L(α, x, y)$ before and after transformation with $φ$. Curved lines become straightened after the transformation, which indicates that linear interpolation indeed is an appropriate approximation to the point trajectory. Due to this insight, we are now able to compute intermediate views based on image space correspondences as follows.
 <figure>
 <img src="./img/img4.png" alt="Trulli" style="width:100%" class = "center">
 <figcaption align = "center">Fig. 4. Top: $α$-$x$ slice of $L(α, x, y)$ from Figure 2. Bottom: $α$-$x$ slice after transforming with the mapping function $φ$. The fact that, after transformation, the curved lines are straightened illustrates that a linear interpolation in the transformed space can result in accurate point trajectories.
@@ -197,11 +199,11 @@ In order to create perceptually plausible stereoscopic video, e.g., for VR appli
 We, therefore, first have to understand the image formation model, i.e., how 3D points are projected into a panorama. Knowing this, we can measure the role of different parameters of the capture system such as the number of cameras $n$, the circle radius $r$, and the focal lengths $f_x$ and $f_y$ , on a given panorama.
 
 ## Panoramic Image Formation
-When fixing $α$, the projection of Equation (3) allows to project a world point $X = (X,Y,Z)^⊤$ by
+When fixing $α$, the projection of Equation (3) allows to project a world point ❤`$\textbf{X}$` = (X,Y,Z)^T❤ by
 
 $$\begin{pmatrix}
   x\\y
-  \end{pmatrix} ≅ K(R(α)X + t)
+  \end{pmatrix} ≅ K(R(α) \textbf{X} + \textbf{t} )
   $$
 
 where $(x, y)$ is the projection in inhomogenous coordinates (by the operator ≅). Since a panorama is just a $(α,y)$ slice of $L$ obtained by fixing $x$, the panoramic camera model can be obtained by fixing $x$ instead of $α$ and solving for $(α,y)$. This leads to an equation of the form (see details in the Appendix)
@@ -211,13 +213,13 @@ $$A sin(α ) + B cos(α ) = C$$
 with coefficients
 ``` iheartla
  
-A = X ⋅ `$f_x$` - Z⋅(χ - `$c_x$` )
-B = Z⋅`$f_x$` + X⋅(χ -`$c_x$` ) 
-C = -r⋅(χ -`$c_x$` )
+A = X ⋅ `$f_x$` - Z⋅(x - `$c_x$` )
+B = Z⋅`$f_x$` + X⋅(x -`$c_x$` ) 
+C = -r⋅(x -`$c_x$` )
 
 where 
 X,Y,Z: ℝ 
-χ: ℝ 
+x: ℝ 
 ```
 
 Two solutions exist:
@@ -229,7 +231,7 @@ arcsin, arctan from trigonometry
  
 ```
 
-up to 2π, where ❤ϕ = arcsin(C/D) ❤ , ❤D = √(A^2 +B^2)❤, and ❤γ = arctan(B/A)❤. To obtain $α$, we simply pick the solution for which $X$ lies in front of the camera. Given $α$, it is straightforward to obtain $y$ by the projection of Equation (13).
+up to 2π, where ❤ϕ = arcsin(C/D) ❤ , ❤D = √(A^2 +B^2)❤, and ❤γ = arctan(B/A)❤. To obtain $α$, we simply pick the solution for which $\textbf{X}$ lies in front of the camera. Given $α$, it is straightforward to obtain $y$ by the projection of Equation (13).
 
 ## Amount of Stereoscopic Parallax
 With the panoramic image formation model, we can now understand the relation between the scene depth and the parallax in the output panoramas. As explained in Section 4.2, the stereoscopic output panorama is created from two column slices. For example, the left panorama is created from the slice at column $x_l$ , and the right panorama at column $x_r$ . For simplicity, in this section, we assume that all cameras in the rig have a fixed focal length $f$. Furthermore, we consider symmetric cases around the center column $x_c$ oftheinputimages,i.e.,$|x_l −x_c|=|x_r −x_c|$.The distance $x_r −x_l$ controls the virtual camera baseline (VCB). This is analogous to the distance between a pair of cameras in a conventional stereo rig controlling the resulting stereoscopic output parallax. To conduct experiments in a way that is invariant to the input image size, we consider the VCB angle, which is given by $2 · ω (x_r)$ according to Equation (9).

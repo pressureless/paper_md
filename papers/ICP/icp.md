@@ -114,7 +114,7 @@ q_i ∈ ℝ³
 `$n_p$`_i ∈ ℝ³
 t ∈ ℝ³
 ```
-where ❤icp:n_i = `$n_q$`_i + `$n_p$`_i❤ and ❤icp:t̃ = t/cos(θ)❤. We now make the additional approximation of weighting the objective by $1/\cos^2 θ$ , which approaches 1 for small $θ$ . Finally, for better numerical stability, we normalize the $( p _i, q _i)$ by translating each point set to the origin and adjusting the solved-for translation appropriately. This yields:
+where ❤n_i = `$n_q$`_i + `$n_p$`_i❤ and ❤t̃ = t/cos(θ)❤. We now make the additional approximation of weighting the objective by $1/\cos^2 θ$ , which approaches 1 for small $θ$ . Finally, for better numerical stability, we normalize the $( p _i, q _i)$ by translating each point set to the origin and adjusting the solved-for translation appropriately. This yields:
 
 $$\sum_i \left[ (p̃_i - q̃_i)\cdot n _i + ((p̃_i + q̃_i)\times n _i) \cdot ã + n _i \cdot t̃ \right]^2$$
 

@@ -8,6 +8,8 @@ abstract: |
  The perceived discrepancy between continuous motion as seen in nature and frame-by-frame exhibition on a display, sometimes termed judder, is an integral part of video presentation. Over time, content creators have developed a set of rules and guidelines for maintaining a desirable cinematic look under the restrictions placed by display technology without incurring prohibitive judder. With the advent of novel displays capable of high brightness, contrast, and frame rates, these guidelines are no longer sufficient to present audiences with a uniform viewing experience. In this work, we analyze the main factors for perceptual motion artifacts in digital presentation and gather psychophysical data to generate a model of judder perception. Our model enables applications like matching perceived motion artifacts to a traditionally desirable level and maintain a cinematic motion look.
 ---
 
+❤: judder
+
 # INTRODUCTION
 In this work, we pursue a practical examination of motion artifacts in the modern display landscape. In vision science such artifacts can be classified in various ways based on distinct features of the perceivable error (Section 2.2)—we will simplify this discussion and refer to these effects collectively as judder. When excessive, it ruins the quality of motion in a video and makes the content difficult or unpleasant to watch. Details of moving objects may be lost completely, and certain scenes can become disturbing or even entirely un-watchable. This is especially true for camera pans, which are the focus of this work. Pans are characterized by a swivel motion, generally horizontal, such that the majority of the filmed scene appears to move in the direction opposite to the camera rotation.
 
@@ -166,8 +168,8 @@ The results can be seen in Figure 6, averaged out over shutter angle and users, 
 Variables that were not found to be significant were not included in our perceptual model of judder, although this result does not necessarily indicate that contrast, shutter angle, or type of image will never affect judder. It is possible, for example, that stronger distortions such as non-photorealistic blurring above 360◦ could significantly affect judder perception, but such values were not tested in this work, as they would strongly alter the look of the scene and thus do not lead to a satisfactory solution to mitigate judder.
 
 # JUDDER MODEL
-To obtain an easily expressible model of judder $J$ based on the most important factors, mean luminance $L$, frame rate $F$, and speed $S$, we combine the results of experiments 1–3 to design a single empirical model. We fit the perceptual data provided by user study participants into a second degree polynomial model:
-❤: judder
+To obtain <span class='def:J'>an easily expressible model of judder $J$</span> based on the most important factors,<span class='def:L'> mean luminance $L$</span>, <span class='def:F'>frame rate $F$</span>, and <span class='def:S'>speed $S$</span>, we combine the results of experiments 1–3 to design a single empirical model. We fit the perceptual data provided by user study participants into a second degree polynomial model:
+
 ``` iheartla
 
 J = P(α(F), β(L), S)
@@ -177,16 +179,16 @@ S ∈ ℝ
 P ∈ ℝ, ℝ, ℝ -> ℝ
 
 ``` 
-where $α$ and $β$ are nonlinearities employed in perceptual modeling; specifically, for luminance we employ $α$ the logarithm function and for frame rate β is the multiplicative inverse, i.e., we model on frame duration. For details on the resulting function, please see Section A.3.
+where<span class='def:α β'> $α$ and $β$ are nonlinearities employed in perceptual modeling; specifically, for luminance we employ $α$ the logarithm function and for frame rate β is the multiplicative inverse</span>, i.e., we model on frame duration. For details on the resulting function, please see Section A.3.
+❤: error
+This is an excellent fit to the psychophysical data, with a mean absolute error of 0.24 (equivalent to 9.4%) between measured and predicted judder at the probed points. To present the reader with an error metric that relates to physical quantities, we also computed the mean error in the log-luminance domain (to avoid under representing errors in low-luminance conditions). Given $N$ as the number of measured conditions, <span class='def:O'>$O (i)$ being the observed means for each condition </span>and <span class='def:M'>$M (i)$ values predicted by our model</span>, we calculate <span class='def:E'>the error $E$ </span>as
 
-This is an excellent fit to the psychophysical data, with a mean absolute error of 0.24 (equivalent to 9.4%) between measured and predicted judder at the probed points. To present the reader with an error metric that relates to physical quantities, we also computed the mean error in the log-luminance domain (to avoid under representing errors in low-luminance conditions). Given $N$ as the number of measured conditions, $O(i)$ being the observed means for each condition and $M(i)$ values predicted by our model, we calculate the error $E$ as
-
-``` iheartla(second)
+``` iheartla
 
 E = sum_i |log(O_i) - log(M_i)|/log(O_i) 
 
-O_i ∈ ℝ  
-M_i ∈ ℝ 
+O ∈ ℝ^N
+M ∈ ℝ^N
 
 ``` 
 
@@ -208,7 +210,7 @@ Finally, our model allows us to compute iso-lines over which perceived judder is
 To test the validity of our model with more complex stimuli, we ran a Validation experiment. Using the same setup as the experiments described in Section 3, 15 participants were shown short reference videos at a lower frame rate and brightness. They were then presented with another version of the same video, but at a higher frame rate. The experimental task was to find the best match in terms of judder by controlling the mean luminance of the test stimulus through logmean offsets. Five stimuli were employed, two shots from Nocturne,2 dubbed Ballet and Kids, and one shot from Big Buck Bunny. All stimuli contained camera pans and were likely to generate some perceivable judder and can be seen in the accompanying video. The details for each of the five tested cases can be seen in Table 1, with additional details presented in Appendix A.4.
 
 We computed luminance predictions to match judder between test and reference using our metric as described in Equation (1). Although no other judder metric exists, we adapted the wellknown Ferry-Porter law for flicker fusion thresholds [@tyler1990analysis] to predict temporal artifact sensitivity. It is normally expressed as
-
+❤: judder
 ``` iheartla
 
 CFF(L) = a ⋅ log(L) + b where L ∈ ℝ
@@ -219,7 +221,7 @@ b ∈ ℝ
 ``` 
 
 
-where a and b are known constants and L is the mean luminance. If we introduce the simplifying assumption that the critical flicker fusion rate ($CFF$) is linearly correlated through a factor M with judder-sensitivity, then we can obtain a log-luminance equivalence like the one queried in this experiment. Denoting $F_a$ and $F_b$ as the two frame rates and $L_a$ , $L_b$ as the luminances:
+where a and b are known constants and L is the mean luminance. If we introduce the simplifying assumption that<span class='def:CFF'> the critical flicker fusion rate ($CFF$)</span> is linearly correlated through <span class='def:M'>a factor $M$</span> with judder-sensitivity, then we can obtain a log-luminance equivalence like the one queried in this experiment. <span class='def:F_a F_b'>Denoting $F_a$ and $F_b$ as the two frame rates</span> and <span class='def:L_a L_b'>$L_a$ , $L_b$ as the luminances</span>:
 
 
 ``` iheartla
