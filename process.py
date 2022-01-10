@@ -41,9 +41,9 @@ with open('./info.json') as f:
 		item = data['gallery'][index] 
 		markdown_f_name = "{}.md".format(item['markdown'])
 		cpp_f_name = "lib.h"
+		python_f_name = "{}.py".format('lib')
+		matlab_f_name = "{}.m".format('lib')
 		# pdf_f_name = "{}.pdf".format(item['la_file'])
-		# python_f_name = "{}.py".format(item['la_file'])
-		# matlab_f_name = "{}.m".format(item['la_file'])
 		# tex_f_name = "{}.tex".format(item['la_file'])
 		# # resource
 		item_res_dir = gallery_res_dir / item['dir']
@@ -63,6 +63,10 @@ with open('./info.json') as f:
 			item_res_dir/"{}.txt".format(item['markdown']))
 		shutil.copy(Path("{}/{}/{}".format(paper_path, item['dir'], cpp_f_name)), 
 			item_res_dir/cpp_f_name)
+		shutil.copy(Path("{}/{}/{}".format(paper_path, item['dir'], python_f_name)), 
+			item_res_dir/python_f_name)
+		shutil.copy(Path("{}/{}/{}".format(paper_path, item['dir'], matlab_f_name)), 
+			item_res_dir/matlab_f_name)
 		output_html_file = "{}.html".format(item['markdown'])
 		shutil.copy(Path("{}/{}/{}".format(paper_path, item['dir'], output_html_file)), 
 			item_res_dir/output_html_file)
@@ -104,13 +108,13 @@ with open('./info.json') as f:
 
 			# with open(item_res_dir/python_f_name, 'r') as py_f:
 			# 	py_content = py_f.read()
-			# item_f.write("python_code: {}\n".format(py_content))
-			# item_f.write("---\n")
+			item_f.write("python_code: /static/gallery_res/{}/{}\n".format(item['dir'], python_f_name))
+			item_f.write("---\n")
 
 			# with open(item_res_dir/matlab_f_name, 'r') as mat_f:
 			# 	matlab_content = mat_f.read()
-			# item_f.write("matlab_code: {}\n".format(matlab_content))
-			# item_f.write("---\n")
+			item_f.write("matlab_code: /static/gallery_res/{}/{}\n".format(item['dir'], matlab_f_name))
+			item_f.write("---\n") 
 
 			# with open(item_res_dir/tex_f_name, 'r') as tex_f:
 			# 	tex_content = tex_f.read()
