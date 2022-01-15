@@ -1,5 +1,5 @@
 ---
-title: Regularized Kelvinlets: Sculpting Brushes based on Fundamental Solutions of Elasticity
+title: "Regularized Kelvinlets: Sculpting Brushes based on Fundamental Solutions of Elasticity"
 date: \today
 author:
 - name: FERNANDO DE GOES
@@ -7,39 +7,39 @@ author:
 - name: DOUG L. JAMES
   affiliation: Pixar Animation Studios, Stanford University
 abstract: |
- We introduce a new technique for real-time physically based volume sculpting of virtual elastic materials. Our formulation is based on the elastic response to localized force distributions associated with common modeling primitives such as grab, scale, twist, and pinch. The resulting brush-like displacements correspond to the regularization of fundamental solutions of linear elasticity in infinite 2D and 3D media. These deformations thus provide the realism and plausibility of volumetric elasticity, and the inter- activity of closed-form analytical solutions. To finely control our elastic deformations, we also construct compound brushes with arbitrarily fast spatial decay. Furthermore, pointwise constraints can be imposed on the displacement field and its derivatives via a single linear solve. We demon- strate the versatility and efficiency of our method with multiple examples of volume sculpting and image editing.
+ We introduce a new technique for real-time physically based volume sculpting of virtual elastic materials. Our formulation is based on the elastic response to localized force distributions associated with common modeling primitives such as grab, scale, twist, and pinch. The resulting brush-like displacements correspond to the regularization of fundamental solutions of linear elasticity in infinite 2D and 3D media. These deformations thus provide the realism and plausibility of volumetric elasticity, and the interactivity of closed-form analytical solutions. To finely control our elastic deformations, we also construct compound brushes with arbitrarily fast spatial decay. Furthermore, pointwise constraints can be imposed on the displacement field and its derivatives via a single linear solve. We demonstrate the versatility and efficiency of our method with multiple examples of volume sculpting and image editing.
 ---
 ❤: Regularized
 
 # INTRODUCTION
 Digital sculpting is a core component in modeling and animation packages, e.g., ZBrush, Scultpris, MudBox, Maya, or Modo. While purely geometric approaches are commonplace for shape editing, physically based deformers have long been sought to provide a more natural and effective sculpting tool for digital artists. However, existing physics-driven methods tend to have practical impediments for interactive design: they are inherently slow due to the need to numerically solve equations of the underlying discrete deformation model, and also involve tedious setup steps such as volumetric meshing, boundary condition specification, or preprocessing to accelerate the simulation.
 
-In this paper, we introduce a novel sculpting tool that offers inter- active and physically plausible deformations. Our approach is based on the regularization of the fundamental solutions to the equations of linear elasticity for specific brush-like forces (e.g., grab, twist, pinch) applied to a virtual infinite elastic space. Since the fundametal solutions of linear elasticity for singular loads are known as Kelvin- lets [Phan-Thien and Kim 1994], we refer to our new solutions as regularized Kelvinlets. This formulation leads to analytical closed- form expressions, thus making our method free of any geometric discretization, computationally intensive solve, or large memory requirement. Instead, our brush-like deformations can be rapidly evaluated on the fly for sculpting sessions, with interactive con- trol of the volume compression of the elastic material (Figure 1). To address the typical long-range falloffs of the fundamental so- lutions, we present a multi-scale extrapolation scheme that builds compound brushes with arbitrarily fast decay, thereby enabling highly localized edits. For more specialized control, we also propose a linear combination of brushes that imposes pointwise constraints on displacements and gradients through a single linear solve. In summary, regularized Kelvinlets offer volume-aware deformations that are efficient to evaluate, easy to parallelize, and complementary to existing modeling techniques.
+In this paper, we introduce a novel sculpting tool that offers interactive and physically plausible deformations. Our approach is based on the regularization of the fundamental solutions to the equations of linear elasticity for specific brush-like forces (e.g., grab, twist, pinch) applied to a virtual infinite elastic space. Since the fundametal solutions of linear elasticity for singular loads are known as Kelvinlets [Phan-Thien and Kim 1994], we refer to our new solutions as regularized Kelvinlets. This formulation leads to analytical closedform expressions, thus making our method free of any geometric discretization, computationally intensive solve, or large memory requirement. Instead, our brush-like deformations can be rapidly evaluated on the fly for sculpting sessions, with interactive control of the volume compression of the elastic material (Figure 1). To address the typical long-range falloffs of the fundamental solutions, we present a multi-scale extrapolation scheme that builds compound brushes with arbitrarily fast decay, thereby enabling highly localized edits. For more specialized control, we also propose a linear combination of brushes that imposes pointwise constraints on displacements and gradients through a single linear solve. In summary, regularized Kelvinlets offer volume-aware deformations that are efficient to evaluate, easy to parallelize, and complementary to existing modeling techniques.
 
 # RELATED WORK
-Sculpting methods for digital shapes have been investigated exten- sively in graphics, see survey in [Cani and Angelidis 2006]. The most common sculpting tool is the family of grab/twist/scale/pinch brushes available in commercial modeling packages, e.g., [Autodesk 2016]. In these brushes, a single affine transformation is applied to every point in space and scaled by a predefined falloff. The simple setup and fast analytical evaluation make these tools suitable for highly detailed modeling, as well as animation and post-simulation edits. Motivated by these premises, our work augments existing brush deformations with interactive elastic response.
+Sculpting methods for digital shapes have been investigated extensively in graphics, see survey in [Cani and Angelidis 2006]. The most common sculpting tool is the family of grab/twist/scale/pinch brushes available in commercial modeling packages, e.g., [Autodesk 2016]. In these brushes, a single affine transformation is applied to every point in space and scaled by a predefined falloff. The simple setup and fast analytical evaluation make these tools suitable for highly detailed modeling, as well as animation and post-simulation edits. Motivated by these premises, our work augments existing brush deformations with interactive elastic response.
 
-In order to provide volume-aware sculpts, Angelidis et al. [2004] introduced the notion of sweeper brushes, which deform the space with no self-intersection by advecting points along user-authored displacement fields. This technique was later extended to swirling- sweepers [Angelidis et al. 2006] that ensure constant-volume defor- mations by emulating the formation of vortex rings in incompress- ible fluids. Similarly, the work of von Funck et al. [2006] proposed deformations with divergence-free displacements generated by user- designed scalar fields. Our approach shares similar properties with sweeper brushes, in particular, it guarantees foldover-free sculpts guided by displacement fields. However, we model a wider family of brush deformations that incorporates volumetric responses to elastic materials with compression. Also, instead of crafting func- tions that produce incompressible flows, we design smooth force distributions and rely on analytical solutions to the equations of elasticity to produce physically based deformations.
+In order to provide volume-aware sculpts, Angelidis et al. [2004] introduced the notion of sweeper brushes, which deform the space with no self-intersection by advecting points along user-authored displacement fields. This technique was later extended to swirling-sweepers [Angelidis et al. 2006] that ensure constant-volume deformations by emulating the formation of vortex rings in incompressible fluids. Similarly, the work of von Funck et al. [2006] proposed deformations with divergence-free displacements generated by user-designed scalar fields. Our approach shares similar properties with sweeper brushes, in particular, it guarantees foldover-free sculpts guided by displacement fields. However, we model a wider family of brush deformations that incorporates volumetric responses to elastic materials with compression. Also, instead of crafting functions that produce incompressible flows, we design smooth force distributions and rely on analytical solutions to the equations of elasticity to produce physically based deformations.
 
-Solid modeling and carving were also explored using voxel dis- cretizations [Galyean and Hughes 1991], sampled distance func- tions [Frisken et al. 2000], and adaptive resolution [Ferley et al. 2001]. In [Dewaele and Cani 2004], physics-aware volume sculpt- ing was addressed through voxel-based approximations of elastic and plastic deformations. However, these methods are restricted to grid-like data structures and tend to produce over-smoothed shapes. Other interactive techniques rely on user-controlled handles to drive volumetric deformations. This includes lattice deformers [Coquillart 1990; Sederberg and Parry 1986], cage-based generalized barycentric coordinates [Joshi et al. 2007; Lipman et al. 2008], linear blending skinning [Magnenat-Thalmann et al. 1988], wire curves [Singh and Fiume 1998], and sketch editing [Cordier et al. 2016], to cite a few. In [Jacobson et al. 2011], various handle types were supported by optimizing a unified linear blending scheme. In contrast to our work, these approaches require a careful placement of handles and a precomputation step that binds handles to the deforming objects. Moreover, the resulting deformations are purely geometric with limited volume control.
+Solid modeling and carving were also explored using voxel discretizations [Galyean and Hughes 1991], sampled distance functions [Frisken et al. 2000], and adaptive resolution [Ferley et al. 2001]. In [Dewaele and Cani 2004], physics-aware volume sculpting was addressed through voxel-based approximations of elastic and plastic deformations. However, these methods are restricted to grid-like data structures and tend to produce over-smoothed shapes. Other interactive techniques rely on user-controlled handles to drive volumetric deformations. This includes lattice deformers [Coquillart 1990; Sederberg and Parry 1986], cage-based generalized barycentric coordinates [Joshi et al. 2007; Lipman et al. 2008], linear blending skinning [Magnenat-Thalmann et al. 1988], wire curves [Singh and Fiume 1998], and sketch editing [Cordier et al. 2016], to cite a few. In [Jacobson et al. 2011], various handle types were supported by optimizing a unified linear blending scheme. In contrast to our work, these approaches require a careful placement of handles and a precomputation step that binds handles to the deforming objects. Moreover, the resulting deformations are purely geometric with limited volume control.
 
-Aiming at physically plausible deformations, some methods com- bined handle-based systems with simulation techniques. For in- stance, Jacobson et al. [2012] posed skinned skeletons by minimizing an elastic potential energy, while Hahn et al. [2012] projected the equations of elasticity to the subspace spanned by animation rigs. In a similar way, the work of Ben-Chen et al. [2009] deformed a cage mesh by optimizing the rigidity of the associated deformation. In [Kavan and Sorkine 2012], an elasticity-inspired skinning was presented by constructing joint deformers. Physics-driven video editing was also considered by combining simulation with image aware constraints [Bazin et al. 2016]. It is also worth mentioning advances in elasticity solvers that speed up quasi-static simulations in 2D [Setaluri et al. 2014] and 3D [McAdams et al. 2011]. Model reduction can also make simulations orders of magnitude faster by precomputing deformation modes [Barbič and James 2005] and multi-domain subspaces [Barbič and Zhao 2011]. Surface-only meth- ods were also proposed to approximate elastic materials using, e.g., rigidity penalties [Sorkine and Alexa 2007] and moving frames [Lip- man et al. 2007]. Since these approaches rely on mesh discretizations and non-linear solvers, we consider them complementary to our mesh-free closed-form solutions.
+Aiming at physically plausible deformations, some methods combined handle-based systems with simulation techniques. For instance, Jacobson et al. [2012] posed skinned skeletons by minimizing an elastic potential energy, while Hahn et al. [2012] projected the equations of elasticity to the subspace spanned by animation rigs. In a similar way, the work of Ben-Chen et al. [2009] deformed a cage mesh by optimizing the rigidity of the associated deformation. In [Kavan and Sorkine 2012], an elasticity-inspired skinning was presented by constructing joint deformers. Physics-driven video editing was also considered by combining simulation with image aware constraints [Bazin et al. 2016]. It is also worth mentioning advances in elasticity solvers that speed up quasi-static simulations in 2D [Setaluri et al. 2014] and 3D [McAdams et al. 2011]. Model reduction can also make simulations orders of magnitude faster by precomputing deformation modes [Barbič and James 2005] and multi-domain subspaces [Barbič and Zhao 2011]. Surface-only methods were also proposed to approximate elastic materials using, e.g., rigidity penalties [Sorkine and Alexa 2007] and moving frames [Lipman et al. 2007]. Since these approaches rely on mesh discretizations and non-linear solvers, we consider them complementary to our mesh-free closed-form solutions.
 
-Our work is closely related to the concept of regularized Stokeslets. Coined by Hancock [1953], Stokeslets are singular fundamental so- lutions of Stokes flows (i.e., incompressible fluid flows with low Reynolds number [Chwang and Wu 1975]) based on pointwise loads. To remove the singularity of these solutions, Cortez [2001] introduced regularized Stokeslets as an alternative that replaces impulses by smoothed force distributions. Extensions to doublets and the method of images were later derived in [Ainley et al. 2008; Cortez et al. 2005], and employed to model the trajectories of self- propelled micro-organisms. Instead, we introduce the regularization of the fundamental solutions of linear elasticity, thus generalizing regularized Stokeslets to arbitrary elastic materials. In particular, our formulation reproduces regularized Stokeslets in the case of incompressible elasticity. In addition, we present a new approach to design regularized solutions with faster decays.
+Our work is closely related to the concept of regularized Stokeslets. Coined by Hancock [1953], Stokeslets are singular fundamental solutions of Stokes flows (i.e., incompressible fluid flows with low Reynolds number [Chwang and Wu 1975]) based on pointwise loads. To remove the singularity of these solutions, Cortez [2001] introduced regularized Stokeslets as an alternative that replaces impulses by smoothed force distributions. Extensions to doublets and the method of images were later derived in [Ainley et al. 2008; Cortez et al. 2005], and employed to model the trajectories of self-propelled micro-organisms. Instead, we introduce the regularization of the fundamental solutions of linear elasticity, thus generalizing regularized Stokeslets to arbitrary elastic materials. In particular, our formulation reproduces regularized Stokeslets in the case of incompressible elasticity. In addition, we present a new approach to design regularized solutions with faster decays.
 
-Finally, we point out that fundamental solutions are central to integral formulations of elasticity and discretizations such as the boundary element method (BEM) [Brebbia et al. 2012]. In [James and Pai 1999], BEM was employed to deform surface meshes by approximating contact mechanics. However, this technique requires the precomputation and incremental updates of boundary condi- tions for displacements and surface tractions. This approach was later accelerated by compressing singular fundamental solutions of linear elasticity based on wavelets [James and Pai 2003]. In contrast, we advocate the use of regularized fundamental solutions for digital sculpting, with no boundary specification or mesh discretization.
+Finally, we point out that fundamental solutions are central to integral formulations of elasticity and discretizations such as the boundary element method (BEM) [Brebbia et al. 2012]. In [James and Pai 1999], BEM was employed to deform surface meshes by approximating contact mechanics. However, this technique requires the precomputation and incremental updates of boundary conditions for displacements and surface tractions. This approach was later accelerated by compressing singular fundamental solutions of linear elasticity based on wavelets [James and Pai 2003]. In contrast, we advocate the use of regularized fundamental solutions for digital sculpting, with no boundary specification or mesh discretization.
 
 # BACKGROUND
 
 Before presenting our new sculpting tools, we first review core concepts of linear elastostatics upon which our formulation is based. In the next sections, we focus our exposition on 3D linear elasticity and postpone the 2D case to Section 8, where the analogous 2D expressions are derived using our 3D results. For more details on linear elastostatics, we point the reader to [Slaughter 2002].
 
-Elastostatics: In an infinite 3D continuum, the quasi-static equi- librium state of linear elasticity is determined by a displacement field u : R3 → R3 that minimizes the elastic potential energy 
+Elastostatics: In an infinite 3D continuum, the quasi-static equilibrium state of linear elasticity is determined by a displacement field u : R3 → R3 that minimizes the elastic potential energy 
 
 $$
 E(\boldsymbol{u})=\frac{\mu}{2}\|\nabla \boldsymbol{u}\|^{2}+\frac{\mu}{2(1-2 v)}\|\nabla \cdot \boldsymbol{u}\|^{2}-\langle\boldsymbol{b}, \boldsymbol{u}\rangle
 $$
 
-where ∥ · ∥ and ⟨·, ·⟩ are integrated over the infinite elastic volume. The first term in (1) controls the smoothness of the displacement field, the second term penalizes infinitesimal volume change, and the last term indicates the external body forces b to be counteracted. In this formulation, linear homogeneous and isotropic material param- eters are given by the elastic shear modulus μ and the Poisson ratio ν. Note that, while the former is a simple scaling factor indicating the material stiffness, the latter dictates the material compressibil- ity. By computing the critical point of (1), one can associate the optimal displacement field u with the solution of the well-known Navier-Cauchy equation (see, e.g., [Slaughter 2002]):
+where ∥ · ∥ and ⟨·, ·⟩ are integrated over the infinite elastic volume. The first term in (1) controls the smoothness of the displacement field, the second term penalizes infinitesimal volume change, and the last term indicates the external body forces b to be counteracted. In this formulation, linear homogeneous and isotropic material parameters are given by the elastic shear modulus μ and the Poisson ratio ν. Note that, while the former is a simple scaling factor indicating the material stiffness, the latter dictates the material compressibility. By computing the critical point of (1), one can associate the optimal displacement field u with the solution of the well-known Navier-Cauchy equation (see, e.g., [Slaughter 2002]):
 
 $$
 \mu \Delta \boldsymbol{u}+\frac{\mu}{(1-2 v)} \nabla(\nabla \cdot \boldsymbol{u})+\boldsymbol{b}=0
@@ -61,10 +61,10 @@ $$
 
 where p is the pressure scalar field acting as a Lagrangian multiplier that enforces the divergence-free constraint. For a pointwise load with force vector f , the (singular) fundamental solution of (4) is known as the Stokeslet [Chwang and Wu 1975; Hancock 1953], and matches the expression in (3) with ν =1/2 (i.e., b =a/2).
 
-Deformation Gradient: From a displacement field u(x −x0), an arbitrary point x embedded in a linear elastic material is deformed to x +u(x −x0). The associated deformation gradient is then defined bya3×3matrixoftheformG(x−x0)=I+∇u(x−x0). By analyzing this matrix G(r), we can obtain different properties of the displace- ment field u(r) (see, e.g., [Slaughter 2002]). For instance, the skew- symmetric part of ∇u(r) indicates the infinitesimal rotation induced by u(r), while its symmetric part corresponds to the elastic strain and determines the infinitesimal stretching. The strain tensor can be also decomposed into a trace term that represents the uniform scaling of the volume of the elastic medium, and a traceless term that informs the undergoing pinching deformation. We will use these deformation gradient decompositions in Section 6 to construct twist, scale, and pinch elastic brushes.
+Deformation Gradient: From a displacement field u(x −x0), an arbitrary point x embedded in a linear elastic material is deformed to x +u(x −x0). The associated deformation gradient is then defined bya3×3matrixoftheformG(x−x0)=I+∇u(x−x0). By analyzing this matrix G(r), we can obtain different properties of the displacement field u(r) (see, e.g., [Slaughter 2002]). For instance, the skew-symmetric part of ∇u(r) indicates the infinitesimal rotation induced by u(r), while its symmetric part corresponds to the elastic strain and determines the infinitesimal stretching. The strain tensor can be also decomposed into a trace term that represents the uniform scaling of the volume of the elastic medium, and a traceless term that informs the undergoing pinching deformation. We will use these deformation gradient decompositions in Section 6 to construct twist, scale, and pinch elastic brushes.
 
 # 3D REGULARIZED KELVINLETS
-The concentrated body load at a single point x0 introduces a singu- larity to the Kelvinlet solution, making its displacements and deriva- tives indefinite nearby x0. For this reason, the singular Kelvinlet is numerically unsuitable for digital sculpting. To overcome this issue, we adopt the regularization scheme introduced in [Cortez 2001], andconsiderasmoothedbodyloadb(r)=fρε(r)
+The concentrated body load at a single point x0 introduces a singularity to the Kelvinlet solution, making its displacements and derivatives indefinite nearby x0. For this reason, the singular Kelvinlet is numerically unsuitable for digital sculpting. To overcome this issue, we adopt the regularization scheme introduced in [Cortez 2001], andconsiderasmoothedbodyloadb(r)=fρε(r)
 μàu+ μ ∇(∇·u)+b=0. (1−2ν)
 (2) Kelvinlets: In the case of a concentrated body load due to a force
 with force vector f and normalized density
@@ -81,7 +81,7 @@ rε = r2+ε2 and set the normalized density function to be of the form (see inse
 
 # MULTI-SCALE EXTRAPOLATION
 
-Sculpting brushes are commonly accompanied by falloff profiles that define the locality of the deformations. Generally, these func- tions are set independently of the brush operation and can even be adjusted by the user. In contrast, the spatial decay of regular- ized Kelvinlets is determined completely by the equations of linear elasticity. This fixed falloff may make our elastic deformations in- adequate for fine sculpts in which a faster decay is demanded. To address this issue, we present next an extrapolation scheme that constructs physically based brushes with arbitrarily fast decays by linearly combining regularized Kelvinlets of different radial scales. Due to the superposition principle, these compound brushes form high-order regularized Kelvinlets that satisfy (2).
+Sculpting brushes are commonly accompanied by falloff profiles that define the locality of the deformations. Generally, these functions are set independently of the brush operation and can even be adjusted by the user. In contrast, the spatial decay of regularized Kelvinlets is determined completely by the equations of linear elasticity. This fixed falloff may make our elastic deformations inadequate for fine sculpts in which a faster decay is demanded. To address this issue, we present next an extrapolation scheme that constructs physically based brushes with arbitrarily fast decays by linearly combining regularized Kelvinlets of different radial scales. Due to the superposition principle, these compound brushes form high-order regularized Kelvinlets that satisfy (2).
 
 
 ``` iheartla
@@ -97,7 +97,7 @@ f ∈ ℝ^3
  
 So far we showed how to use regularized Kelvinlets to construct grablike deformations guided by the brush tip displacement. However, other sculpting operations assign an affine transformation, instead of a translation, to the brush. A typical example is the twist brush which defines a rotation centered at x0. Similarly, scale and pinch brushes are generated based on affine transformations. In order to augment these brushes with elastic response, we propose to extend the formulation of regularized Kelvinlets by replacing the vector-based load distribution with a matrix-based distribution.
 
-Our approach leverages the linearity of the elastostatics equation with respect to differentiation. More specifically, given a regular- ized Kelvinlet uε and its associated force vector f , we compute the directional derivative д·∇ of (2) along the vector д, yielding
+Our approach leverages the linearity of the elastostatics equation with respect to differentiation. More specifically, given a regularized Kelvinlet uε and its associated force vector f , we compute the directional derivative д·∇ of (2) along the vector д, yielding
 
 
 $$
@@ -133,7 +133,7 @@ $$
 \end{aligned}
 $$
 
-Note that the first term in (14) corresponds to an affine transformation Fr with a radial falloff similar to existing affine brushes, while the second term includes a symmetric affine transformation and controls volume compression through the Poisson ratio ν that b depends on. Therefore, we name this matrix-based extension of the fundamental solution of linear elasticity as a locally affine regular- ized Kelvinlet. For conciseness, we denote this displacement field by $\widetilde{u}_{\varepsilon}(\boldsymbol{r}) \equiv \mathcal{A}_{\varepsilon}(\boldsymbol{r}) \overrightarrow{\boldsymbol{F}}$, where $\overrightarrow{\boldsymbol{F}} \in \mathbb{R}^{9}$ is a vectorized form of F and $\mathcal{A}(\boldsymbol{r})$ is the 3×9 matrix that maps $\overrightarrow{\boldsymbol{F}$ to a displacement at $\boldsymbol{r}$.
+Note that the first term in (14) corresponds to an affine transformation Fr with a radial falloff similar to existing affine brushes, while the second term includes a symmetric affine transformation and controls volume compression through the Poisson ratio ν that b depends on. Therefore, we name this matrix-based extension of the fundamental solution of linear elasticity as a locally affine regularized Kelvinlet. For conciseness, we denote this displacement field by $\widetilde{u}_{\varepsilon}(\boldsymbol{r}) \equiv \mathcal{A}_{\varepsilon}(\boldsymbol{r}) \overrightarrow{\boldsymbol{F}}$, where $\overrightarrow{\boldsymbol{F}} \in \mathbb{R}^{9}$ is a vectorized form of F and $\mathcal{A}(\boldsymbol{r})$ is the 3×9 matrix that maps $\overrightarrow{\boldsymbol{F}$ to a displacement at $\boldsymbol{r}$.
 
 
 In contrast to (6), the deformation generated by (14) has zero displacement at the brush center, i.e., u􏰜ε (0) = 0, but a non-trivial gradient in terms of F (the closed-form expression is provided in the supplemental material). As the radial scale ε approaches zero, our matrix-based solutions reproduce the definition of Kelvinlet doublets [Phan-Thien and Kim 1994]. These expressions also coincide with the regularized Stokeslet doublets [Ainley et al. 2008] in the incompressible limit (ν = 1/2). Following the matrix decomposition in Section 3, we can further construct specialized versions of the locally affine regularized Kelvinlets by setting F to different types of matrices, as illustrated in Figure 5.
@@ -141,11 +141,8 @@ In contrast to (6), the deformation generated by (14) has zero displacement at t
 Twisting: In the case of a skew-symmetric matrix, we can associate F to a vector q via the cross product matrix, i.e., $F \equiv[q]_{\times}$ where $[\boldsymbol{q}]_{\times} \boldsymbol{r}=\boldsymbol{q} \times \boldsymbol{r}$, then (14) simplifies to a twist deformation
 
 ``` iheartla
-`$t_ε$`(r) = -a(1/`$r_ε$`³ + 3ε²/(2`$r_ε$`⁵) ) q×r where r ∈ ℝ^3
+`$t_ε$`(r) = -a(1/`$r_ε$`³ + 3ε²/(2`$r_ε$`⁵) ) Fr where r ∈ ℝ^3
 
-where
-
-q ∈ ℝ^3
 ``` 
 
 By analyzing the deformation gradient of (15) (see supplemental material), one can verify that its symmetric part (the strain tensor) is trivial for any $\boldsymbol{r}$. Consequently, this displacement field has zero divergence (i.e., $\left.\nabla \cdot \boldsymbol{t}_{\varepsilon}(\boldsymbol{r})=0\right)$ ) and defines a volume preserving deformation, independent of the Poisson ratio ν. Instead, its curl is non-zero and can be used to relate the vector $\boldsymbol{q}$ to the vorticity $\bar{\omega}$ at $x_{0}$ via the linear constraint $\nabla \times t_{\varepsilon}(0)=\bar{\omega}$.
@@ -174,10 +171,196 @@ a ∈ ℝ
 b ∈ ℝ
 ε ∈ ℝ
 ``` 
-To geometrically characterize this deformation, we computed the displacement gradient ∇pε at x0, and observed that the resulting matrix is also symmetric with zero trace. This indicates that the deformation generated by pε (r ) compensates infinitesimal stretch- ing in one direction by contractions in the other directions, thus resembling a physical pinching interaction.
+To geometrically characterize this deformation, we computed the displacement gradient ∇pε at x0, and observed that the resulting matrix is also symmetric with zero trace. This indicates that the deformation generated by pε (r ) compensates infinitesimal stretching in one direction by contractions in the other directions, thus resembling a physical pinching interaction.
 
 
-Multi-scale extrapolation: Since our affine brushes are based on the derivative of (6), the extrapolation scheme described in Section 5 applies to these displacement fields with no modification. We can then combine locally affine regularized Kelvinlets linearly and gen- erate new matrix-driven solutions of linear elasticity with arbitrarily fast far-field decay. In particular, we obtain bi-scale and tri-scale brushes with O(1/r4) and O(1/r6) falloffs, respectively, while the single-scale case has an O(1/r2) decay.
+Multi-scale extrapolation: Since our affine brushes are based on the derivative of (6), the extrapolation scheme described in Section 5 applies to these displacement fields with no modification. We can then combine locally affine regularized Kelvinlets linearly and generate new matrix-driven solutions of linear elasticity with arbitrarily fast far-field decay. In particular, we obtain bi-scale and tri-scale brushes with O(1/r4) and O(1/r6) falloffs, respectively, while the single-scale case has an O(1/r2) decay.
+
+# CONSTRAINED DEFORMATIONS
+
+By exploiting the linearity of (2), regularized Kelvinlets and variants can be superposed to form new solutions of linear elasticity. These compound brushes are of particular interest for designing deformations with pointwise contraints. Since regularized Kelvinlets are linear in terms of force vectors f and matrices F , these constrained deformations can be efficiently computed based on user-prescribed displacements and gradients. In this section, we describe some examples of constrained deformations.
+
+
+
+Displacement Constraints: Previously we assigned the brush tip displacement u and solved analytically for the necessary force vector f in (7). We can replicate this constraint numerically for a list of brushes. To this end, we consider n regularized Kelvinlets placed at {x1, . . . , xn } and impose n displacement constraints {u1, . . . , un }, one for each brush center xi . By superposition, these brushes define a solution to (2) of the form
+
+
+$$
+\boldsymbol{u}(\boldsymbol{x})=\sum_{i=1}^{n} \mathcal{K}_{\varepsilon_{i}}\left(\boldsymbol{x}-\boldsymbol{x}_{i}\right) \boldsymbol{f}_{i}
+$$
+
+
+whereε andf indicatetheradialscaleandtheforcevectorfor
+the i-th brush, respectively. The displacement constraints u and force vectors f are thus related by the linear system u = K f , where the 3n×3n matrix K has the contribution Kεi (xj − xi ) of every i-th brush to every j-th brush center.
+
+
+An usual scenario for this constrained deformation is when we pin down zero displacement to n − 1 locations, and keep the n-th brush “live” for interactive sculpting. Given a tip displacement un updated every user edit, we can efficiently compute the force vectors f by exploiting the block structure of the linear system
+
+$$
+\left[\begin{array}{c}
+0 \\
+\bar{u}_{n}
+\end{array}\right]=\left[\begin{array}{ll}
+K_{p p} & K_{p n} \\
+K_{n p} & K_{n n}
+\end{array}\right]\left[\begin{array}{l}
+f_{p} \\
+f_{n}
+\end{array}\right]
+$$
+
+
+
+
+where the subscript p indicates values for the n−1 pinned brushes, and n denotes the active brush. Observe that the block Kpp is a nonsymmetric matrix that relates the n−1 pinned brushes to themselves, but it is independent of the n-th brush. Therefore, we can cache the LU factorization of Kpp and solve for f rapidly at every user interaction via the Schur complement [Cottle 1974], which then requires a simple 3×3 solve. Figure 6 (center-right) displays a result with displacement constraints used in a 3D editing session.
+
+
+Gradient Constraints: We can also constrain the gradients of our deformations by employing locally affine regularized Kelvinlets in our compound displacement u(x). By doing so, the force matrix F can be used to precisely control the 9 DoFs of the deformation gradient via the linear constraint G(xi)=I +∇u(xi)atabrushcenter xi . This leads to the aggregated displacement field
+
+
+$$
+\boldsymbol{u}(\boldsymbol{x})=\sum_{i=1}^{n} \mathcal{A}_{\varepsilon_{i}}\left(\boldsymbol{x}-\boldsymbol{x}_{i}\right) \overrightarrow{\boldsymbol{F}}_{i}
+$$
+
+More specialized gradient control can be further achieved via individual twist, scale, and pinch brushes (Section 6). For instance, a pointwise vorticity constraint ∇×u can be enforced based on the 3 DoFs of the vector q in a twist brush, while the single parameter s of a scale brush can determine a divergence constraint ∇·u. We can also employ a pinch brush to control the infinitesimal stretches in two directions of a rotated frame, for a total of 5 DoFs. Note that the third infinitesimal strecth is induced by the first two values, since a pinch brush has a traceless gradient. Similar to the displacement case, these gradient constraints relate to their respective force parameters (F, q, or s) through a single linear system. As before, a Schur complement approach can be employed to speedup solve times when sculpting with fixed constraints. In Figure 6 (right), pointwise gradient constraints were used to ensure rigid deformations in selected regions of the eyeballs.
+
+
+Symmetrized Deformations: A common feature in sculpting tools is the ability to symmetrize deformations by mirroring a brush operation across a user-specified plane. This is performed by replicating the brush at x0 to its image point x1 =c+M(x0−c), where M=I−2nnt indicatesthereflectionmatrixofaplanepassingthrough a base point c and with a normal vector n. The first case of symmetrized physically based deformation consists of copying a regularized Kelvinlet uε (r) of force vector f0 from x0 to x1, while keeping its radius ε but reflecting its force vector to f1 =M f0. The resulting deformation is then written as
+
+
+$$
+\boldsymbol{u}(\boldsymbol{x})=\mathcal{K}_{\varepsilon}\left(\boldsymbol{x}-\boldsymbol{x}_{0}\right) f_{0}+\mathcal{K}_{\varepsilon}\left(\boldsymbol{x}-\boldsymbol{x}_{1}\right) f_{1}
+$$
+
+
+
+We show in the supplemental material that (21) satisfies the identity u(Mx)=M u(x) for any force vector f0 and at any evaluation point x, i.e., the displacement generated by (21) at the image of x is the reflection of the displacement at x. This also implies that the force vecor f0 can be computed from a given tip displacement u via a single constraint at x0.
+
+
+
+Similarly, the symmetrization of locally affine brushes can be computed by mirroring the force matrix F0 to F1 =MF0M. The symmetrized displacement field is then
+
+
+$$
+u(x)=\mathscr{A}_{\varepsilon}\left(x-x_{0}\right) \vec{F}_{0}+\mathscr{A}_{\varepsilon}\left(x-x_{1}\right) \vec{F}_{1}
+$$
+
+
+
+
+As before, the force matrix F0 can be obtained in terms of a gradient constraint, if necessary. At last, we point out that multi-scale extrapolation applies to these formulations with no modification. Figure 7 shows symmetrized edits done by grab and twist brushes.
+
+
+# 2D REGULARIZED KELVINLETS
+We now discuss the construction of regularized Kelvinlets for an infinite elastic medium in R2. Besides image editing, these deformations are also suitable for volume sculpts restricted to the camera plane (Figure 8). In 2D, elastostatics is formulated using the same expressions for the energy (1) and for the equilibrium state (2) as in 3D, but now with differential operators (à, ∇, ∇·) including only (x,y)-derivatives [Slaughter 2002]. This restriction introduces a new log term to the singular fundamental solutions [Phan-Thien and Kim 1994], which makes our regularization scheme surpringsly more elaborated than the 3D case. As detailed next, we address the construction of 2D regularized Kelvinlets by considering a 2D body load as a 3D line force distribution passing through the brush center. This interpretation allows us to compute 2D solutions by integrating the associated 3D elastic responses through depth.
+
+
+Derivation: Hereafter we denote depth by the z-axis and use r to indicatethe2Drelativepositionvector(i.e.,r ≡[r,z]).Wereferto the 2D norm as r = ∥r∥, and to the regularized 2D distance as rε (so that rε2 =rε2+z2). We start by constructing a 2D force distribution that integrates the smoothed 3D density function ρε (r ) in (5) along the z-axis, producing
+
+$$
+\rho_{\varepsilon}(\mathfrak{r})=\int_{-\infty}^{+\infty} \rho_{\varepsilon}(\boldsymbol{r}) d z=\frac{2 \varepsilon^{2}}{\pi} \frac{1}{\mathfrak{r}_{\varepsilon}^{6}}
+$$
+
+
+With this density function, we can represent any 2D regularized Kelvinlet as the solution of (2) still in 3D, but now generated by aninfinitelineloadb(r)=fρε(r),where f hasitsz-componentset to zero. Due to symmetry, we can also show that the z-component of the 3D deformation generated by b(r) is zero. Therefore, the equation of elastostatics in 3D with load b(r) simplifies to its 2D counterpart with no z-derivatives. As a result, we can compute the 2D regularized Kelvinlet uε (r) by carefully integrating the (x,y) components of the 3D regularized Kelvinlet uε (r ),
+
+$$
+\left[\begin{array}{l}
+u_{\varepsilon}^{x}(\mathfrak{r}) \\
+u_{\varepsilon}^{y}(\mathfrak{r})
+\end{array}\right]=\int_{-\infty}^{\infty}\left[\begin{array}{l}
+u_{\varepsilon}^{x}(r) \\
+u_{\varepsilon}^{y}(r)
+\end{array}\right] d z
+$$
+
+which leads to the closed-form expression (see Appendix B)
+
+$$
+\boldsymbol{u}_{\varepsilon}(\mathfrak{r})=\left[2(b-a) \ln \left(\mathfrak{r}_{\varepsilon}\right) \boldsymbol{I}+2 b \frac{\mathfrak{r} \mathfrak{r}^{t}}{\mathfrak{r}_{\varepsilon}^{2}}+a \frac{\varepsilon^{2}}{\mathfrak{r}_{\varepsilon}^{2}} \boldsymbol{I}\right] \boldsymbol{f}
+$$
+
+We notice that (25) converges to the 2D singular Kelvinlets as ε approaches zero [Phan-Thien and Kim 1994] and, in the incompressible limit (ν = 1/2), we obtain a 2D regularized Stokeslet. In contrast to [Cortez 2001], we employed a sharper 2D density function (given in (23)) that relates the regularization from 3D to 2D.
+
+
+Multi-scale extrapolation: Compared to the 3D solutions, the regularized Kelvinlets in 2D introduce unbounded displacements as r → ∞, due to the presence of the log term, thus making them inappropriate for localized edits. Fortunately, the multi-scale extrapolation presented in Section 5 can be used to produce spatial falloffs. In fact, since 2D regularized Kelvinlets are integrated versions of the 3D displacements, the same multi-scale extrapolation rules previously stated for the 3D case work in 2D, and the observed far-field decay for bi-scale and tri-scale 2D brushes are O(1/r2) and O(1/r4), respectively.
+
+Extension to affine loads: Following the same derivation from Section 6, we can also construct 2D versions of the locally affine regularized Kelvinlets, resulting in:
+
+$$
+\begin{aligned}
+\widetilde{\boldsymbol{u}}_{\varepsilon}(\mathfrak{r})=&-2 a\left(\frac{1}{\mathfrak{r}_{\varepsilon}^{2}}+\frac{\varepsilon^{2}}{\mathfrak{r}_{\varepsilon}^{4}}\right) \boldsymbol{F r} \\
+&+2 b\left[\frac{1}{\mathfrak{r}_{\varepsilon}^{2}}\left(\boldsymbol{F}+\boldsymbol{F}^{t}+\operatorname{tr}(\boldsymbol{F}) \boldsymbol{I}\right)-\frac{2}{\mathfrak{r}_{\varepsilon}^{4}}\left(\mathfrak{r}^{t} \boldsymbol{F} \mathfrak{r}\right) \boldsymbol{I}\right] \mathfrak{r},
+\end{aligned}
+$$
+
+where F is now a 2×2 force matrix. Expressions for twisting (1-DoF), scaling (1-DoF) and pinching (2-DoF) can also be derived. We provide the list of closed-form solutions for 2D locally affine regularized Kelvinlets in the supplemental material.
+
+
+
+# RESULTS
+In this section, we detail our implementation and provide a series of experiments showcasing the performance and the visual quality of regularized Kelvinlets compared to existing sculpting tools. The accompanying video also includes several examples of editing sessions using our physically based brushes.
+
+Implementation: We implemented regularized Kelvinlets and variants as a C++ plugin to the sculpting package of Pixar animation system (Presto). Once a brush type is selected, the brush center is assigned to the mouse click location, and the force parameters are set based on the mouse displacement. The user also has interactive control of the brush radius ε, the multi-scale mode (single, bi, or tri-scale), and the Poisson ratio ν. During a mouse event, we deform every selected point in the scene by moving them along the streamlines defined by the brush’s displacement field. This pointbased advection can be computed using any existing line integration method [Nielson et al. 1997]. In our experiments, we employed a fourth-order Runge-Kutta method similar to [von Funck et al. 2006], but other integrators or substepping schemes can be easily incorporated. Notice that our deformation is evaluated at every selected point, including those outside the brush radius, because they may still have a non-zero displacement depending on the decay chosen for the brush. Therefore, the computational cost of our sculpts is linear on the number of selected points, in contrast to existing brushes that restrict the edits within the brush radius. In our implementation, we use multi-threading via TBB [Reinders 2007], and observed performances averaging 57 frames per second on a 2.3 GHz Intel Xeon E5-2699 with 18 cores for scenes with 100k points. In the supplemental video, we also include a test with one million points, timing 18 ms per mouse drag. We expect even faster and more scalable running times by implementing regularized Kelvinlets in the GPU or as a geometry shader, which is feasible due to our closed-form analytical expressions.
+
+
+Examples: Figures 2 and 5 illustrate the basic elastic deformations generated by displacement and affine loads, respectively. Figure 1 shows a gallery of facial expressions sculpted by an artist using combinations of our elastic brushes. Additionally, we include in Figure 9 a full-body deformed pose also sculpted by an artist via regularized Kelvinlets. We note that this model has multiple disconnected meshes, and our brush edits were applied to them simultaneously. In Figure 8, we used a 2D brush to bulge the chest of a character while preserving the body thicknesss. Figure 12 displays a sequence of volume edits with varying Poisson ratio. We demonstrate symmetrized grab and twist deformations in Figure 7. In Figure 6, we compare constrained deformations using displacement and gradient constraints. In this example, we employed the Schur complement approach described in Section 7 to precompute the constraint matrix only once during the mouse click, thus keeping the brush evaluation interactive. We point the reader to the supplemental video for additional examples and editing sessions.
+
+Moving brushes: We can also modify the brush construction in order to support large deformations. So far our brush setup keeps its center stationary at the click location, and accumulates the force vector as the mouse moves. The resulting displacement may then introduce artifacts under large deformations, as expected from solutions of linear elasticity. Instead, by advecting the brush center throughout the course of the mouse edit, we can reset the force vector to the latest mouse shift and then reproduce within a single mouse click the deformation of a sequence of small clicks. Figure 10 shows an example that uses a moving brush to reduce distortion under large deformations. Note, however, that the deformation generated by a single click of a moving brush is path-dependent and may not restore the original shape as the mouse moves back to the click position, due to the accumulated displacements.
+
+Discussion: Figure 11 exhibits the deformation generated by a few clicks on a tentacle mesh using a (Maya-like) grab brush with a Gaussian falloff versus our 3D regularized Kelvinlet. This example illustrates the ability of our tool to capture broad volume deformations even with no knowledge of the surface structure, in contrast to traditional brushes that tend to collapse the volume. This result also suggests that our deformations could be used as an initial guess for iterative mesh-based deformers [Sorkine and Alexa 2007] and simulators [McAdams et al. 2011], which can better capture mesh-dependent local features. While the physical values for the Poisson ratio lie within the range [0, 1/2] [Slaughter 2002], our method supports a broader spectrum of values. In particular, we show in Figure 2 that we can reproduce existing brushes with radial falloffs by setting ν = ±∞. We also notice that our twist deformation coincides to a swirling-sweeper brush with radial falloff [Angelidis et al. 2006].
+
+Limitations: The simplicity and speed of our approach come at the cost of several limitations. Foremost, since regularized Kelvinlets are solutions to the elasticity equations in an infinite continuum, they know nothing about the geometry they are used to deform. Consequently, they can not be used for accurate elastic analysis of solid shapes. Furthermore, surfaces deformed using regularized Kelvinlets move as if embedded in an infinite elastic continuum, thus disregarding any form of surface traction. Embedded deformations can also produce unintended and undesirable nonlocal interactions. For example, grabbing one tentacle can cause a second nearby tentacle to deform, even though these parts are far away geodesically. These issues motivate the use in the future of post-processing steps, such as surface-based masking, combined to our sculpting tools. We also point out that, while regularized Kelvinlets can produce smooth elastoplastic deformations, distorting discrete shapes may require dynamic remeshing in order to sufficiently resolve the flow with no visual artifacts (see, e.g., [von Funck et al. 2006]). We finally note that, even though we show results for posing deformable characters (Figure 9), our approach is primarily useful for relatively modest shape edits, and is not intended to replace articulated character rigs.
+
+# CONCLUSION
+We have presented a family of deformation tools based on regularized fundamental solutions of linear elasticity for infinite media in 2D and 3D. Our method provides real-time feedback since it exploits closed-form analytical expressions and avoids the spatial discretization of elastic objects. This trade-off allows us to infuse “just enough” physical behavior into sculpting brushes to improve traditional grab, twist, pinch, and scale editing. We also addressed the problem of long-range interactions by introducing a multi-scale extrapolation scheme, and resolved various pointwise constraints using standard linear solves.
+
+We believe this work opens up new possibilities for analytical methods to be used for real-time sculpting [Cani and Angelidis 2006] and contact interactions [Pauly et al. 2004]. We have introduced simple force primitives for brushes, but extensions with more general load distributions could be constructed for specialized purposes [von Funck et al. 2006]. Regularized fundamental solutions for a halfspace elastic continuum, such as the Boussinesq’s problem [PodioGuidugli and Favata 2014], and the method of images [Ainley et al. 2008] are also of interest. Regularized Kelvinlets are also well-suited to kinesthetic haptic force and torque feedback, and to high-rate modeling applications in virtual and augmented reality.
+
+# ACKNOWLEDGMENTS
+We are grateful to Alonso Martinez and Kevin Singleton for generating the artistic examples in this work, and to Andrew Butts and Venkateswaran Krishna for their assistance with the Presto sculpting package. We also thank Michael Comet, Jeremie Talbot, Evan Bonifacio, and Dirk Van Gelder for discussions, and Tony DeRose, Theodore Kim, and Mathieu Desbrun for feedback on the manuscript. The image examples are courtesy of Mirela Ben-Chen (Figure 2) and Eftychios Sifakis (Figure 5).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
