@@ -1,7 +1,5 @@
 */*/*.json
 *.ihla
-*.h
-*.m
 */*/*.py
 *.html
 /resource
