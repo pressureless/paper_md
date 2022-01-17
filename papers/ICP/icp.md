@@ -118,10 +118,22 @@ where ❤n_i = `$n_q$`_i + `$n_p$`_i❤ and ❤t̃ = t/cos(θ)❤. We now make t
 
 $$\sum_i \left[ (p̃_i - q̃_i)\cdot n _i + ((p̃_i + q̃_i)\times n _i) \cdot ã + n _i \cdot t̃ \right]^2$$
 
-where $p̃_i = p _i −p$ and $q̃_i = q _i −q$. This is a least-squares problem in $ã$ and $t̃$, and the final transformation from $P$ to $Q$ is:
 
-$$trans( q )\circ rot( θ , \frac{ a }{|| a ||}) \circ trans( t \cos θ ) \circ rot( θ , \frac{ a }{|| a ||}) \circ trans(- p )
-$$
+where ❤ p̃_i = p_i - `$\bar{p}$` ❤ and ❤ q̃_i = q_i - `$\bar{q}$` ❤. This is a least-squares problem in $ã$ and $t̃$, and the final transformation from $P$ to $Q$ is:
+
+ 
+``` iheartla
+
+S = trans(`$\bar{q}$`) ⋅ rot(θ, ã/||ã||) ⋅trans(t̃ cos(θ)) ⋅rot(θ, ã/||ã||)⋅ trans(-`$\bar{p}$`)
+
+where 
+`$\bar{q}$` ∈ ℝ³
+`$\bar{p}$` ∈ ℝ³
+trans ∈ ℝ³ -> ℝ^(4 × 4)
+rot ∈ ℝ, ℝ³ -> ℝ^(4 × 4)
+```
+
+
 
 where $ θ = tan^{−1} ||  ã  ||$
 
