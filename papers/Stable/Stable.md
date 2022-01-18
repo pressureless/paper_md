@@ -1,8 +1,19 @@
 ---
+title: Stable Neo-Hookean Flesh Simulation
+date: \today
+author:
+- name: BREANNAN SMITH
+  affiliation: Pixar Animation Studios
+- name: FERNANDO DE GOES
+  affiliation: Pixar Animation Studios
+- name: THEODORE KIM
+  affiliation: Pixar Animation Studios
 full_paper: False
+sectionBase: [4, 2]
 ---
 ❤: Stable
-# First Piola-Kirchhoff Stress (PK1)
+# ENERGY EIGENANALYSIS
+## First Piola-Kirchhoff Stress (PK1)
  
 We sart from the PK1 for Eqn. 14,
 
@@ -18,7 +29,7 @@ F: ℝ^(3×3)
 λ: ℝ  
 ```
 
-where ❤α = 1 + μ/λ - μ/(4λ)❤. We omit the subscript, as we only consider one model in this section. Using the column-wise notation for F (Eqn.1) and the identity ❤J =`$f_0$`⋅(`$f_1$`×`$f_2$`)❤, we write $\frac{\partial J}{\partial F}$ (a.k.a.the cofactor matrix) as cross products:
+where ❤α = 1 + μ/λ - μ/(4λ)❤. We omit the subscript, as we only consider one model in this section. Using the column-wise notation for $F$ (Eqn.1) and the identity ❤J =`$f_0$`⋅(`$f_1$`×`$f_2$`)❤, we write $\frac{\partial J}{\partial F}$ (a.k.a. the cofactor matrix) as cross products:
 
 
 
