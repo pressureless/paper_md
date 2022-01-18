@@ -6,7 +6,8 @@
             "markdown":"icp",
             "original":"A Symmetric Objective Function for ICP.pdf",
             "img_dir":"img",
-            "whole_paper": 1
+            "whole_paper": 1,
+            "has_code": 1
         },
         {
             "dir": "Judder",
@@ -14,7 +15,8 @@
             "markdown":"judder",
             "original":"A Luminance-aware Model of Judder Perception.pdf",
             "img_dir":"img",
-            "whole_paper": 1
+            "whole_paper": 1,
+            "has_code": 1
         },
         {
             "dir": "Pipeline",
@@ -22,7 +24,8 @@
             "markdown":"pipeline",
             "original":"An Omnistereoscopic Video Pipeline for Capture and Display of Real-World VR.pdf",
             "img_dir":"img",
-            "whole_paper": 1
+            "whole_paper": 1,
+            "has_code": 0
         },
         {
             "dir": "Portrait",
@@ -30,7 +33,8 @@
             "markdown":"portrait",
             "original":"Portrait Shadow Manipulation.pdf",
             "img_dir":"img",
-            "whole_paper": 1
+            "whole_paper": 1,
+            "has_code": 0
         },
         {
             "dir": "Eccentricity",
@@ -38,7 +42,8 @@
             "markdown":"eccentricity",
             "original":"A Perceptual Model for Eccentricity-dependent Spatio-temporal Flicker Fusion and its Applications to Foveated Graphics.pdf",
             "img_dir":"img",
-            "whole_paper": 1
+            "whole_paper": 1,
+            "has_code": 0
         },
         {
             "dir": "Computational_Design",
@@ -46,7 +51,8 @@
             "markdown":"computation",
             "original":"Computational Design of Transforming Pop-up Books.pdf",
             "img_dir":"img",
-            "whole_paper": 0
+            "whole_paper": 0,
+            "has_code": 0
         },
         {
             "dir": "Nautilus",
@@ -54,7 +60,8 @@
             "markdown":"nautilus",
             "original":"Nautilus- Recovering Regional Symmetry Transformations for Image Editing .pdf",
             "img_dir":"img",
-            "whole_paper": 0
+            "whole_paper": 0,
+            "has_code": 0
         },
         {
             "dir": "Elastic",
@@ -62,7 +69,8 @@
             "markdown":"elastic",
             "original":"On Elastic Geodesic Grids and Their Planar to Spatial Deployment.pdf",
             "img_dir":"img",
-            "whole_paper": 0
+            "whole_paper": 0,
+            "has_code": 0
         },
         {
             "dir": "a_perceptual_model",
@@ -70,7 +78,8 @@
             "markdown":"perceptual",
             "original":"A perceptual model of motion quality for rendering with adaptive refresh-rate and resolution.pdf",
             "img_dir":"img",
-            "whole_paper": 0
+            "whole_paper": 0,
+            "has_code": 0
         },
         {
             "dir": "SIERE",
@@ -78,7 +87,62 @@
             "markdown":"siere",
             "original":"SIERE- a hybrid semi-implicit exponential integrator for efficiently simulating stiff deformable objects .pdf",
             "img_dir":"img",
-            "whole_paper": 0
+            "whole_paper": 0,
+            "has_code": 0
+        },
+        {
+            "dir": "kappa",
+            "title": "Kappa curvature",
+            "markdown":"kappa",
+            "original":"Kappa curve - HandWiki.pdf",
+            "img_dir":"img",
+            "whole_paper": 0,
+            "has_code": 0
+        },
+        {
+            "dir": "Regularized",
+            "title": "Regularized Kelvinlets Sculpting Brushes based on Fundamental Solutions of Elasticity",
+            "markdown":"Regularized",
+            "original":"Regularized Kelvinlets Sculpting Brushes based on Fundamental Solutions of Elasticity.pdf",
+            "img_dir":"img",
+            "whole_paper": 1,
+            "has_code": 1
+        },
+        {
+            "dir": "Soft_segmentation",
+            "title": "Unmixing-Based Soft Color Segmentation for Image Manipulation",
+            "markdown":"Soft",
+            "original":"Unmixing-Based Soft Color Segmentation for Image Manipulation.pdf",
+            "img_dir":"img",
+            "whole_paper": 0,
+            "has_code": 1
+        },
+        {
+            "dir": "Generic",
+            "title": "Generic Objective Vortices for Flow Visualization",
+            "markdown":"Generic",
+            "original":"Generic Objective Vortices for Flow Visualization.pdf",
+            "img_dir":"img",
+            "whole_paper": 0,
+            "has_code": 1
+        },
+        {
+            "dir": "Anisotropic",
+            "title": "Anisotropic Elasticity for Inversion-Safety and Element Rehabilitationn",
+            "markdown":"Anisotropic",
+            "original":"Anisotropic Elasticity for Inversion-Safety and Element Rehabilitation.pdf",
+            "img_dir":"img",
+            "whole_paper": 0,
+            "has_code": 1
+        },
+        {
+            "dir": "Stable",
+            "title": "Stable Neo-Hookean Flesh Simulation",
+            "markdown":"Stable",
+            "original":"Stable Neo-Hookean Flesh Simulation.pdf",
+            "img_dir":"img",
+            "whole_paper": 0,
+            "has_code": 1
         }
     ]
 }

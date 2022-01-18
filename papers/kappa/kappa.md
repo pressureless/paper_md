@@ -8,7 +8,7 @@ full_paper: False
 In geometry, the kappa curve or Gutschoven's curve is a two-dimensional algebraic curve resembling the Greek letter $κ$ (kappa).
 
 <figure>
-<img src="./kappa_img/teaser.png" alt="Trulli" style="width:40%" class = "center">
+<img src="./img/teaser.png" alt="Trulli" style="width:40%" class = "center">
 <figcaption align = "center">The kappa curve has two vertical asymptotes</figcaption>
 </figure>
 

@@ -70,7 +70,8 @@ with open('./info.json') as f:
 		output_html_file = "{}.html".format(item['markdown'])
 		shutil.copy(Path("{}/{}/{}".format(paper_path, item['dir'], output_html_file)), 
 			item_res_dir/output_html_file)
-		shutil.copy(Path("{}/{}/{}".format(paper_path, item['dir'], item['original'])), 
+		if item['original'] != '':
+			shutil.copy(Path("{}/{}/{}".format(paper_path, item['dir'], item['original'])), 
 			item_res_dir/item['original'])
 		if os.path.exists(Path("{}/{}/{}".format(paper_path, item['dir'], item['img_dir']))):
 			shutil.copytree(Path("{}/{}/{}".format(paper_path, item['dir'], item['img_dir'])), 
@@ -93,6 +94,8 @@ with open('./info.json') as f:
 			item_f.write("markdown_file: /static/gallery_res/{}/{}.txt\n".format(item['dir'], item['markdown']))
 			item_f.write("---\n")
 			item_f.write("whole_paper:{}\n".format(item['whole_paper']))
+			item_f.write("---\n") 
+			item_f.write("has_code:{}\n".format(item['has_code']))
 			item_f.write("---\n") 
 		
 
