@@ -1,6 +1,5 @@
 ---
 title: A Luminance-aware Model of Judder Perception
-date: \today
 author:
 - name: ALEXANDRE CHAPIRO, ROBIN ATKINS, and SCOTT DALY
   affiliation: Dolby Laboratories, USA

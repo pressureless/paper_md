@@ -1,8 +1,18 @@
 ---
+title: Anisotropic Elasticity for Inversion-Safety and Element Rehabilitation
+author:
+- name: THEODORE KIM
+  affiliation: Pixar Animation Studios
+- name: FERNANDO DE GOES
+  affiliation: Pixar Animation Studios
+- name: HAYLEY IBEN
+  affiliation: Pixar Animation Studios
 full_paper: False
+sectionBase: [4]
 ---
 ❤: Anisotropic
-# The Eigensystem of $I_5$
+# AN EIGENANALYSIS OF $I_5$
+## The Eigensystem of $I_5$
  
 We will now show that the eigensystem of any energy expressed solely in terms of $I_5$ can be written down in closed form. The $I_5$ invariant can be written in several forms,
 

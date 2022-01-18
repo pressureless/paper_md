@@ -1,18 +1,25 @@
 ---
+title: Generic Objective Vortices for Flow Visualization
+author:
+- name: TOBIAS GÜNTHER and MARKUS GROSS
+  affiliation: ETH Zürich
+- name: HOLGER THEISEL
+  affiliation: University of Magdeburg
 full_paper: False
+sectionBase: [4]
 ---
 ❤: Generic
 # OBJECTIVITY BY OPTIMAL REFERENCE FRAME
  
-The main idea of our approach is to estimate an optimal reference frame locally for every point (x, t ): the local frame (Q, c) is chosen such that the transformed velocity field is as steady as possible in a neighborhoodof(x,t).WelocallyassumethatQandcarespatially- constant. Since we waive the spatial and temporal connection to neighboring points, all derivatives are solved for individually, including $\dot{Q}, \ddot{Q}, \dot{\mathbf{c}}, \ddot{\mathbf{c}}^{1}$ 1. For every point (x,t), we define a spatial neighbor- hood U around it to which we fit the reference frame transformation. To compute the optimal reference frame in U , we set Q = I, c = 02, and find the unknowns Q􏰙 , Q , c, c, which contain 6 scalars (angles and offsets) in 2D and 12 in 3D, that minimize
+The main idea of our approach is to estimate an optimal reference frame locally for every point $(x, t)$: the local frame $(Q, c)$ is chosen such that the transformed velocity field is as steady as possible in a neighborhood of $(x,t)$. We locally assume that $Q$ and $c$ are spatially-constant. Since we waive the spatial and temporal connection to neighboring points, all derivatives are solved for individually, including $\dot{Q}, \ddot{Q}, \dot{\mathbf{c}}, \ddot{\mathbf{c}}^{1}$. For every point (x,t), we define a spatial neighborhood U around it to which we fit the reference frame transformation. To compute the optimal reference frame in $U$, we set $Q = I, c = 0^2$, and find the unknowns $\dot{Q}, \ddot{Q}, \dot{\mathbf{c}}, \ddot{\mathbf{c}}$, which contain 6 scalars (angles and offsets) in 2D and 12 in 3D, that minimize
 
 $$
 \int_{U}\left\|\mathbf{v}_{t}^{*}\right\|^{2} d V \rightarrow \min
 $$
 
-With these locally optimal $\dot{Q}, \ddot{Q}, \dot{\mathbf{c}}, \ddot{\mathbf{c}}^{1}$, we obtain the new local optimal fields v, J, vt , a by applying Eqs. (4)–(7). With these, existing vortex measures can be made objective simply by replacing v, J, vt , a with v, J, vt , a, respectively. Note that although Eq. (13) is minimized for every point (x,t), in practice it is computed only at discrete grid points; usually the same grid on which v is given.
+With these locally optimal $\dot{Q}, \ddot{Q}, \dot{\mathbf{c}}, \ddot{\mathbf{c}}$, we obtain the new local optimal fields v, J, vt , a by applying Eqs. (4)–(7). With these, existing vortex measures can be made objective simply by replacing v, J, vt , a with v, J, vt , a, respectively. Note that although Eq. (13) is minimized for every point (x,t), in practice it is computed only at discrete grid points; usually the same grid on which v is given.
 
-Minimizing Eq. (13) is not straightforward, since vt∗ is non-linear in Q􏰙 , Q􏰚 , c􏰙, c􏰚. However, vt∗ can be equivalently rephrased and thereby linearized by substitution. Instead of solving for Q􏰙 , Q􏰚 , c􏰙, c􏰚 directly3, we solve for a suitable combination of these unknowns, stored in u:
+Minimizing Eq. (13) is not straightforward, since vt∗ is non-linear in $\dot{Q}, \ddot{Q}, \dot{\mathbf{c}}, \ddot{\mathbf{c}}$. However, vt∗ can be equivalently rephrased and thereby linearized by substitution. Instead of solving for $\dot{Q}, \ddot{Q}, \dot{\mathbf{c}}, \ddot{\mathbf{c}}$ directly3, we solve for a suitable combination of these unknowns, stored in u:
 
 $$
 \mathbf{v}_{t}^{*}=\mathbf{Q}\left(\mathbf{v}_{t}-\mathbf{M} \mathbf{u}\right)
@@ -59,7 +66,7 @@ v: ℝ
 
 ```
 
-with ❤ `$x_p$` = (-y, x)❤, ❤ `$v_p$` = (-v, u)❤, and u is a 6-vector. Note that u1 and u3 are scalars in 2D, namely the first-order and second- order derivative of the angular velocity of the rotation of the frame. The reformulation of Eq. (7) into Eq. (14)–(17) is a straightforward exercise in algebra. Eq. (14) shows that the vector field and the reference frame are completely separated: M contains only v and its derivatives, while all information of the frame is stored in u.
+with ❤ `$x_p$` = (-y, x)❤, ❤ `$v_p$` = (-v, u)❤, and u is a 6-vector. Note that u1 and u3 are scalars in 2D, namely the first-order and second-order derivative of the angular velocity of the rotation of the frame. The reformulation of Eq. (7) into Eq. (14)–(17) is a straightforward exercise in algebra. Eq. (14) shows that the vector field and the reference frame are completely separated: M contains only v and its derivatives, while all information of the frame is stored in u.
 
 
 Eq. (13) is minimized using Eq. (14), which can be written as the solution of the linear system
@@ -94,13 +101,13 @@ whichfollowsdirectlyfrominsertionofu ,u ,u ,u intotheEqs.(4)–
 
 
 
-Theorem 4.1 (Objectivity in Optimal Frames). Given an at least C1 continuous vector field v, let v be its observation in the most- steady reference frame and let J, vt , a be its observed derivatives. Any scalar measure s that is computed from v, J, a, vt remains unchanged under any smooth rotation and translation of the reference frame of v as in Eq. (3). A vector r that is computed in the optimal frame from v, J, a, vt is objective, i.e., a transformation of v via Eq. (3) transforms r to r∗ = Q(t ) r. A second-order tensor T computed from v, J, a, vt is objective, since a transformation of v via Eq. (3) transforms T to T∗ =Q(t)TQ(t)T.
+Theorem 4.1 (Objectivity in Optimal Frames). Given an at least C1 continuous vector field v, let v be its observation in the most-steady reference frame and let J, vt , a be its observed derivatives. Any scalar measure s that is computed from v, J, a, vt remains unchanged under any smooth rotation and translation of the reference frame of v as in Eq. (3). A vector r that is computed in the optimal frame from v, J, a, vt is objective, i.e., a transformation of v via Eq. (3) transforms r to r∗ = Q(t ) r. A second-order tensor T computed from v, J, a, vt is objective, since a transformation of v via Eq. (3) transforms T to T∗ =Q(t)TQ(t)T.
 
 
 
 See Appendix B for a proof that v, J, vt , a are objective. Theorem 4.2 (Continuity of Solution). If the input vector field
 visC1continuous,thenv,J,a,v areatleastC0continuous. t
-All v, J, a, vt are computed by integrating only first-order deriva- tives in a region U . If both v and its first-order partials are continuous (i.e., v is C1 continuous), then v is at least C0 continuous.
+All v, J, a, vt are computed by integrating only first-order derivatives in a region U . If both v and its first-order partials are continuous (i.e., v is C1 continuous), then v is at least C0 continuous.
 
 
 

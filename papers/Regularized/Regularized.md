@@ -1,6 +1,5 @@
 ---
 title: "Regularized Kelvinlets: Sculpting Brushes based on Fundamental Solutions of Elasticity"
-date: \today
 author:
 - name: FERNANDO DE GOES
   affiliation: Pixar Animation Studios

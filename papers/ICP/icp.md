@@ -1,6 +1,5 @@
 ---
 title: A Symmetric Objective Function for ICP
-date: \today
 author:
 - name: SZYMON RUSINKIEWICZ
   affiliation: Princeton University

@@ -1,6 +1,5 @@
 ---
 title: Portrait Shadow Manipulation
-date: \today
 author: 
 - name: XUANER (CECILIA) ZHANG
   affiliation: University of California, Berkeley

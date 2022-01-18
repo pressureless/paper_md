@@ -1,8 +1,18 @@
 ---
+title: Computational Design of Transforming Pop-up Books
+author:
+- name: NAN XIAO and ZHE ZHU
+  affiliation: TNList, Tsinghua University
+- name: RALPH R. MARTIN
+  affiliation: Cardiff University
+- name: KUN XU and JIA-MING LU and SHI-MIN HU
+  affiliation: TNList, Tsinghua University
 full_paper: False
+sectionBase: [4, 2]
 ---
-# Optimization
-## Energy function
+# ALGORITHM
+## Optimization
+### Energy function
 ❤: computation
 We define the optimisation problem in terms of minimising <span class="def:E">an energy function $E(x)$, where $x$ represents the linkage configuration and geometric parameters of the transforming pop-up</span>. For simplicity of presentation, we leave the dependence on $x$ implicit in the following.
 

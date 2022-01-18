@@ -1,5 +1,14 @@
 ---
+title: Unmixing-Based Soft Color Segmentation for Image Manipulation
+author:
+- name: YAG IZAKSOY
+  affiliation: ETH Zurich and Disney Research Zurich
+- name: TUNC OZANAYDIN and ALJOSA SMOLIC
+  affiliation: Disney Research Zurich
+- name: MARC POLLEFEYS
+  affiliation: ETH Zurich
 full_paper: False
+sectionBase: [3]
 ---
 ❤: soft
 # SOFT COLOR SEGMENTATION

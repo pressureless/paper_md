@@ -1,5 +1,22 @@
 ---
+title: Nautilus Recovering Regional Symmetry Transformations for Image Editing
+author:
+- name: MICHAL LUKÁČ
+  affiliation: Adobe Research and Czech Technical University in Prague
+- name: DANIEL SÝKORA
+  affiliation: Czech Technical University in Prague
+- name: KALYAN SUNKAVALLI
+  affiliation: Adobe Research
+- name: ELI SHECHTMAN
+  affiliation: Adobe Research
+- name: ONDŘEJ JAMRIŠKA
+  affiliation: Czech Technical University in Prague
+- name: NATHAN CARR
+  affiliation: Adobe Research 
+- name: TOMÁŠ PAJDLA
+  affiliation: Czech Technical University in Prague
 full_paper: False
+sectionBase: [6]
 ---
 # APPLICATIONS
 To demonstrate the practical utility and versatility of our method, we have implemented several image editing applications where the knowledge of the symmetric transformation and its spatial support simplifies the task or removes the need for manual input. We compare our results on each of these applications to their current state-of-the-art methods, and demonstrate that our general framework is able to replicate and improve upon their quality.

@@ -1,6 +1,5 @@
 ---
 title: Stable Neo-Hookean Flesh Simulation
-date: \today
 author:
 - name: BREANNAN SMITH
   affiliation: Pixar Animation Studios

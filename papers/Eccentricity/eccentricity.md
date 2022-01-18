@@ -1,6 +1,5 @@
 ---
 title: A Perceptual Model for Eccentricity-dependent Spatio-temporal Flicker Fusion and its Applications to Foveated Graphics
-date: \today
 keywords: [nothing, nothingness]
 author:
 - name: BROOKE KRAJANCICH

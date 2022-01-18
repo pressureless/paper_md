@@ -1,5 +1,16 @@
 ---
+title: On Elastic Geodesic Grids and Their Planar to Spatial Deployment
+author:
+- name: STEFAN PILLWEIN
+  affiliation: TU Wien
+- name: KURT LEIMER
+  affiliation: TU Wien
+- name: MICHAEL BIRSAK
+  affiliation: KAUST
+- name: PRZEMYSLAW MUSIALSKI
+  affiliation: NJIT and TU Wien
 full_paper: False
+sectionBase: [5]
 ---
 # PHYSICAL SIMULATION
 ❤: elastic

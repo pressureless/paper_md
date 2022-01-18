@@ -1,6 +1,5 @@
 ---
 title: An Omnistereoscopic Video Pipeline for Capture and Display of Real-World VR
-date: \today
 author:
 - name: CHRISTOPHER SCHROERS
   affiliation: Disney Research

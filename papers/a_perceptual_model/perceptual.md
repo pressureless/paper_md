@@ -1,7 +1,19 @@
 ---
+title: A perceptual model of motion quality for rendering with adaptive refresh-rate and resolution
+author:
+- name: GYORGY DENES
+  affiliation: University of Cambridge
+- name: AKSHAY JINDAL
+  affiliation: University of Cambridge
+- name: ALIAKSEI MIKHAILIUK
+  affiliation: University of Cambridge
+- name: RAFAŁ K. MANTIUK
+  affiliation: University of Cambridge
 full_paper: False
+sectionBase: [5, 3]
 ---
-### From $\proselabel{σ}$ to quality
+# A PERCEPTUAL MODEL FOR MOTION QUALITY
+## From $\proselabel{σ}$ to quality
 ❤: perceptual
 Blur introduced by eye motion, hold-type blur, and spatial resolution will result in the loss of sharpness. To quantify this in terms of loss of perceived quality, we map the physical amount of blur to the perceived quality difference in JND units. Our blur quality function is inspired by the energy models of blur detection [Watson and Ahumada 2011]. Such mapping is applied to the orthogonal ($σ_O$) and parallel ($σ_P$) components of the anisotropic blur separately, resulting in two independent quality values ($Q_O$ and $Q_P$).
 

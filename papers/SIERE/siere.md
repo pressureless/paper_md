@@ -1,8 +1,20 @@
 ---
+title: SIERE a hybrid semi-implicit exponential integrator for efficiently simulating stiff deformable objects
+author:
+- name: YU JU (EDWIN) CHEN
+  affiliation: University of British Columbia
+- name: SEUNG HEON SHEEN
+  affiliation: University of British Columbia
+- name: URI M. ASCHER
+  affiliation: University of British Columbia
+- name: DINESH K. PAI
+  affiliation: University of British Columbia and Vital Mechanics Research
 full_paper: False
+sectionBase: [3]
 ---
 ❤: siere
-# Model reduction and subspace splitting
+# METHOD
+## Model reduction and subspace splitting
 
 Next, we define the splitting $G$ and $H$, crucial to the success of our method. The idea is to apply ERE in the subspace of the first s modes ($s ≪ n$: typically, $5 ≤ s ≤ 20$) and project it back to the original full space. In the bridge example of Figure 1, $n ≈ 100, 000$, so this is a rather large reduction.
 
