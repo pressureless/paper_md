@@ -28,15 +28,6 @@
             "has_code": 0
         },
         {
-            "dir": "Portrait",
-            "title": "Portrait Shadow Manipulation",
-            "markdown":"portrait",
-            "original":"Portrait Shadow Manipulation.pdf",
-            "img_dir":"img",
-            "whole_paper": 1,
-            "has_code": 0
-        },
-        {
             "dir": "Eccentricity",
             "title": "A Perceptual Model for Eccentricity-dependent Spatio-temporal Flicker Fusion and its Applications to Foveated Graphics",
             "markdown":"eccentricity",
@@ -86,15 +77,6 @@
             "title": "SIERE: a hybrid semi-implicit exponential integrator for efficiently simulating stiff deformable objects",
             "markdown":"siere",
             "original":"SIERE- a hybrid semi-implicit exponential integrator for efficiently simulating stiff deformable objects .pdf",
-            "img_dir":"img",
-            "whole_paper": 0,
-            "has_code": 0
-        },
-        {
-            "dir": "kappa",
-            "title": "Kappa curvature",
-            "markdown":"kappa",
-            "original":"Kappa curve - HandWiki.pdf",
             "img_dir":"img",
             "whole_paper": 0,
             "has_code": 0

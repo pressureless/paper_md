@@ -33,7 +33,7 @@ In this paper, we derive an objective that is closest in spirit to simple point-
 
 # METHOD
 ## Background and Motivation
-Consider the problem of aligning surfaces $P$ and $Q$. This involves finding<span class="def:R t"> a rigid-body transformation $( R | t )$ such that applying the transformation to $P$ causes it to lie on top of $Q$</span>. The original ICP algorithm of [@besl1992method] may be thought of as an instance of Expectation Maximization: the problem is solved by alternately computing<span class="def:p q"> pairs of corresponding points $( p _i, q _i)$, where $q _i$ is the closest point to $p _i$ given the current transformation</span>, and finding the transformation minimizing the point-to-point objective:
+Consider the problem of aligning surfaces $P$ and $Q$. This involves finding<span class="def:R;t"> a rigid-body transformation $( R | t )$ such that applying the transformation to $P$ causes it to lie on top of $Q$</span>. The original ICP algorithm of [@besl1992method] may be thought of as an instance of Expectation Maximization: the problem is solved by alternately computing<span class="def:p;q"> pairs of corresponding points $( p _i, q _i)$, where $q _i$ is the closest point to $p _i$ given the current transformation</span>, and finding the transformation minimizing the point-to-point objective:
 
 ``` iheartla
 `$\varepsilon_{point}$` = ∑_i ||R p_i + t - q_i||
@@ -92,7 +92,7 @@ We instead pursue a linearization that starts with the Rodrigues rotation formul
 
 $$R v = v \cos θ + ( a \times v )\sin θ + a ( a \cdot v )(1-\cos θ )$$
 
-where<span class='def:a θ'>$a$ and $θ$ are the axis and angle of rotation</span>. We observe that the last term in (7) is quadratic in the incremental rotation angle $θ$, so we drop it to linearize:
+where<span class='def:a;θ'>$a$ and $θ$ are the axis and angle of rotation</span>. We observe that the last term in (7) is quadratic in the incremental rotation angle $θ$, so we drop it to linearize:
 
 $$\begin{align*} R v & \approx v \cos θ + ( a \times  v)\sin θ \\
      & = \cos θ (v + ( ã \times v))\end{align*}$$

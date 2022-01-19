@@ -28,7 +28,7 @@ F: ℝ^(3×3)
 λ: ℝ  
 ```
 
-where ❤α = 1 + μ/λ - μ/(4λ)❤. We omit the subscript, as we only consider one model in this section. Using the column-wise notation for $F$ (Eqn.1) and the identity ❤J =`$f_0$`⋅(`$f_1$`×`$f_2$`)❤, we write $\frac{\partial J}{\partial F}$ (a.k.a. the cofactor matrix) as cross products:
+where ❤α = 1 + μ/λ - μ/(4λ)❤. We omit the subscript, as we only consider one model in this section. Using the column-wise notation for $F$ (Eqn.1) and the identity ❤J =`$f_0$`⋅(`$f_1$`×`$f_2$`)❤, we write <span class='def:\frac{\partial J}{\partial F}'> $\frac{\partial J}{\partial F}$ (a.k.a. the cofactor matrix)</span> as cross products:
 
 
 
