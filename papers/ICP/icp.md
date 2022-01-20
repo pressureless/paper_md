@@ -37,10 +37,10 @@ Consider the problem of aligning surfaces $P$ and $Q$. This involves finding<spa
 
 ``` iheartla
 `$\varepsilon_{point}$` = ∑_i ||R p_i + t - q_i||
-R ∈ ℝ^(3 × 3)
+R ∈ ℝ^(3 × 3): the rigid-body rotation matrix
 ``` 
 
-Because this iteration converges slowly, authors including [@fitzgibbon2003robust], [Mitra et al. [@mitra2004registration], and [@pottmann2006geometry] have re-cast alignment as iterative minimization of the squared Euclidean distance function of $Q$, sampled at points $p _i$. The most accurate way to accomplish this is to pre-compute a data structure that stores at each point in space (an approximation to) the squared distance field, then use it at run-time in an optimization based on Levenberg-Marquardt [@fitzgibbon2003robust] or Newton’s method [@mitra2004registration]. This leads to fast convergence and a wide convergence basin, though at significant computational and storage cost. A simpler approach is to approximate the distance function based on the local surface at each corresponding point $q _i$. The "on-demand" method of [@mitra2004registration] approximates the surface as locally quadratic, which requires evaluation of second-order surface properties (i.e., curvatures). Even more straightforward is to approximate the surface around $q _i$ as planar, which only requires evaluation of surface normals ${ n_q }_{,i}$ . Indeed, this approach dates back to the work of [@chen1992object], who minimized what has come to be called the point-to-plane objective:
+Because this iteration converges slowly, authors including [@fitzgibbon2003robust], [@mitra2004registration], and [@pottmann2006geometry] have re-cast alignment as iterative minimization of the squared Euclidean distance function of $Q$, sampled at points $p _i$. The most accurate way to accomplish this is to pre-compute a data structure that stores at each point in space (an approximation to) the squared distance field, then use it at run-time in an optimization based on Levenberg-Marquardt [@fitzgibbon2003robust] or Newton’s method [@mitra2004registration]. This leads to fast convergence and a wide convergence basin, though at significant computational and storage cost. A simpler approach is to approximate the distance function based on the local surface at each corresponding point $q _i$. The "on-demand" method of [@mitra2004registration] approximates the surface as locally quadratic, which requires evaluation of second-order surface properties (i.e., curvatures). Even more straightforward is to approximate the surface around $q _i$ as planar, which only requires evaluation of surface normals ${ n_q }_{,i}$ . Indeed, this approach dates back to the work of [@chen1992object], who minimized what has come to be called the point-to-plane objective:
 ``` iheartla
 `$\varepsilon_{plane}$` = ∑_i ((R p_i + t - q_i) ⋅ `$n_q$`_i)^2
 ```
@@ -107,11 +107,11 @@ tan, cos from trigonometry
 where
 a ∈ ℝ³ : axis of rotation
 θ ∈ ℝ  : angle of rotation
-p_i ∈ ℝ³
-q_i ∈ ℝ³
-`$n_q$`_i ∈ ℝ³
-`$n_p$`_i ∈ ℝ³
-t ∈ ℝ³
+p_i ∈ ℝ³: a sequence of points
+q_i ∈ ℝ³: a sequence of points
+`$n_q$`_i ∈ ℝ³: the surface normals
+`$n_p$`_i ∈ ℝ³: the surface normals
+t ∈ ℝ³: the translation vector
 ```
 where ❤n_i = `$n_q$`_i + `$n_p$`_i❤ and ❤t̃ = t/cos(θ)❤. We now make the additional approximation of weighting the objective by $1/\cos^2 θ$ , which approaches 1 for small $θ$ . Finally, for better numerical stability, we normalize the $( p _i, q _i)$ by translating each point set to the origin and adjusting the solved-for translation appropriately. This yields:
 
@@ -126,10 +126,10 @@ where ❤ p̃_i = p_i - `$\bar{p}$` ❤ and ❤ q̃_i = q_i - `$\bar{q}$` ❤. T
 S = trans(`$\bar{q}$`) ⋅ rot(θ, ã/||ã||) ⋅trans(t̃ cos(θ)) ⋅rot(θ, ã/||ã||)⋅ trans(-`$\bar{p}$`)
 
 where 
-`$\bar{q}$` ∈ ℝ³
-`$\bar{p}$` ∈ ℝ³
-trans ∈ ℝ³ -> ℝ^(4 × 4)
-rot ∈ ℝ, ℝ³ -> ℝ^(4 × 4)
+`$\bar{q}$` ∈ ℝ³: the averaged coordinate of points
+`$\bar{p}$` ∈ ℝ³: the averaged coordinate of points
+trans ∈ ℝ³ -> ℝ^(4 × 4) : the translation function
+rot ∈ ℝ, ℝ³ -> ℝ^(4 × 4): the rotation function
 ```
 
 
