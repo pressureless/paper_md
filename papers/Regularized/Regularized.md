@@ -9,7 +9,10 @@ abstract: |
  We introduce a new technique for real-time physically based volume sculpting of virtual elastic materials. Our formulation is based on the elastic response to localized force distributions associated with common modeling primitives such as grab, scale, twist, and pinch. The resulting brush-like displacements correspond to the regularization of fundamental solutions of linear elasticity in infinite 2D and 3D media. These deformations thus provide the realism and plausibility of volumetric elasticity, and the interactivity of closed-form analytical solutions. To finely control our elastic deformations, we also construct compound brushes with arbitrarily fast spatial decay. Furthermore, pointwise constraints can be imposed on the displacement field and its derivatives via a single linear solve. We demonstrate the versatility and efficiency of our method with multiple examples of volume sculpting and image editing.
 ---
 ❤: Regularized
-
+<figure>
+<img src="./img/img1.png" alt="Trulli" style="width:50%" class = "center">
+<figcaption align = "center">Fig.1. RegularizedKelvinlets:ExamplesofexpressionsgeneratedbyregularizedKelvinlets,anovelapproachforsculptingthatprovidesspacedeformations with real-time feedback and interactive volume control based on closed-form analytical solutions of linear elasticity. ©Disney/Pixar</figcaption>
+</figure>
 # INTRODUCTION
 Digital sculpting is a core component in modeling and animation packages, e.g., ZBrush, Scultpris, MudBox, Maya, or Modo. While purely geometric approaches are commonplace for shape editing, physically based deformers have long been sought to provide a more natural and effective sculpting tool for digital artists. However, existing physics-driven methods tend to have practical impediments for interactive design: they are inherently slow due to the need to numerically solve equations of the underlying discrete deformation model, and also involve tedious setup steps such as volumetric meshing, boundary condition specification, or preprocessing to accelerate the simulation.
 
@@ -63,19 +66,23 @@ where p is the pressure scalar field acting as a Lagrangian multiplier that enfo
 Deformation Gradient: From a displacement field u(x −x0), an arbitrary point x embedded in a linear elastic material is deformed to x +u(x −x0). The associated deformation gradient is then defined bya3×3matrixoftheformG(x−x0)=I+∇u(x−x0). By analyzing this matrix G(r), we can obtain different properties of the displacement field u(r) (see, e.g., [@slaughter2012linearized]). For instance, the skew-symmetric part of ∇u(r) indicates the infinitesimal rotation induced by u(r), while its symmetric part corresponds to the elastic strain and determines the infinitesimal stretching. The strain tensor can be also decomposed into a trace term that represents the uniform scaling of the volume of the elastic medium, and a traceless term that informs the undergoing pinching deformation. We will use these deformation gradient decompositions in Section 6 to construct twist, scale, and pinch elastic brushes.
 
 # 3D REGULARIZED KELVINLETS
-The concentrated body load at a single point x0 introduces a singularity to the Kelvinlet solution, making its displacements and derivatives indefinite nearby x0. For this reason, the singular Kelvinlet is numerically unsuitable for digital sculpting. To overcome this issue, we adopt the regularization scheme introduced in [@cortez2001method], andconsiderasmoothedbodyloadb(r)=fρε(r)
-μàu+ μ ∇(∇·u)+b=0. (1−2ν)
-(2) Kelvinlets: In the case of a concentrated body load due to a force
-with force vector f and normalized density
-function ρε(r) distributed around x0 by a
-radial scale ε > 0. Similar to [@cortez2005method], we define the regularized distance √
-rε = r2+ε2 and set the normalized density function to be of the form (see inset)
 
+The concentrated body load at a single point $x_0$ introduces a singularity to the Kelvinlet solution, making its displacements and derivatives indefinite nearby $x_0$. For this reason, the singular Kelvinlet is numerically unsuitable for digital sculpting. To overcome this issue, we adopt the regularization scheme introduced in [@cortez2001method], and consider a smoothed body load $b(r)=fρ_ε(r)$ with force vector $f$ and normalized density function $ρ_ε(r)$ distributed around $x_0$ by a radial scale $ε > 0$. Similar to [@cortez2005method], we define the regularized distance $r_ε = √r^2+ε^2$ and set the normalized density function to be of the form (see inset)
+<figure>
+<img src="./img/img1.5.png" alt="Trulli" style="width:50%" class = "center">
+</figure>
 ``` iheartla
 `$row_ε$`(r) = (15`$r_ε$`/8 + 1/`$r_ε$`³ )  where r ∈ ℝ^3
 
 ```
 
+
+
+<figure>
+<img src="./img/img2.png" alt="Trulli" style="width:50%" class = "center">
+<figcaption align = "center">Elastic Grab Brush: Regularized Kelvinlets offer interactive elastic response to grab displacements. This example shows the result of a bi-scale sculpting brush in 2D computed with a series of Poisson ratio values ν . Notice how larger values of ν lead to more bulging, e.g., along the body silhouette. The grid plots illustrate the local area loss and gain associated with different Poisson ratios. The pseudocolors encode a range from compression of 50% (blue) to dilation of 50% (red) relative to the rest area. Input image courtesy of Mirela Ben-Chen.
+</figcaption>
+</figure>
 
 # MULTI-SCALE EXTRAPOLATION
 
