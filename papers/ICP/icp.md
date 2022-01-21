@@ -33,14 +33,14 @@ In this paper, we derive an objective that is closest in spirit to simple point-
 
 # METHOD
 ## Background and Motivation
-Consider the problem of aligning surfaces $P$ and $Q$. This involves finding<span class="def:R;t"> a rigid-body transformation $( R | t )$ such that applying the transformation to $P$ causes it to lie on top of $Q$</span>. The original ICP algorithm of [@besl1992method] may be thought of as an instance of Expectation Maximization: the problem is solved by alternately computing<span class="def:p;q"> pairs of corresponding points $( p _i, q _i)$, where $q _i$ is the closest point to $p _i$ given the current transformation</span>, and finding the transformation minimizing the point-to-point objective:
+Consider the problem of aligning surfaces $P$ and $Q$. This involves finding<span class="def:R;t"> a rigid-body transformation $( R | t )$ such that applying the transformation to $P$ causes it to lie on top of $Q$</span>. The original ICP algorithm of [@besl1992method] may be thought of as an instance of Expectation Maximization: the problem is solved by alternately computing<span class="def:p;q"> pairs of corresponding points $( p _i, q _i)$, where $q _i$ is the closest point to $p _i$ given the current transformation</span>, and finding the transformation minimizing <span class="def:\varepsilon_{point}">the point-to-point objective</span>:
 
 ``` iheartla
 `$\varepsilon_{point}$` = ∑_i ||R p_i + t - q_i||
 R ∈ ℝ^(3 × 3): the rigid-body rotation matrix
 ``` 
 
-Because this iteration converges slowly, authors including [@fitzgibbon2003robust], [@mitra2004registration], and [@pottmann2006geometry] have re-cast alignment as iterative minimization of the squared Euclidean distance function of $Q$, sampled at points $p _i$. The most accurate way to accomplish this is to pre-compute a data structure that stores at each point in space (an approximation to) the squared distance field, then use it at run-time in an optimization based on Levenberg-Marquardt [@fitzgibbon2003robust] or Newton’s method [@mitra2004registration]. This leads to fast convergence and a wide convergence basin, though at significant computational and storage cost. A simpler approach is to approximate the distance function based on the local surface at each corresponding point $q _i$. The "on-demand" method of [@mitra2004registration] approximates the surface as locally quadratic, which requires evaluation of second-order surface properties (i.e., curvatures). Even more straightforward is to approximate the surface around $q _i$ as planar, which only requires evaluation of surface normals ${ n_q }_{,i}$ . Indeed, this approach dates back to the work of [@chen1992object], who minimized what has come to be called the point-to-plane objective:
+Because this iteration converges slowly, authors including [@fitzgibbon2003robust], [@mitra2004registration], and [@pottmann2006geometry] have re-cast alignment as iterative minimization of the squared Euclidean distance function of $Q$, sampled at points $p _i$. The most accurate way to accomplish this is to pre-compute a data structure that stores at each point in space (an approximation to) the squared distance field, then use it at run-time in an optimization based on Levenberg-Marquardt [@fitzgibbon2003robust] or Newton’s method [@mitra2004registration]. This leads to fast convergence and a wide convergence basin, though at significant computational and storage cost. A simpler approach is to approximate the distance function based on the local surface at each corresponding point $q _i$. The "on-demand" method of [@mitra2004registration] approximates the surface as locally quadratic, which requires evaluation of second-order surface properties (i.e., curvatures). Even more straightforward is to approximate the surface around $q _i$ as planar, which only requires evaluation of <span class='def:n_q'>surface normals ${ n_q }_{,i}$ </span>. Indeed, this approach dates back to the work of [@chen1992object], who minimized what has come to be called <span class="def:\varepsilon_{plane}">the point-to-plane objective</span>:
 ``` iheartla
 `$\varepsilon_{plane}$` = ∑_i ((R p_i + t - q_i) ⋅ `$n_q$`_i)^2
 ```
@@ -68,7 +68,7 @@ To formulate an objective function, we consider minimizing Equation $\ref{4}$ wi
 ``` iheartla
 `$\varepsilon_{symm-RN}$` = ∑_i ((R p_i + R⁻¹ q_i + t) ⋅ (R`$n_p$`_i + R⁻¹`$n_q$`_i))^2
 ```
-where the final transformation from $P$ to $Q$ is now $R  T  R$ (with $T$ being the translation matrix). We will refer to this as the rotated-normals ("-RN") version of the symmetric objective.
+where the final transformation from $P$ to $Q$ is now $R  T  R$ (with $T$ being the translation matrix). We will refer to this as <span class='def:\varepsilon_{symm-RN}'>the rotated-normals ("-RN") version of the symmetric objective</span>.
 
 This splitting of rotations has a number of advantages when we consider linearizing the objective (Section 3.3):
 
@@ -83,7 +83,7 @@ $$
 <img src="./img/icp-2.png" alt="Trulli" style="width:90%" class = "center">
 <figcaption align = "center">Fig.2. Top:As $p$ moves relative to $q$,the property$( p − q )·( n_p + n_q )=0$ holds as long as there is some circular arc with which $p$, $q$, $n_p$, and $n_q$ are consistent. Bottom: This is in contrast to the point-to-plane metric, which is zero when $p$ is in the plane defined by $q$ and $n_q$, regardless of $p$.</figcaption>
 </figure>
-Why might this be a reasonable simplification to make? Consider the sum of two unit-length vectors in 2D. Applying opposite rotations to the vectors preserves the direction of their sum, so that the contribution of each point pair to the two variants of the objective would be the same up to a scale. In 3D, this is not true for all rotation axes, but approaches true as np approaches nq . The experiments in Section 4.3 show that the two objectives lead to similar convergence, but $\varepsilon_{symm}$ leads to simpler derivations and implementation. Therefore, the remainder of this paper adopts $\varepsilon_{symm}$ as the symmetric objective.
+Why might this be a reasonable simplification to make? Consider the sum of two unit-length vectors in 2D. Applying opposite rotations to the vectors preserves the direction of their sum, so that the contribution of each point pair to the two variants of the objective would be the same up to a scale. In 3D, this is not true for all rotation axes, but approaches true as np approaches nq . The experiments in Section 4.3 show that the two objectives lead to similar convergence, but $\varepsilon_{symm}$ leads to simpler derivations and implementation. Therefore, the remainder of this paper adopts <span class='def:\varepsilon_{symm}'>$\varepsilon_{symm}$ as the symmetric objective</span>.
 
 ## Linear Approximation
 The traditional method for converting an objective function involving rotations into an easily-optimized linear least-squares system is to make the approximations $\cos θ ∼ 1$, $\sin θ ∼ θ$, for small incremental rotations $θ$. This converts the rotation matrix $R$ into a linear form, which then yields a linear least-squares system.
@@ -189,7 +189,7 @@ We test a total of six objective functions, of which four are $\varepsilon_{poin
 <img src="./img/icp-4.png" alt="Trulli" style="width:100%" class = "center">
 <figcaption align = "center">Fig. 4. Left: Error decrease due to one ICP iteration on the dragon model, aligned to itself. Ground-truth errors before and after the ICP iteration are shown on the x and y axes, respectively, of this log-log plot. The proposed symmetric objective results in significantly faster decrease of error at each iteration. Center: Error decrease due to one iteration of ICP, aligning bun090 to bun000 (illustrated in blue and red, respectively, with the areas of overlap in purple). Right: Error decrease in one ICP iteration, aligning two scans from the TUM RGB-D dataset. Note the slower convergence because of the high level of noise.</figcaption>
 </figure>
-- Two-plane: minimizing the sum of squared distances to planes defined by both $n_p$ and $n_q$ :
+- Two-plane: minimizing <span class='def:\varepsilon_{two-plane}'>the sum of squared distances to planes defined by both $n_p$ and $n_q$</span> :
 ``` iheartla
 `$\varepsilon_{two-plane}$` = ∑_i(((R p_i + R⁻¹ q_i + t) ⋅ (R `$n_p$`_i))^2 + ((R p_i + R⁻¹ q_i + t) ⋅ (R⁻¹`$n_q$`_i))^2)
 ```
