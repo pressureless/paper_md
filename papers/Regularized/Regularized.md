@@ -47,30 +47,30 @@ $$
 \mu \Delta \boldsymbol{u}+\frac{\mu}{(1-2 v)} \nabla(\nabla \cdot \boldsymbol{u})+\boldsymbol{b}=0
 $$
 
-Kelvinlets: In the case of a concentrated body load due to a force vector f at a point x0, i.e., b(x) = f δ(x −x0), the solution of (2) defines the (singular) fundamental solution of linear elasticity, also known as the Kelvin’s state [@kelvin1848note] or Kelvinlet [@phan1994microstructures], which can be written as
+Kelvinlets: In the case of a concentrated body load due to <span class='def:\boldsymbol{f}'>a force vector $\boldsymbol{f}$ at a point $\boldsymbol{x}_0$</span>, i.e., $\boldsymbol{b}(\boldsymbol{x}) = \boldsymbol{f} δ(\boldsymbol{x} −\boldsymbol{x}_0)$, the solution of (2) defines the (singular) fundamental solution of linear elasticity, also known as the Kelvin’s state [@kelvin1848note] or Kelvinlet [@phan1994microstructures], which can be written as
 
 ``` iheartla
 `$\boldsymbol{u}$`(`$\boldsymbol{r}$`) = ((a-b)/rI_3 + b/r³ `$\boldsymbol{r}$` `$\boldsymbol{r}$`^T) `$\boldsymbol{f}$` where `$\boldsymbol{r}$` ∈ ℝ^3
 
 where
-r ∈ ℝ
+r ∈ ℝ: the norm of $\boldsymbol{r}$
 ``` 
-where r =x−x0 is the relative position vector from the load location x0 to an observation point x, and r = ∥r ∥ is its norm. The coefficients in (3) are of the forma=1/(4πμ) andb=a/[4(1−ν)]. Here, we refer to K(r) as the Green’s function for linear elasticity that defines a 3×3 matrix mapping the force vector f at x0 to the displacement vector u at a relative position r . Notice that the first term in K(r ) resembles the Laplacian Green’s function scaled by a constant, while the second term controls volume compression by modifying the elastic response based on the alignment of the relative position vector r to the force vector f . Moreover, observe that no boundary conditions were needed for the definition of Kelvinlets, since these displacement fields are the minimizer of the elastic potential energy over the infinite space.
+where <span class='def:\boldsymbol{r}'>$\boldsymbol{r} =\boldsymbol{x}−\boldsymbol{x}_0$ is the relative position vector from the load location $\boldsymbol{x}_0$ to an observation point $\boldsymbol{x}$</span>, and $r = ∥\boldsymbol{r}∥$ is its norm. The coefficients in (3) are of the form $a=1/(4πμ)$ and $b=a/[4(1−ν)]$. Here, we refer to $K( \boldsymbol{r} )$ as the Green’s function for linear elasticity that defines a 3×3 matrix mapping the force vector $\boldsymbol{f}$ at $\boldsymbol{x}_0$ to the displacement vector $\boldsymbol{u}$ at a relative position $\boldsymbol{r}$ . Notice that the first term in $K( \boldsymbol{r} )$ resembles the Laplacian Green’s function scaled by a constant, while the second term controls volume compression by modifying the elastic response based on the alignment of the relative position vector $\boldsymbol{r}$ to the force vector $\boldsymbol{f}$ . Moreover, observe that no boundary conditions were needed for the definition of Kelvinlets, since these displacement fields are the minimizer of the elastic potential energy over the infinite space.
 
-Stokeslets: An important special case of linear elastostatics occurs for incompressible materials, i.e., ν = 1/2. In this case, the divergence penalty term in (1) becomes a hard constraint ∇ · u = 0 that ensures incompressible displacements. The solution for this constrained minimization can be computed via the Stokes equation:
+Stokeslets: An important special case of linear elastostatics occurs for incompressible materials, i.e., $ν = 1/2$. In this case, the divergence penalty term in (1) becomes a hard constraint $∇ · \boldsymbol{u}= 0$ that ensures incompressible displacements. The solution for this constrained minimization can be computed via the Stokes equation:
 
 
 $$
 \mu \Delta \boldsymbol{u}+\boldsymbol{b}-\nabla p=0 \quad \text { subject to } \quad \nabla \cdot \boldsymbol{u}=0
 $$
 
-where p is the pressure scalar field acting as a Lagrangian multiplier that enforces the divergence-free constraint. For a pointwise load with force vector f , the (singular) fundamental solution of (4) is known as the Stokeslet [@chwang1975hydromechanics; Hancock 1953], and matches the expression in (3) with ν =1/2 (i.e., b =a/2).
+where p is the pressure scalar field acting as a Lagrangian multiplier that enforces the divergence-free constraint. For a pointwise load with force vector $\boldsymbol{f}$ , the (singular) fundamental solution of (4) is known as the Stokeslet [@chwang1975hydromechanics; Hancock 1953], and matches the expression in (3) with ν =1/2 (i.e., b =a/2).
 
-Deformation Gradient: From a displacement field u(x −x0), an arbitrary point x embedded in a linear elastic material is deformed to x +u(x −x0). The associated deformation gradient is then defined bya3×3matrixoftheformG(x−x0)=I+∇u(x−x0). By analyzing this matrix G(r), we can obtain different properties of the displacement field u(r) (see, e.g., [@slaughter2012linearized]). For instance, the skew-symmetric part of ∇u(r) indicates the infinitesimal rotation induced by u(r), while its symmetric part corresponds to the elastic strain and determines the infinitesimal stretching. The strain tensor can be also decomposed into a trace term that represents the uniform scaling of the volume of the elastic medium, and a traceless term that informs the undergoing pinching deformation. We will use these deformation gradient decompositions in Section 6 to construct twist, scale, and pinch elastic brushes.
+Deformation Gradient: From a displacement field $\boldsymbol{u}(\boldsymbol{x} −\boldsymbol{x}_0)$, an arbitrary point $\boldsymbol{x}$ embedded in a linear elastic material is deformed to $\boldsymbol{x} +\boldsymbol{u}(\boldsymbol{x} −\boldsymbol{x}_0)$. The associated deformation gradient is then defined by a 3×3 matrix of the form $\boldsymbol{G}(\boldsymbol{x}−\boldsymbol{x}_0)=\boldsymbol{I}+∇\boldsymbol{u}(\boldsymbol{x}−\boldsymbol{x}_0)$. By analyzing this matrix G(r), we can obtain different properties of the displacement field u(r) (see, e.g., [@slaughter2012linearized]). For instance, the skew-symmetric part of ∇u(r) indicates the infinitesimal rotation induced by u(r), while its symmetric part corresponds to the elastic strain and determines the infinitesimal stretching. The strain tensor can be also decomposed into a trace term that represents the uniform scaling of the volume of the elastic medium, and a traceless term that informs the undergoing pinching deformation. We will use these deformation gradient decompositions in Section 6 to construct twist, scale, and pinch elastic brushes.
 
 # 3D REGULARIZED KELVINLETS
 
-The concentrated body load at a single point $x_0$ introduces a singularity to the Kelvinlet solution, making its displacements and derivatives indefinite nearby $x_0$. For this reason, the singular Kelvinlet is numerically unsuitable for digital sculpting. To overcome this issue, we adopt the regularization scheme introduced in [@cortez2001method], and consider a smoothed body load $b(r)=fρ_ε(r)$ with force vector $f$ and normalized density function $ρ_ε(r)$ distributed around $x_0$ by a radial scale $ε > 0$. Similar to [@cortez2005method], we define the regularized distance $r_ε = √r^2+ε^2$ and set the normalized density function to be of the form (see inset)
+The concentrated body load at a single point $x_0$ introduces a singularity to the Kelvinlet solution, making its displacements and derivatives indefinite nearby $x_0$. For this reason, the singular Kelvinlet is numerically unsuitable for digital sculpting. To overcome this issue, we adopt the regularization scheme introduced in [@cortez2001method], and consider a smoothed body load $b(r)=fρ_ε(r)$ with force vector $f$ and normalized density function $ρ_ε(r)$ distributed around $x_0$ by a radial scale $ε > 0$. Similar to [@cortez2005method], we define <span class='def:r_ε'>the regularized distance $r_ε$</span> $ = √r^2+ε^2$ and set <span class='def:{\rho}_ε'>the normalized density function ${\rho}_ε ( \boldsymbol{r} )$</span> to be of the form (see inset)
 
 ``` iheartla
 `${\rho}_ε$`(`$\boldsymbol{r}$`) = (15`$r_ε$`^4/(8π) + 1/`$r_ε$`^7 )  where `$\boldsymbol{r}$` ∈ ℝ^3
@@ -88,7 +88,7 @@ As detailed in Appendix A, the solution to the elastostatics equation (2) associ
 
 where
 
-`$\boldsymbol{f}$` ∈ ℝ^3
+`$\boldsymbol{f}$` ∈ ℝ^3: force vector
 ``` 
 
 This solution, which we name regularized Kelvinlet, forms the building block of our sculpting technique. Compared to (3), the regularized Kelvinlet includes an extra ε2/rε3 term, and reproduces the singular case as the radial scale ε approaches zero. Moreover, the undesirable 1/r singularity of Kelvinlets is now regularized at r = 0 using a 1/rε term, while keeping the O(1/r) asymptotic decay as r → ∞. Therefore, the resulting displacements are finite, differentiable, and localized around x0. One can also verify that the deformation gradient at x0 is trivial, i.e., ∇uε (0) = 0, implying that the deformation at the point under the load is locally rigid. It is also worth mentioning that different density functions (and thereby regularized solutions) could be used, and our choice is based on the formulation of regularized Stokeslets [@cortez2005method]. In fact, one can easily verify that the regularized Kelvinlets simplify to the regularized Stokeslets in the incompressible limit (ν = 1/2).
@@ -196,20 +196,20 @@ $$
 This implies that we can define a new body load $\widetilde{\boldsymbol{b}}(\boldsymbol{r})=\boldsymbol{g} \cdot \nabla \boldsymbol{b}(\boldsymbol{r})$ ,and its associated elastic response corresponds to the displacement field
 $\tilde{\boldsymbol{u}}_ε(\boldsymbol{r})=g \cdot \nabla u_ε(\boldsymbol{r})$
 
-We now consider the nine possible deformations $\tilde{\boldsymbol{u}}_ε^{i j}$ generated by setting $\boldsymbol{f}=\boldsymbol{e}_{i}$ and $\boldsymbol{g}=\boldsymbol{e}_{j}$ for every pair (i, j), where the vectors $\left\{\boldsymbol{e}_{1}, \boldsymbol{e}_{2}, \boldsymbol{e}_{3}\right\}$ form an orthonormal bases spanning $\mathbb{R}^{3}$. Due to super-position, we can linearly combine $\tilde{\boldsymbol{u}}_ε^{i j}$ with scalar coefficients $F_{i j}$, and obtain a matrix-driven solution of (2) of the form
+We now consider the nine possible deformations $\tilde{\boldsymbol{u}}_ε^{i j}$ generated by setting $\boldsymbol{f} =\boldsymbol{e}_{i}$ and $\boldsymbol{g}=\boldsymbol{e}_{j}$ for every pair (i, j), where the vectors $\left\{\boldsymbol{e}_{1}, \boldsymbol{e}_{2}, \boldsymbol{e}_{3}\right\}$ form an orthonormal bases spanning $\mathbb{R}^{3}$. Due to super-position, we can linearly combine $\tilde{\boldsymbol{u}}_ε^{i j}$ with scalar coefficients $F_{i j}$, and obtain a matrix-driven solution of (2) of the form
 
 $$
 \widetilde{\boldsymbol{u}}_ε(\boldsymbol{r})=\sum_{i j} F_{i j} \boldsymbol{e}_{j} \cdot \nabla\left(\mathcal{K}_ε(\boldsymbol{r}) \boldsymbol{e}_{\boldsymbol{i}}\right)=\nabla \mathcal{K}_ε(\boldsymbol{r}): \boldsymbol{F}
 $$
 
 
-where $\boldsymbol{F}=\left[F_{i j}\right]$ is a 3×3 force matrix, and the symbol : indicates the double contraction of F to the third-order tensor $\nabla \mathcal{K}_ε(\boldsymbol{r})$, thus returning a vector. Similarly, we can write the body load that generates the deformation $\tilde{\boldsymbol{u}}_ε$ as
+where <span class='def:\boldsymbol{F}'>$\boldsymbol{F} =\left[F_{i j}\right]$ is a 3×3 force matrix</span>, and the symbol : indicates the double contraction of F to the third-order tensor $\nabla \mathcal{K}_ε(\boldsymbol{r})$, thus returning a vector. Similarly, we can write the body load that generates the deformation $\tilde{\boldsymbol{u}}_ε$ as
 
 $$
-\widetilde{\boldsymbol{b}}(\boldsymbol{r})=\sum_{i j} F_{i j} \boldsymbol{e}_{i} \boldsymbol{e}_{j}^{t} \nabla \rho_ε(\boldsymbol{r})=\boldsymbol{F} \nabla \rho_ε(\boldsymbol{r})
+\widetilde{\boldsymbol{b}}(\boldsymbol{r})=\sum_{i j} F_{i j} \boldsymbol{e}_{i} \boldsymbol{e}_{j}^{t} \nabla \rho_ε(\boldsymbol{r})= \boldsymbol{F} \nabla \rho_ε(\boldsymbol{r})
 $$
 
-By computing the spatial derivatives of $\boldsymbol{u}_ε$, we obtain the displacement field $\tilde{\boldsymbol{u}}_ε(\boldsymbol{r})$ in terms of the force matrix F :
+By computing the spatial derivatives of $\boldsymbol{u}_ε$, we obtain <span class='def:\tilde{\boldsymbol{u}}_ε'>the displacement field $\tilde{\boldsymbol{u}}_ε (\boldsymbol{r})$</span> in terms of the force matrix F :
 
 
 
@@ -219,7 +219,7 @@ tr from linearalgebra
 ``` 
 
 
-Note that the first term in (14) corresponds to an affine transformation $\boldsymbol{F}\boldsymbol{r}$ with a radial falloff similar to existing affine brushes, while the second term includes a symmetric affine transformation and controls volume compression through the Poisson ratio ν that b depends on. Therefore, we name this matrix-based extension of the fundamental solution of linear elasticity as a locally affine regularized Kelvinlet. For conciseness, we denote this displacement field by $\widetilde{u}_ε(\boldsymbol{r}) \equiv \mathcal{A}_ε(\boldsymbol{r}) \overrightarrow{\boldsymbol{F}}$, where $\overrightarrow{\boldsymbol{F}} \in \mathbb{R}^{9}$ is a vectorized form of F and $\mathcal{A}(\boldsymbol{r})$ is the 3×9 matrix that maps $\overrightarrow{\boldsymbol{F}}$ to a displacement at $\boldsymbol{r}$.
+Note that the first term in (14) corresponds to an affine transformation $\boldsymbol{F} \boldsymbol{r}$ with a radial falloff similar to existing affine brushes, while the second term includes a symmetric affine transformation and controls volume compression through the Poisson ratio ν that b depends on. Therefore, we name this matrix-based extension of the fundamental solution of linear elasticity as a locally affine regularized Kelvinlet. For conciseness, we denote this displacement field by $\widetilde{u}_ε(\boldsymbol{r}) \equiv \mathcal{A}_ε(\boldsymbol{r}) \overrightarrow{\boldsymbol{F}}$, where $\overrightarrow{\boldsymbol{F}} \in \mathbb{R}^{9}$ is a vectorized form of F and $\mathcal{A}(\boldsymbol{r})$ is the 3×9 matrix that maps $\overrightarrow{\boldsymbol{F}}$ to a displacement at $\boldsymbol{r}$.
 
 
 In contrast to (6), the deformation generated by (14) has zero displacement at the brush center, i.e., $\widetilde{\boldsymbol{u}}_ε(0)=0$, but a non-trivial gradient in terms of $\boldsymbol{F}$ (the closed-form expression is provided in the supplemental material). As the radial scale ε approaches zero, our matrix-based solutions reproduce the definition of Kelvinlet doublets [@phan1994microstructures]. These expressions also coincide with the regularized Stokeslet doublets [@ainley2008method] in the incompressible limit (ν = 1/2). Following the matrix decomposition in Section 3, we can further construct specialized versions of the locally affine regularized Kelvinlets by setting F to different types of matrices, as illustrated in Figure 5.
@@ -228,7 +228,7 @@ In contrast to (6), the deformation generated by (14) has zero displacement at t
 <figcaption align = "center">Fig. 5. Elastic Locally Affine Brushes: Given an input image (left), we compute a twisting (left-center), a scaling (center-right), and a pinching (right) deformation via a locally affine regularized Kelvinlet in 2D with Poisson ratio ν =0.4. Input image courtesy of Eftychios Sifakis.
 </figcaption>
 </figure>
-Twisting: In the case of a skew-symmetric matrix, we can associate F to a vector q via the cross product matrix, i.e., $F \equiv[q]_{\times}$ where $[\boldsymbol{q}]_{\times} \boldsymbol{r}=\boldsymbol{q} \times \boldsymbol{r}$, then (14) simplifies to a twist deformation
+Twisting: In the case of a skew-symmetric matrix, we can associate F to a vector q via the cross product matrix, i.e., $F \equiv[q]_{\times}$ where $[\boldsymbol{q}]_{\times} \boldsymbol{r}=\boldsymbol{q} \times \boldsymbol{r}$, then (14) simplifies to <span class='def:\boldsymbol{t}_ε'>a twist deformation</span>
 
 ``` iheartla
 `$\boldsymbol{t}_ε$`(`$\boldsymbol{r}$`) = -a(1/`$r_ε$`³ + 3ε²/(2`$r_ε$`⁵) ) `$\boldsymbol{F}$``$\boldsymbol{r}$` where `$\boldsymbol{r}$` ∈ ℝ^3
@@ -236,7 +236,7 @@ Twisting: In the case of a skew-symmetric matrix, we can associate F to a vector
 
 By analyzing the deformation gradient of (15) (see supplemental material), one can verify that its symmetric part (the strain tensor) is trivial for any $\boldsymbol{r}$. Consequently, this displacement field has zero divergence (i.e., $\left.\nabla \cdot \boldsymbol{t}_ε(\boldsymbol{r})=0\right)$ ) and defines a volume preserving deformation, independent of the Poisson ratio ν. Instead, its curl is non-zero and can be used to relate the vector $\boldsymbol{q}$ to the vorticity $\bar{\omega}$ at $x_{0}$ via the linear constraint $\nabla \times t_ε(0)=\bar{\omega}$.
 
-Scaling: Another type of locally affine regularized Kelvinlet can be generated by a force matrix of the form $F=s I$, where s is a scalar. In this case, (14) reduces to a scaling deformation
+Scaling: Another type of locally affine regularized Kelvinlet can be generated by a force matrix of the form $F=s I$, where s is a scalar. In this case, (14) reduces to <span class='def:\boldsymbol{s}_ε'>a scaling deformation</span>
 ``` iheartla
 `$\boldsymbol{s}_ε$`(`$\boldsymbol{r}$`) = (2b-a)(1/`$r_ε$`³ + 3ε²/(2`$r_ε$`⁵))(s`$\boldsymbol{r}$`) where `$\boldsymbol{r}$` ∈ ℝ^3
 
@@ -245,7 +245,7 @@ where
 s ∈ ℝ
 ``` 
 
-where positive values of s represent contractions, and negative values determine dilations. Notice that we have sε (r ) = 0 for incompressible elastic materials, since ν = 1/2 implies a = 2b .
+where <span class='def:s'>positive values of $s$ represent contractions, and negative values determine dilations</span>. Notice that we have $\boldsymbol{s}_ε ( \boldsymbol{r} ) = 0 $ for incompressible elastic materials, since $ν = 1/2$ implies $a = 2 b$ .
 
 
 Pinching: The last type of locally affine regularized Kelvinlet is constructed based on a symmetric force matrix F with zero trace (in a total of 5 DoFs), and it generates displacements of the form
@@ -254,11 +254,11 @@ Pinching: The last type of locally affine regularized Kelvinlet is constructed b
 
 where
 
-`$\boldsymbol{F}$` ∈ ℝ^(3×3)
+`$\boldsymbol{F}$` ∈ ℝ^(3×3): force matrix 
 `$r_ε$` ∈ ℝ
-a ∈ ℝ 
-b ∈ ℝ
-ε ∈ ℝ
+a ∈ ℝ : coefficient
+b ∈ ℝ : coefficient
+ε ∈ ℝ : the radial scale
 ``` 
 To geometrically characterize this deformation, we computed the displacement gradient ∇pε at x0, and observed that the resulting matrix is also symmetric with zero trace. This indicates that the deformation generated by pε (r ) compensates infinitesimal stretching in one direction by contractions in the other directions, thus resembling a physical pinching interaction.
 
@@ -390,7 +390,7 @@ Extension to affine loads: Following the same derivation from Section 6, we can 
 $$
 \begin{aligned}
 \widetilde{\boldsymbol{u}}_ε(\mathfrak{r})=&-2 a\left(\frac{1}{\mathfrak{r}_ε^{2}}+\frac{ε^{2}}{\mathfrak{r}_ε^{4}}\right) \boldsymbol{F r} \\
-&+2 b\left[\frac{1}{\mathfrak{r}_ε^{2}}\left(\boldsymbol{F}+\boldsymbol{F}^{t}+\operatorname{tr}(\boldsymbol{F}) \boldsymbol{I}\right)-\frac{2}{\mathfrak{r}_ε^{4}}\left(\mathfrak{r}^{t} \boldsymbol{F} \mathfrak{r}\right) \boldsymbol{I}\right] \mathfrak{r},
+&+2 b\left[\frac{1}{\mathfrak{r}_ε^{2}}\left( \boldsymbol{F}+\boldsymbol{F}^{t}+\operatorname{tr}(\boldsymbol{F}) \boldsymbol{I}\right)-\frac{2}{\mathfrak{r}_ε^{4}}\left(\mathfrak{r}^{t} \boldsymbol{F} \mathfrak{r}\right) \boldsymbol{I}\right] \mathfrak{r},
 \end{aligned}
 $$
 
