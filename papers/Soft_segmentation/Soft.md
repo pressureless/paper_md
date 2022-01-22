@@ -47,7 +47,7 @@ Our algorithm for computing high-quality soft color segments can be described by
 
 Color Unmixing: An important property we want to achieve within each layer is color homogeneity: the colors present in a layer should be sufficiently similar. To this end, we associate each layer with a 3D normal distribution representing the spread of the layer colors in RGB space, and we refer to the set of $N$ distributions as the color model. Our novel technique for automatically extracting the color model for an image is discussed in detail in Section 5.
 
-Given the color model, we propose the sparse color unmixing energy function in order to find a preliminary approximation to the layer colors and opacities:
+Given the color model, we propose <span class="def:F_S">the sparse color unmixing energy function</span> in order to find a preliminary approximation to the layer colors and opacities:
 
 
 ``` iheartla
@@ -60,11 +60,14 @@ D_i: ℝ^3 -> ℝ
 σ: ℝ
 α_i: ℝ 
 ```
-where <span class="def:D">the layer color cost $D _i( \boldsymbol{u}  _i)$ is defined as the squared Mahalanobis distance of the layer color $\boldsymbol{u}  _i$ to the layer distribution $N( \boldsymbol{u}  _i, Σ_i)$</span>, and <span class="def:σ">σ is the sparsity weight that is set to 10 in our implementation</span>. The energy function in Equation 4 is minimized for all $α _i$ and $\boldsymbol{u}  _i$ simultaneously while satisfying the constraints defined in Equations 1-3 using the original method of multipliers [Bertsekas 1982]. For each pixel, for the layer with best fitting distribution, we initialize the alpha value to 1 and the layer color ui to the pixel color. The rest of the layers are initialized to zero alpha value and the mean of their distributions as layer colors. The first term in Equation 4 favors layer colors that fit well with the corresponding distribution especially for layers with high alpha values, which is essential for getting homogeneous colors in each layer. The second term pushes the alpha values to be sparse, i.e. favors 0 or 1 alpha values.
+where <span class="def:D">the layer color cost $D _i( \boldsymbol{u}  _i)$ is defined as the squared Mahalanobis distance of the layer color $\boldsymbol{u}  _i$ to the layer distribution $N( \boldsymbol{u}  _i, Σ_i)$</span>, and <span class="def:σ">$σ$ is the sparsity weight that is set to 10 in our implementation</span>. The energy function in Equation 4 is minimized for all $α _i$ and $\boldsymbol{u}  _i$ simultaneously while satisfying the constraints defined in Equations 1-3 using the original method of multipliers [Bertsekas 1982]. For each pixel, for the layer with best fitting distribution, we initialize the alpha value to 1 and the layer color ui to the pixel color. The rest of the layers are initialized to zero alpha value and the mean of their distributions as layer colors. The first term in Equation 4 favors layer colors that fit well with the corresponding distribution especially for layers with high alpha values, which is essential for getting homogeneous colors in each layer. The second term pushes the alpha values to be sparse, i.e. favors 0 or 1 alpha values.
 
 The first term in Equation 4 appears as the color unmixing energy proposed by Aksoy et al. [2016] as a part of their system for green-screen keying. They do not include a sparsity term in their formulation, and this inherently results in favoring small alpha values, which results in many layers appearing in regions that should actually be opaque in a single layer. The reason is that a better-fitting layer color for the layer with alpha close to 1 (hence a lower color unmixing energy) becomes favorable by leaking small contributions from others (assigning small alpha values to multiple layers) with virtually no additional cost as the sample costs are multiplied with alpha values in the color unmixing energy. This decreases the compactness of the segmentation and, as a result, potentially creates visual artifacts when the layers are edited indepen- dently. Figure 2 shows such an example obtained through minimizing the color unmixing energy, where the alpha channel of the layer that captures the yellow road line is noisy on the asphalt region, even though the yellow of the road is not a part of the color of the asphalt. While these errors might seem insignificant at first, they result in unintended changes in the image when subjected to various layer manipulation operations such as contrast enhancement and color changes, as demonstrated in Figure 2.
 
-
+<figure>
+<img src="./img/img3.png" alt="Trulli" style="width:100%" class = "center">
+<figcaption align = "center">Fig. 3. Two layers corresponding to the dark (top) and light wood color in the original image (a) are shown before (b) and after (c) matte regularization and color refinement.</figcaption>
+</figure>
 The sparsity term in Equation 4 is zero when one of the layers is fully opaque (and thus all other layers are fully transparent), and increases as the alpha values move away from zero or one. Another term for favoring matte sparsity has been proposed by Levin et al. [2008]:
 
 $$
