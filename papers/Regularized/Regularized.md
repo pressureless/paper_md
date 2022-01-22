@@ -47,7 +47,7 @@ $$
 \mu \Delta \boldsymbol{u}+\frac{\mu}{(1-2 v)} \nabla(\nabla \cdot \boldsymbol{u})+\boldsymbol{b}=0
 $$
 
-Kelvinlets: In the case of a concentrated body load due to <span class='def:\boldsymbol{f}'>a force vector $\boldsymbol{f}$ at a point $\boldsymbol{x}_0$</span>, i.e., $\boldsymbol{b}(\boldsymbol{x}) = \boldsymbol{f} δ(\boldsymbol{x} −\boldsymbol{x}_0)$, the solution of (2) defines the (singular) fundamental solution of linear elasticity, also known as the Kelvin’s state [@kelvin1848note] or Kelvinlet [@phan1994microstructures], which can be written as
+Kelvinlets: In the case of a concentrated body load due to <span class='def:\boldsymbol{f}'>a force vector $\boldsymbol{f}$ at a point $\boldsymbol{x}_0$</span>, i.e., $\boldsymbol{b}(\boldsymbol{x}) = \boldsymbol{f} δ(\boldsymbol{x} −\boldsymbol{x}_0)$, the solution of (2) defines the (singular) fundamental solution of linear elasticity, also known as <span class='def:\boldsymbol{u}'>the Kelvin’s state</span> [@kelvin1848note] or Kelvinlet [@phan1994microstructures], which can be written as
 
 ``` iheartla
 `$\boldsymbol{u}$`(`$\boldsymbol{r}$`) = ((a-b)/rI_3 + b/r³ `$\boldsymbol{r}$` `$\boldsymbol{r}$`^T) `$\boldsymbol{f}$` where `$\boldsymbol{r}$` ∈ ℝ^3
@@ -80,7 +80,7 @@ The concentrated body load at a single point $x_0$ introduces a singularity to t
 <img src="./img/img1.5.png" alt="Trulli" style="width:30%" class = "center">
 </figure>
 
-As detailed in Appendix A, the solution to the elastostatics equation (2) associated with the load distribution (5) corresponds to
+As detailed in Appendix A, <span class='def:\boldsymbol{u}_ε'>the solution to the elastostatics equation (2) associated with the load distribution (5)</span> corresponds to
 
 
 ``` iheartla
