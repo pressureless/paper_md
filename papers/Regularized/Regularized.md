@@ -35,7 +35,7 @@ Finally, we point out that fundamental solutions are central to integral formula
 
 Before presenting our new sculpting tools, we first review core concepts of linear elastostatics upon which our formulation is based. In the next sections, we focus our exposition on 3D linear elasticity and postpone the 2D case to Section 8, where the analogous 2D expressions are derived using our 3D results. For more details on linear elastostatics, we point the reader to [@slaughter2012linearized].
 
-Elastostatics: In an infinite 3D continuum, the quasi-static equilibrium state of linear elasticity is determined by a displacement field u : R3 → R3 that minimizes the elastic potential energy 
+Elastostatics: In an infinite 3D continuum, the quasi-static equilibrium state of linear elasticity is determined by a displacement field $\boldsymbol{u} : R^3 → R^3$ that minimizes the elastic potential energy 
 
 $$
 E(\boldsymbol{u})=\frac{\mu}{2}\|\nabla \boldsymbol{u}\|^{2}+\frac{\mu}{2(1-2 v)}\|\nabla \cdot \boldsymbol{u}\|^{2}-\langle\boldsymbol{b}, \boldsymbol{u}\rangle
@@ -167,13 +167,13 @@ f ∈ ℝ^3
 
 # EXTENSION TO AFFINE LOADS
  
-So far we showed how to use regularized Kelvinlets to construct grablike deformations guided by the brush tip displacement. However, other sculpting operations assign an affine transformation, instead of a translation, to the brush. A typical example is the twist brush which defines a rotation centered at x0. Similarly, scale and pinch brushes are generated based on affine transformations. In order to augment these brushes with elastic response, we propose to extend the formulation of regularized Kelvinlets by replacing the vector-based load distribution with a matrix-based distribution.
+So far we showed how to use regularized Kelvinlets to construct grablike deformations guided by the brush tip displacement. However, other sculpting operations assign an affine transformation, instead of a translation, to the brush. A typical example is the twist brush which defines a rotation centered at $x_0$. Similarly, scale and pinch brushes are generated based on affine transformations. In order to augment these brushes with elastic response, we propose to extend the formulation of regularized Kelvinlets by replacing the vector-based load distribution with a matrix-based distribution.
 <figure>
 <img src="./img/img4.png" alt="Trulli" style="width:100%" class = "center">
 <figcaption align = "center">Fig. 4. Smaller radius vs. multi-scale extrapolation: A closeup of Figure 3 for a single-scale brush is shown overlaid by its displacement vectors (left). Reducing the brush radius ε makes the displacements more concentrated, but still with a long-range falloff (middle). In contrast, a tri-scale brush leads to localized displacements with a faster decay (right).
 </figcaption>
 </figure>
-Our approach leverages the linearity of the elastostatics equation with respect to differentiation. More specifically, given a regularized Kelvinlet uε and its associated force vector f , we compute the directional derivative д·∇ of (2) along the vector д, yielding
+Our approach leverages the linearity of the elastostatics equation with respect to differentiation. More specifically, given a regularized Kelvinlet uε and its associated force vector f , we compute the directional derivative $\boldsymbol{g} \cdot \nabla$ of (2) along the vector $\boldsymbol{g}$, yielding
 
 
 $$
@@ -209,10 +209,10 @@ $$
 \end{aligned}
 $$
 
-Note that the first term in (14) corresponds to an affine transformation Fr with a radial falloff similar to existing affine brushes, while the second term includes a symmetric affine transformation and controls volume compression through the Poisson ratio ν that b depends on. Therefore, we name this matrix-based extension of the fundamental solution of linear elasticity as a locally affine regularized Kelvinlet. For conciseness, we denote this displacement field by $\widetilde{u}_{\varepsilon}(\boldsymbol{r}) \equiv \mathcal{A}_{\varepsilon}(\boldsymbol{r}) \overrightarrow{\boldsymbol{F}}$, where $\overrightarrow{\boldsymbol{F}} \in \mathbb{R}^{9}$ is a vectorized form of F and $\mathcal{A}(\boldsymbol{r})$ is the 3×9 matrix that maps $\overrightarrow{\boldsymbol{F}$ to a displacement at $\boldsymbol{r}$.
+Note that the first term in (14) corresponds to an affine transformation $\boldsymbol{F}\boldsymbol{r}$ with a radial falloff similar to existing affine brushes, while the second term includes a symmetric affine transformation and controls volume compression through the Poisson ratio ν that b depends on. Therefore, we name this matrix-based extension of the fundamental solution of linear elasticity as a locally affine regularized Kelvinlet. For conciseness, we denote this displacement field by $\widetilde{u}_{\varepsilon}(\boldsymbol{r}) \equiv \mathcal{A}_{\varepsilon}(\boldsymbol{r}) \overrightarrow{\boldsymbol{F}}$, where $\overrightarrow{\boldsymbol{F}} \in \mathbb{R}^{9}$ is a vectorized form of F and $\mathcal{A}(\boldsymbol{r})$ is the 3×9 matrix that maps $\overrightarrow{\boldsymbol{F}}$ to a displacement at $\boldsymbol{r}$.
 
 
-In contrast to (6), the deformation generated by (14) has zero displacement at the brush center, i.e., u􏰜ε (0) = 0, but a non-trivial gradient in terms of F (the closed-form expression is provided in the supplemental material). As the radial scale ε approaches zero, our matrix-based solutions reproduce the definition of Kelvinlet doublets [@phan1994microstructures]. These expressions also coincide with the regularized Stokeslet doublets [@ainley2008method] in the incompressible limit (ν = 1/2). Following the matrix decomposition in Section 3, we can further construct specialized versions of the locally affine regularized Kelvinlets by setting F to different types of matrices, as illustrated in Figure 5.
+In contrast to (6), the deformation generated by (14) has zero displacement at the brush center, i.e., $\widetilde{\boldsymbol{u}}_{\varepsilon}(0)=0$, but a non-trivial gradient in terms of $\boldsymbol{F}$ (the closed-form expression is provided in the supplemental material). As the radial scale ε approaches zero, our matrix-based solutions reproduce the definition of Kelvinlet doublets [@phan1994microstructures]. These expressions also coincide with the regularized Stokeslet doublets [@ainley2008method] in the incompressible limit (ν = 1/2). Following the matrix decomposition in Section 3, we can further construct specialized versions of the locally affine regularized Kelvinlets by setting F to different types of matrices, as illustrated in Figure 5.
 <figure>
 <img src="./img/img5.png" alt="Trulli" style="width:100%" class = "center">
 <figcaption align = "center">Fig. 5. Elastic Locally Affine Brushes: Given an input image (left), we compute a twisting (left-center), a scaling (center-right), and a pinching (right) deformation via a locally affine regularized Kelvinlet in 2D with Poisson ratio ν =0.4. Input image courtesy of Eftychios Sifakis.
@@ -254,7 +254,7 @@ b ∈ ℝ
 To geometrically characterize this deformation, we computed the displacement gradient ∇pε at x0, and observed that the resulting matrix is also symmetric with zero trace. This indicates that the deformation generated by pε (r ) compensates infinitesimal stretching in one direction by contractions in the other directions, thus resembling a physical pinching interaction.
 
 
-Multi-scale extrapolation: Since our affine brushes are based on the derivative of (6), the extrapolation scheme described in Section 5 applies to these displacement fields with no modification. We can then combine locally affine regularized Kelvinlets linearly and generate new matrix-driven solutions of linear elasticity with arbitrarily fast far-field decay. In particular, we obtain bi-scale and tri-scale brushes with O(1/r4) and O(1/r6) falloffs, respectively, while the single-scale case has an O(1/r2) decay.
+Multi-scale extrapolation: Since our affine brushes are based on the derivative of (6), the extrapolation scheme described in Section 5 applies to these displacement fields with no modification. We can then combine locally affine regularized Kelvinlets linearly and generate new matrix-driven solutions of linear elasticity with arbitrarily fast far-field decay. In particular, we obtain bi-scale and tri-scale brushes with $O\left(1 / r^{4}\right)$ and $O\left(1 / r^{6}\right)$ falloffs, respectively, while the single-scale case has an $O\left(1 / r^{2}\right)$ decay.
 
 # CONSTRAINED DEFORMATIONS
 
@@ -262,7 +262,7 @@ By exploiting the linearity of (2), regularized Kelvinlets and variants can be s
 
 
 
-Displacement Constraints: Previously we assigned the brush tip displacement u and solved analytically for the necessary force vector f in (7). We can replicate this constraint numerically for a list of brushes. To this end, we consider n regularized Kelvinlets placed at {x1, . . . , xn } and impose n displacement constraints {u1, . . . , un }, one for each brush center xi . By superposition, these brushes define a solution to (2) of the form
+Displacement Constraints: Previously we assigned the brush tip displacement u and solved analytically for the necessary force vector f in (7). We can replicate this constraint numerically for a list of brushes. To this end, we consider n regularized Kelvinlets placed at $\left\{x_{1}, \ldots, x_{n}\right\}$ and impose n displacement constraints $\left\{\overline{\boldsymbol{u}}_{1}, \ldots, \overline{\boldsymbol{u}}_{n}\right\}$, one for each brush center xi . By superposition, these brushes define a solution to (2) of the form
 
 
 $$
@@ -270,8 +270,7 @@ $$
 $$
 
 
-whereε andf indicatetheradialscaleandtheforcevectorfor
-the i-th brush, respectively. The displacement constraints u and force vectors f are thus related by the linear system u = K f , where the 3n×3n matrix K has the contribution Kεi (xj − xi ) of every i-th brush to every j-th brush center.
+where $ε_i$ and $\boldsymbol{f}_{i}$ indicate the radial scale and the force vector for the i-th brush, respectively. The displacement constraints u and force vectors f are thus related by the linear system u = K f , where the 3n×3n matrix K has the contribution Kεi (xj − xi ) of every i-th brush to every j-th brush center.
 
 
 An usual scenario for this constrained deformation is when we pin down zero displacement to n − 1 locations, and keep the n-th brush “live” for interactive sculpting. Given a tip displacement un updated every user edit, we can efficiently compute the force vectors f by exploiting the block structure of the linear system
