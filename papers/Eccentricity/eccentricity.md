@@ -126,7 +126,7 @@ Finally, our subjects had difficulty to detect flicker for the two largest eccen
 The measured CFFs establish an envelope of spatio-temporal flicker fusion thresholds at discretely sampled points within the resolution afforded by our display prototype. Practical applications, however, require these thresholds to be predicted continuously for arbitrary spatial frequencies and eccentricities. To this end, we develop a continuous eccentricity-dependent model for spatio-temporal flicker fusion that is fitted to our data. Moreover, we extrapolate this model to include spatial frequencies that are higher than those supported by our display by incorporating existing visual acuity data and we account for variable luminance adaptation levels by adapting the Ferry–Porter law [@tyler1993eccentricity].
 
 ## Model Fitting
-Each of our measured data points is parametrized by its spatial frequency $𝑓_𝑠$ , eccentricity $𝑒$, and CFF value averaged over all subjects. Furthermore, it is associated with a localization uncertainty determined by the radius of its stimulus $𝑢$. In our design, $𝑢$ is a function of $𝑓_𝑠$ and, for 13.5% peak contrast cut-off, we define $𝑢 = 2 𝜎$ where $𝜎 = 0.7/ 𝑓_𝑠$ to be the standard deviation of our Gabor patches.
+Each of our measured data points is parametrized by its spatial frequency $𝑓_𝑠$ , <span class='def:𝑒'>eccentricity $𝑒$</span>, and CFF value averaged over all subjects. Furthermore, it is associated with a localization uncertainty determined by the radius of its stimulus $𝑢$. In our design, $𝑢$ is a function of $𝑓_𝑠$ and, for 13.5% peak contrast cut-off, we define $𝑢 = 2 𝜎$ where $𝜎 = 0.7/ 𝑓_𝑠$ to be the standard deviation of our Gabor patches.
 
 We formulate our model as
 
@@ -138,14 +138,14 @@ We formulate our model as
 𝜏(`$𝑓_𝑠$`) = m(log(`$𝑓_𝑠$`)-log(`$𝑓_{𝑠0}$`), 0) where `$𝑓_𝑠$` : ℝ
 where
 m: ℝ, ℝ -> ℝ
-𝑝: ℝ^10
+𝑝: ℝ^10: the model parameters
 `$𝑓_{𝑠0}$`: ℝ
 ```
-where $𝑝 = [𝑝0, . . . , 𝑝9] ∈ R^{10}$ are the model parameters (see Table 3), $𝜁 ( 𝑓_𝑠 )$ restricts eccentricity effects for small $𝑓_𝑠$ and $𝜏 ( 𝑓_𝑠 )$ offsets logarithmic $𝑓_𝑠$ relative to our constant function cut-off.
+where <span class='def:𝑝'>$𝑝 = [𝑝0, . . . , 𝑝9] ∈ R^{10}$ are the model parameters</span> (see Table 3), $𝜁 ( 𝑓_𝑠 )$ restricts eccentricity effects for small $𝑓_𝑠$ and $𝜏 ( 𝑓_𝑠 )$ offsets logarithmic $𝑓_𝑠$ relative to our constant function cut-off.
 
-We build on three domain-specific observations to find a continuous CFF model $Ψ ( 𝑒 , 𝑓_𝑠 ) : R^2 → R$ that fits our measurements.
+We build on three domain-specific observations to find a <span class='def:Ψ'>continuous CFF model $Ψ$</span> $( 𝑒 , 𝑓_𝑠 ) : R^2 → R$ that fits our measurements.
 <figure>
-<figcaption align = "center">Table3. Parameters $𝑝0...9$ for our model fitted for conservative (cons.) and relaxed (rel.) assumptions as well as the full modeled extended using acuity data. The degrees-of-freedom adjusted $R^2$ shows the fit quality.
+<figcaption align = "center">Table3. Parameters $𝑝 _{0...9}$ for our model fitted for conservative (cons.) and relaxed (rel.) assumptions as well as the full modeled extended using acuity data. The degrees-of-freedom adjusted $R^2$ shows the fit quality.
 <img src="./img/table3.png" alt="Trulli" style="width:100%" class = "center">
 </figcaption>
 </figure>
@@ -158,7 +158,7 @@ We build on three domain-specific observations to find a continuous CFF model $�
 
 First, both our measurements and prior work indicate that the peak CFF is located in periphery, typically between 20◦ and 50◦ of eccentricity [@hartmann1979peripheral; @rovamo1984critical;@tyler1987analysis]. For both fovea and far periphery the CFF drops again forming a convex shape which we model as a quadratic function of $𝑒$.
 
-Second, because the stimuli with very low $𝑓_𝑠$ are not spatially localized, their CFF does not vary with $𝑒$. Consequently, we enforce the dependency on $𝑒$ to converge to a constant function for any $𝑓_𝑠$ below $𝑓_{𝑠_0} =0.0055$ cpd.This corresponds to half reciprocal of the full-screen stimuli visual field coverage given our display dimensions.
+Second, because the stimuli with very low $𝑓_𝑠$ are not spatially localized, their CFF does not vary with $𝑒$. Consequently, we enforce the dependency on $𝑒$ to converge to a constant function for any $𝑓_𝑠$ below $𝑓_{𝑠0} =0.0055$ cpd.This corresponds to half reciprocal of the full-screen stimuli visual field coverage given our display dimensions.
 
 Finally, following common practices in modeling the effect of spatial frequencies on visual effects, such as contrast [@koenderink1978perimetryc] or disparity sensitivities [@bradshaw1999sensitivity], we fit the model for logarithmic $𝑓_𝑠$.
 
@@ -166,15 +166,15 @@ Before parameter optimization, we need to consider the effect of eccentricity un
 
 Consequently, in Table 3 we provide two different fits for the parameters. Our conservative model strictly follows the restrictions from the measurement and tends to overestimate the range of visible flicker frequencies which prevents discarding potentially visible signal. Alternatively, our relaxed model follows the smoothness assumption and applies the measured values as upper bound.
 
-To fit the parameters, we used the Adam solver in PyTorch initialized by the Levenberg–Marquardt algorithm and we minimized the mean-square prediction error over all extents m. The additional constraints were implemented as soft linear penalties. To leverage data points with immeasurable CFF values, we additionally force $Ψ(𝑒, 𝑓_𝑠 ) = 0 $at these points. This encodes imperceptibility of their flicker at any temporal frequency.
+To fit the parameters, we used the Adam solver in PyTorch initialized by the Levenberg–Marquardt algorithm and we minimized the mean-square prediction error over all extents m. The additional constraints were implemented as soft linear penalties. To leverage data points with immeasurable CFF values, we additionally force $ Ψ ( 𝑒 , 𝑓_𝑠 ) = 0 $at these points. This encodes imperceptibility of their flicker at any temporal frequency.
 
-Figure 3 shows that the fitted Ψ represents the expected effects well. The eccentricity curves (row 2) flatten for low $𝑓_𝑠$ and their peaks shift to lower $𝑒$ for large $𝑓_𝑠$ . The conservative fit generally yields larger CFF predictions though it does not strictly adhere to the stimuli extents due to other constraints.
+Figure 3 shows that the fitted $Ψ$ represents the expected effects well. The eccentricity curves (row 2) flatten for low $𝑓_𝑠$ and their peaks shift to lower $𝑒$ for large $𝑓_𝑠$ . The conservative fit generally yields larger CFF predictions though it does not strictly adhere to the stimuli extents due to other constraints.
 
 ## Extension for High Spatial Frequencies
 
 Due to technical constraints, the highest $𝑓_𝑠$ measured was 2 cpd. At the same time, the acuity of human vision has an upper limit of 60 cpd based on peak cone density [@deering1998limits] and 40–50 cpd based on empirical data [@guenter2012foveated; @robson1981probability; @thibos1987vision]. To minimize this gap and to generalize our model to other display designs we extrapolate the CFF at higher spatial frequencies using existing models of spatial acuity.
 
-For this purpose, we utilize the acuity model of [@geisler1998real]. <span class='def:𝐴'>It predicts acuity limit $𝐴$ </span>for $𝑒$ as
+For this purpose, we utilize the acuity model of [@geisler1998real]. It predicts <span class='def:𝐴'>acuity limit $𝐴$ </span>for $𝑒$ as
 
 
 ``` iheartla
@@ -191,7 +191,7 @@ In combination with our relaxed constraints we obtain our final full model as sh
 
 ## Adaptation luminance
 
-Our experiments were conducted at half of our display peak luminance 𝐿 = 380 cd/$m^2$. This is relatively bright compared to the 50–200 cd/$m^2$ luminance setting of common VR systems [@mehrfard2019comparative]. Consequently, our estimates of the CFF are conservative because the Ferry–Porter law predicts the CFF to increase linearly with logarithmic levels of retinal illuminance [@tyler1993eccentricity]. While the linear relationship is known, the actual slope and intercept varies with retinal eccentricity [@tyler1993eccentricity]. For this reason, we measured selected points from our main experiment for two other display luminance levels.
+Our experiments were conducted at half of our display peak <span class='def:𝐿'>luminance $𝐿$</span> = 380 cd/$m^2$. This is relatively bright compared to the 50–200 cd/$m^2$ luminance setting of common VR systems [@mehrfard2019comparative]. Consequently, our estimates of the CFF are conservative because the Ferry–Porter law predicts the CFF to increase linearly with logarithmic levels of retinal illuminance [@tyler1993eccentricity]. While the linear relationship is known, the actual slope and intercept varies with retinal eccentricity [@tyler1993eccentricity]. For this reason, we measured selected points from our main experiment for two other display luminance levels.
 <figure>
 <img src="./img/img4.png" alt="Trulli" style="width:100%" class = "center">
 <figcaption align = "center">Fig.4. Luminancescalingofourfullmodelfittedfor𝑙0 =1488Td.Thepoints represent mean measured CFF values and the lines the prediction of the transformed model. Vertical bars are standard errors. The left plot shows varying slopes across $𝑒$(with $𝑓_𝑠 = 0.57$ cpd). The right plot shows varying intercepts across $𝑓_𝑠$ (with $𝑒 = 0$ deg).
@@ -257,7 +257,7 @@ To efficiently apply our model, a video signal should be described by a decompos
 
 For the purpose of this thought experiment, we use a biorthogonal Haar wavelet, which, for a signal of length $𝑁$, results in $log_2(𝑁)$ hierarchical planes of recursively halving lengths. The total number of resulting coefficients is the same as the input size. From there our baseline is retaining the entire original set of coefficients yielding compression gain of 1.
 
-For traditional spatial-only foveation, we process each frame independently and after a 2D DWT we remove coefficients outside of the acuity limit. We compute eccentricity assuming gaze in the center of the screen and reject coefficients for which $Ψ(𝑒, 𝑓_𝑠 ) = 0$. From our model definition, such signals cannot be perceived regardless of $𝑓_𝑡$ as they lie outside of the vision acuity gamut. The resulting compression gain compared to the baseline can be seen for various display configurations in Figure 6.
+For traditional spatial-only foveation, we process each frame independently and after a 2D DWT we remove coefficients outside of the acuity limit. We compute eccentricity assuming gaze in the center of the screen and reject coefficients for which $ Ψ ( 𝑒 , 𝑓_𝑠 ) = 0$. From our model definition, such signals cannot be perceived regardless of $𝑓_𝑡$ as they lie outside of the vision acuity gamut. The resulting compression gain compared to the baseline can be seen for various display configurations in Figure 6.
 
 Next, for our model we follow the same procedure but we additionally decompose each coefficient of the spatial DWT using 1D temporal DWT. This yields an additional set of temporal coefficients $𝑓_𝑡$ and we discard all values with $Ψ ( 𝑒 , 𝑓_𝑠 ) < 𝑓_𝑡 $.
 
