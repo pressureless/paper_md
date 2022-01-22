@@ -65,7 +65,7 @@ where
 `$c_y$`: ℝ: principal point
 ```
 
-where <span class="def:f_x f_y">$f_x$ and $f_y$ denote the focal length in pixels in the horizontal and vertical directions</span>, and <span class="def:c_x c_y">$( c_x , c_y )$ the principal point </span>[@Hartley2003]. Noting <span class="def:α">$α$ the angle of the camera along the circle, the pose of each camera is defined as
+where <span class="def:f_x;f_y">$f_x$ and $f_y$ denote the focal length in pixels in the horizontal and vertical directions</span>, and <span class="def:c_x;c_y">$( c_x , c_y )$ the principal point </span>[@Hartley2003]. Noting <span class="def:α">$α$ the angle of the camera along the circle</span>, the pose of each camera is defined as
 
 ``` iheartla
 
@@ -77,7 +77,7 @@ R(α) = [-sin(α) 0 -cos(α)
 `$\textbf{t}$` = [0;0;-r]
 where
 
-r: ℝ
+r: ℝ: the camera circle radius
 ```
 
 The corresponding camera projection matrix that maps 3D world coordinates to pixel coordinates is
@@ -88,7 +88,7 @@ P(α) = K [R(α) `$\textbf{t}$`] where α: ℝ
 
 ```
 
-We then define the dense lightfield for a single point in time as $L ( α, x, y)$, which we have to reconstruct from the sparse camera input (see Figure 2 for an example of a synthetic scene). The value at a location $( α, x, y)$ corresponds to the measured irradiance along the ray
+We then define the dense lightfield for a single point in time as $L ( α , x, y)$, which we have to reconstruct from the sparse camera input (see Figure 2 for an example of a synthetic scene). The value at a location $( α , x, y)$ corresponds to the measured irradiance along the ray
 
 $$ R ^T( α )(\lambda \cdot K ^{-1}( x, y,1)^T - \textbf{t} )$$
 <figure>

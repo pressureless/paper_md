@@ -178,7 +178,7 @@ S ∈ ℝ
 P ∈ ℝ, ℝ, ℝ -> ℝ
 
 ``` 
-where<span class='def:α β'> $α$ and $β$ are nonlinearities employed in perceptual modeling; specifically, for luminance we employ $α$ the logarithm function and for frame rate β is the multiplicative inverse</span>, i.e., we model on frame duration. For details on the resulting function, please see Section A.3.
+where $α$ and $β$ are nonlinearities employed in perceptual modeling; specifically, for luminance we employ <span class='def:α'> $α$ the logarithm function</span> and for frame rate <span class='def:β'> $β$ is the multiplicative inverse</span>, i.e., we model on frame duration. For details on the resulting function, please see Section A.3.
 ❤: error
 This is an excellent fit to the psychophysical data, with a mean absolute error of 0.24 (equivalent to 9.4%) between measured and predicted judder at the probed points. To present the reader with an error metric that relates to physical quantities, we also computed the mean error in the log-luminance domain (to avoid under representing errors in low-luminance conditions). Given $N$ as the number of measured conditions, <span class='def:O'>$O (i)$ being the observed means for each condition </span>and <span class='def:M'>$M (i)$ values predicted by our model</span>, we calculate <span class='def:E'>the error $E$ </span>as
 
@@ -220,7 +220,7 @@ b ∈ ℝ
 ``` 
 
 
-where a and b are known constants and L is the mean luminance. If we introduce the simplifying assumption that<span class='def:CFF'> the critical flicker fusion rate ($CFF$)</span> is linearly correlated through <span class='def:M'>a factor $M$</span> with judder-sensitivity, then we can obtain a log-luminance equivalence like the one queried in this experiment. <span class='def:F_a F_b'>Denoting $F_a$ and $F_b$ as the two frame rates</span> and <span class='def:L_a L_b'>$L_a$ , $L_b$ as the luminances</span>:
+where <span class='def:a;b'>$a$ and $b$ are known constants</span> and L is the mean luminance. If we introduce the simplifying assumption that<span class='def:CFF'> the critical flicker fusion rate ($CFF$)</span> is linearly correlated through <span class='def:M'>a factor $M$</span> with judder-sensitivity, then we can obtain a log-luminance equivalence like the one queried in this experiment. <span class='def:F_a;F_b'>Denoting $F_a$ and $F_b$ as the two frame rates</span> and <span class='def:L_a;L_b'>$L_a$ , $L_b$ as the luminances</span>:
 
 
 ``` iheartla
@@ -283,15 +283,15 @@ Our studies explored an overall sense of judder, but there are certainly differe
 # APPENDIX
 ## Disembodied Edge Calculation
 
-Given a desired Michelson contrast c and mean La, we calculate the maximum and minimum values M and m as M = La (1 + c), m = La (1 − c). As a consequence of this, the resulting Michelson contrast is exactly (La +La ∗c − La +La ∗c)/(La +La ∗c + La−La∗c)=2La∗c/(2La)=c.Ifoneofthesevaluesdoesnot fit within the dynamic range of the display being used, then both values can be shifted using a multiplier k so that M = M ∗ k, m = m ∗ k to accommodate these practical constraints.
+Given a desired Michelson contrast $c$ and mean $L_a$, we calculate the maximum and minimum values $M$ and $m$ as $M= L_a (1 + c)$, $m= L_a (1 − c)$. As a consequence of this, the resulting Michelson contrast is exactly $( L_a + L_a *c − L_a + L_a * c)/( L_a + L_a * c + L_a − L_a * c)=2 L_a *c/(2 L_a )=c$. If one of these values does not fit within the dynamic range of the display being used, then both values can be shifted using a multiplier $k$ so that $M= M* k$, $m = m* k$ to accommodate these practical constraints.
 
-The maximum and minimum values computed in the previous step are set to fall off to the background level La in a smooth fashion. In our application, we employed a screen with horizontal resolution of 1,920 pixels and found a visibly acceptable smoothness to be achieved using a Gaussian falloff with standard deviation of 45 pixels.
+The maximum and minimum values computed in the previous step are set to fall off to the background level $L_a$ in a smooth fashion. In our application, we employed a screen with horizontal resolution of 1920 pixels and found a visibly acceptable smoothness to be achieved using a Gaussian falloff with standard deviation of 45 pixels.
 
 ## Effect Size
 Effect size can be calculated from an arbitrary scale such as the judder scale introduced by our article. We include the calculation of a Pearson’s correlation coefficient in the supplementary material containing the raw data for experiments 1–3. Following the guidelines set by “A Power Primer” (1992), we find that in all three experiments the independent variables speed and luminance had a small to medium strength effect on judder, frame rate had a strong effect, and the fourth variable (contrast, image type, and shutter angle, respectively) had an effect less than small.
 
 ## Judder Model
-Below, on the left, are the coefficients for our judder model as described in Section 6. On the right, the power of the appropriate term. This information is also available in the supplementary material. Note that our model takes as input speed in pixels per second on a screen with a horizontal resolution of 1,920×1,080 at three picture heights’ distance, subtending a 33◦ field of view. If a speed S is given in degrees per second, then a conversion function for speed should be used as follows: γ (S ) = S ∗1920 . In addition:
+Below, on the left, are the coefficients for our judder model as described in Section 6. On the right, the power of the appropriate term. This information is also available in the supplementary material. Note that our model takes as input speed in pixels per second on a screen with a horizontal resolution of 1,920×1,080 at three picture heights’ distance, subtending a 33◦ field of view. If a speed S is given in degrees per second, then a conversion function for speed should be used as follows: $γ(S) = S * 1920$ . In addition:
 
 ``` iheartla
 

@@ -88,10 +88,10 @@ Another fact to consider is that an eccentricity-dependent model that varies wit
 ``` iheartla
 cos, sin from trigonometry
 
-𝑔(x,`$x_0$`, 𝜃,𝜎,`$𝑓_𝑠$`) = exp(-||x-`$x_0$`||^2/(2𝜎^2)) cos(2π`$𝑓_𝑠$`x ⋅[cos(𝜃) sin(𝜃)]) where x: ℝ^n,`$x_0$`: ℝ^n,`$𝑓_𝑠$`: ℝ, 𝜎 : ℝ, 𝜃 : ℝ
+𝑔(x,`$x_0$`, 𝜃,𝜎,`$𝑓_𝑠$`) = exp(-||x-`$x_0$`||^2/(2𝜎^2)) cos(2π`$𝑓_𝑠$`x ⋅(cos(𝜃),sin(𝜃))) where x: ℝ^2,`$x_0$`: ℝ^2,`$𝑓_𝑠$`: ℝ, 𝜎 : ℝ, 𝜃 : ℝ
 ```
 
-where <span class='def:x'>$x$ denotes the spatial location on the display</span>, <span class='def:x_0'>$x_0$ is the center of the wavelet</span>, <span class='def:𝜎'>$𝜎$ is the standard deviation of the Gaussian in visual degrees</span>, and <span class='def:𝑓_𝑠 𝜃'>$𝑓_𝑠$ and $𝜃$ are the spatial frequency in cpd and angular orientation in degrees for the sinusoidal grating function.</span>
+where <span class='def:x'>$x$ denotes the spatial location on the display</span>, <span class='def:x_0'>$x_0$ is the center of the wavelet</span>, <span class='def:𝜎'>$𝜎$ is the standard deviation of the Gaussian in visual degrees</span>, and <span class='def:𝑓_𝑠;𝜃'>$𝑓_𝑠$ and $𝜃$ are the spatial frequency in cpd and angular orientation in degrees for the sinusoidal grating function.</span>
 <figure>
 <figcaption align = "center">Table2. Parameters of 18 test Gabor wavelets.We define 6 orders by spatial frequency (and radius) of stimuli. The number and eccentricity locations per order were chosen based on radius to uniformly sample the available eccentricity range. $𝑓_𝑠$: spatial frequency, $𝜎$: wavelet standard deviation, $𝑒$: eccentricity. (*) Note that in practice the extent was limited by our display FOV and $𝑓_𝑠 = 0.0055$ cpd is used for the analysis in Sec. 4.1.
 <img src="./img/table2.png" alt="Trulli" style="width:100%" class = "center">
