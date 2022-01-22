@@ -108,7 +108,7 @@ Then, the problem of reconstructing $L$ comes down to performing an accurate vie
 
 Trajectories of Scene Points in Image Space. Rather than considering the projection of a fixed 3D point when rotating the camera about the origin $o$ by some angle $α$, changing the point of view can provide a more intuitive understanding: by keeping the camera fixed and rotating the 3D point with the inverse rotation instead, the same trajectory can be obtained. The path can thus be interpreted as observing a 3D point that travels along a cylindrical surface.
 
-Assuming that the depth at a given location $\textbf{x}= (x,y)^⊤$ is known, the nonlinear path in image space can be reconstructed by backprojecting according to Equation (4), rotating the resulting 3D point $X$, and finally projecting it with Equation (3). When representing the 3D point $X$ in cylindrical coordinates, its change in position is linear in the angle $α$. Let the map $φ_d : R^2 → R^2$ denote the backprojection onto a cylinder with radius $d$ followed by a conversion to cylindrical coordinates. Then, knowing two corresponding image points $x_i$ and $x_j$ measured at angles $α_i$ and $α_j$ and their radial depth $d$ w.r.t . to the origin $o$ allows to define the nonlinear path in image space
+Assuming that the depth at a given location $\textbf{x}= (x,y)^⊤$ is known, the nonlinear path in image space can be reconstructed by backprojecting according to Equation (4), rotating the resulting 3D point $X$, and finally projecting it with Equation (3). When representing the 3D point $X$ in cylindrical coordinates, its change in position is linear in the angle $α$. <span class='def:φ_d'>Let the map $φ_d : R^2 → R^2$ denote the backprojection onto a cylinder with radius $d$ followed by a conversion to cylindrical coordinates</span>. Then, knowing <span class='def:x_i;x_j'>two corresponding image points $x_i$ and $x_j$</span> measured at <span class='def:α_i;α_j'>angles $α_i$ and $α_j$</span> and their radial depth $d$ w.r.t . to the origin $o$ allows to define the nonlinear path in image space
 
 ``` iheartla
 
@@ -116,10 +116,10 @@ Assuming that the depth at a given location $\textbf{x}= (x,y)^⊤$ is known, th
 
 where
 
-`$φ^{-1}_d$`: ℝ^2 -> ℝ^2
-`$φ_d$`: ℝ^2 -> ℝ^2
-`$x_i$`: ℝ^2  
-`$x_j$`: ℝ^2  
+`$φ^{-1}_d$`: ℝ^2 -> ℝ^2: inverse function of $φ_d$
+`$φ_d$`: ℝ^2 -> ℝ^2 : the backprojection onto a cylinder with radius $d$ followed by a conversion to cylindrical coordinates
+`$x_i$`: ℝ^2 : image point
+`$x_j$`: ℝ^2 : image point
 ```
 
 in terms of a linear interpolation in the transformed space. Here, we assume that $α_i < α < α_j$ such that the weight $t(α)$ is given by 
@@ -130,8 +130,8 @@ t(α) = (α- `$α_i$`)/(`$α_j$`-`$α_i$`) where α: ℝ
 
 where
 
-`$α_i$`: ℝ 
-`$α_j$`: ℝ
+`$α_i$`: ℝ : angle
+`$α_j$`: ℝ : angle
 ```
 <figure>
 <img src="./img/img3.png" alt="Trulli" style="width:100%" class = "center">
@@ -156,7 +156,7 @@ This is straightforward considering that $d → ∞$ is equivalent to letting th
 Figure 4 depicts $α-x$-slices of $L(α, x, y)$ before and after transformation with $φ$. Curved lines become straightened after the transformation, which indicates that linear interpolation indeed is an appropriate approximation to the point trajectory. Due to this insight, we are now able to compute intermediate views based on image space correspondences as follows.
 <figure>
 <img src="./img/img4.png" alt="Trulli" style="width:100%" class = "center">
-<figcaption align = "center">Fig. 4. Top: $α$-$x$ slice of $L(α, x, y)$ from Figure 2. Bottom: $α$-$x$ slice after transforming with the mapping function $φ$. The fact that, after transformation, the curved lines are straightened illustrates that a linear interpolation in the transformed space can result in accurate point trajectories.
+<figcaption align = "center">Fig. 4. Top: $α$-$x$ slice of $L(α, x, y)$ from Figure 2. Bottom: $α$-$x$ slice after transforming with <span class='def:φ'>the mapping function $φ$</span>. The fact that, after transformation, the curved lines are straightened illustrates that a linear interpolation in the transformed space can result in accurate point trajectories.
 </figcaption>
 </figure>
 Computing Intermediate Views. As a preprocessing step, we first compute forward and backward flows between all consecutive image pairs. To this end, we slightly adapt a commonly available method [@brox2004high] and minimize the energy
@@ -188,7 +188,7 @@ $$
 
 where $I_i^{w_{ij}}$ corresponds to $I_i$ forward-warped using $w_{ij}$ . A single panoramic image can then be obtained by fixing $x$, i.e., a particular image column, to obtain an $α$-$y$ slice of $L$(see Figure 2). Correspondingly, a stereoscopic output panorama can be created by picking two $α$-$y$ slices at different column positions $x$.
 
-Usually, it is desirable to have square pixels in the output panorama. Therefore, we determine the sampling rate in α such that the pixel width in the output panorama matches the pixel height in the input image. The pixel height in the input image corresponds to $1/f_y$ when considering an image plane at distance 1. With $n$ samples, the pixel size in the output panorama is $2π/n$. Thus, we use $n = 2π f_y$ samples in $α$ when aiming for square pixels.
+Usually, it is desirable to have square pixels in the output panorama. Therefore, we determine the sampling rate in α such that the pixel width in the output panorama matches the pixel height in the input image. The pixel height in the input image corresponds to $1/ f_y $ when considering an image plane at distance 1. With $n$ samples, the pixel size in the output panorama is $2π/n$. Thus, we use $n = 2π f_y$ samples in $α$ when aiming for square pixels.
 
 This concludes the explanation of our interpolation method. Not only the choice of the method, but also the choice of the interpolation points is important. In this scenario, the choice of interpolation points corresponds to the camera setup, which we detail on next.
 
@@ -198,14 +198,14 @@ In order to create perceptually plausible stereoscopic video, e.g., for VR appli
 We, therefore, first have to understand the image formation model, i.e., how 3D points are projected into a panorama. Knowing this, we can measure the role of different parameters of the capture system such as the number of cameras $n$, the circle radius $r$, and the focal lengths $f_x$ and $f_y$ , on a given panorama.
 
 ## Panoramic Image Formation
-When fixing $α$, the projection of Equation (3) allows to project a world point ❤`$\textbf{X}$` = (X,Y,Z)^T❤ by
+When fixing $α$, the projection of Equation (3) allows to project <span class='\\textbf{X}'>a world point</span> ❤`$\textbf{X}$` = (X,Y,Z)^T❤ by
 
 $$\begin{pmatrix}
   x\\y
   \end{pmatrix} ≅ K(R(α) \textbf{X} + \textbf{t} )
   $$
 
-where $(x, y)$ is the projection in inhomogenous coordinates (by the operator ≅). Since a panorama is just a $(α,y)$ slice of $L$ obtained by fixing $x$, the panoramic camera model can be obtained by fixing $x$ instead of $α$ and solving for $(α,y)$. This leads to an equation of the form (see details in the Appendix)
+where $(x, y)$ is the projection in inhomogenous coordinates (by the operator ≅). Since a panorama is just a $( α ,y)$ slice of $L$ obtained by fixing $x$, the panoramic camera model can be obtained by fixing $x$ instead of $α$ and solving for $( α ,y)$. This leads to an equation of the form (see details in the Appendix)
 
 $$A sin(α ) + B cos(α ) = C$$
 
@@ -217,7 +217,9 @@ B = Z⋅`$f_x$` + X⋅(x -`$c_x$` )
 C = -r⋅(x -`$c_x$` )
 
 where 
-X,Y,Z: ℝ 
+X: ℝ : coordinate value
+Y: ℝ : coordinate value
+Z: ℝ : coordinate value
 x: ℝ 
 ```
 
@@ -238,7 +240,7 @@ With the panoramic image formation model, we can now understand the relation bet
 Figure 5 verifies that the parallax in the stereoscopic output panorama decreases with larger scene depth and smaller VCB angle. Furthermore, it also shows how to choose the acquisition and synthesis parameters to match the disparity capabilities of desired output devices, such as head-mounted displays or autostereoscopic screens with a limited disparity range.
 <figure>
 <img src="./img/img5.png" alt="Trulli" style="width:100%" class = "center">
-<figcaption align = "center">Fig. 5. Evolutionofthehorizontalparallaxofascenepointintheoutput panorama with respect to its depth for different virtual camera baseline (VCB) angles. The parallax is expressed in percentage of the panorama height (left y-axis) and in pixels (right y-axis). The input images have a resolution of 2000×2000 pixels with 80◦ field of view.
+<figcaption align = "center">Fig. 5. Evolution of the horizontal parallax of a scene point in the output panorama with respect to its depth for different virtual camera baseline (VCB) angles. The parallax is expressed in percentage of the panorama height (left y-axis) and in pixels (right y-axis). The input images have a resolution of 2000×2000 pixels with 80◦ field of view.
 </figcaption>
 </figure>
 <figure>
