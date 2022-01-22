@@ -50,7 +50,10 @@ $$
 Kelvinlets: In the case of a concentrated body load due to a force vector f at a point x0, i.e., b(x) = f δ(x −x0), the solution of (2) defines the (singular) fundamental solution of linear elasticity, also known as the Kelvin’s state [@kelvin1848note] or Kelvinlet [@phan1994microstructures], which can be written as
 
 ``` iheartla
-placeholder = 1
+`$\boldsymbol{u}$`(`$\boldsymbol{r}$`) = ((a-b)/rI_3 + b/r³ `$\boldsymbol{r}$` `$\boldsymbol{r}$`^T) `$\boldsymbol{f}$` where `$\boldsymbol{r}$` ∈ ℝ^3
+
+where
+r ∈ ℝ
 ``` 
 where r =x−x0 is the relative position vector from the load location x0 to an observation point x, and r = ∥r ∥ is its norm. The coefficients in (3) are of the forma=1/(4πμ) andb=a/[4(1−ν)]. Here, we refer to K(r) as the Green’s function for linear elasticity that defines a 3×3 matrix mapping the force vector f at x0 to the displacement vector u at a relative position r . Notice that the first term in K(r ) resembles the Laplacian Green’s function scaled by a constant, while the second term controls volume compression by modifying the elastic response based on the alignment of the relative position vector r to the force vector f . Moreover, observe that no boundary conditions were needed for the definition of Kelvinlets, since these displacement fields are the minimizer of the elastic potential energy over the infinite space.
 
@@ -68,6 +71,11 @@ Deformation Gradient: From a displacement field u(x −x0), an arbitrary point x
 # 3D REGULARIZED KELVINLETS
 
 The concentrated body load at a single point $x_0$ introduces a singularity to the Kelvinlet solution, making its displacements and derivatives indefinite nearby $x_0$. For this reason, the singular Kelvinlet is numerically unsuitable for digital sculpting. To overcome this issue, we adopt the regularization scheme introduced in [@cortez2001method], and consider a smoothed body load $b(r)=fρ_ε(r)$ with force vector $f$ and normalized density function $ρ_ε(r)$ distributed around $x_0$ by a radial scale $ε > 0$. Similar to [@cortez2005method], we define the regularized distance $r_ε = √r^2+ε^2$ and set the normalized density function to be of the form (see inset)
+
+``` iheartla
+`${\rho}_ε$`(`$\boldsymbol{r}$`) = (15`$r_ε$`^4/(8π) + 1/`$r_ε$`^7 )  where `$\boldsymbol{r}$` ∈ ℝ^3
+
+```
 <figure>
 <img src="./img/img1.5.png" alt="Trulli" style="width:30%" class = "center">
 </figure>
@@ -76,10 +84,14 @@ As detailed in Appendix A, the solution to the elastostatics equation (2) associ
 
 
 ``` iheartla
-`$row_ε$`(r) = (15`$r_ε$`/8 + 1/`$r_ε$`³ )  where r ∈ ℝ^3
+`$\boldsymbol{u}_ε$`(`$\boldsymbol{r}$`) = ((a-b)/`$r_ε$`I_3 + b/`$r_ε$`³ `$\boldsymbol{r}$` `$\boldsymbol{r}$`^T + aε²/(2`$r_ε$`³) I_3 ) `$\boldsymbol{f}$` where `$\boldsymbol{r}$` ∈ ℝ^3
 
-```
-This solution, which we name regularized Kelvinlet, forms the building block of our sculpting technique. Compared to (3), the regularized Kelvinlet includes an extra ε2/rε3 term, and reproduces the singular case as the radial scale ε approaches zero. Moreover, the undesirable 1/r singularity of Kelvinlets is now regularized at r = 0 using a 1/rε term, while keeping the O(1/r) asymptotic decay as r → ∞. Therefore, the resulting displacements are finite, differentiable, and localized around x0. One can also verify that the deformation gradient at x0 is trivial, i.e., ∇uε (0) = 0, implying that the deformation at the point under the load is locally rigid. It is also worth mentioning that different density functions (and thereby regularized solutions) could be used, and our choice is based on the formulation of regularized Stokeslets [Cortez et al. 2005]. In fact, one can easily verify that the regularized Kelvinlets simplify to the regularized Stokeslets in the incompressible limit (ν = 1/2).
+where
+
+`$\boldsymbol{f}$` ∈ ℝ^3
+``` 
+
+This solution, which we name regularized Kelvinlet, forms the building block of our sculpting technique. Compared to (3), the regularized Kelvinlet includes an extra ε2/rε3 term, and reproduces the singular case as the radial scale ε approaches zero. Moreover, the undesirable 1/r singularity of Kelvinlets is now regularized at r = 0 using a 1/rε term, while keeping the O(1/r) asymptotic decay as r → ∞. Therefore, the resulting displacements are finite, differentiable, and localized around x0. One can also verify that the deformation gradient at x0 is trivial, i.e., ∇uε (0) = 0, implying that the deformation at the point under the load is locally rigid. It is also worth mentioning that different density functions (and thereby regularized solutions) could be used, and our choice is based on the formulation of regularized Stokeslets [@cortez2005method]. In fact, one can easily verify that the regularized Kelvinlets simplify to the regularized Stokeslets in the incompressible limit (ν = 1/2).
 
 Equipped with the regularized Kelvinlets, we can now construct a sculpting brush that assigns the load center x0 to the brush tip and sets the brush radius to ε . This indicates that, by increasing the brush size, the load distribution becomes wider. Given a force vector f , we can then evaluate the displacement generated by the regularized Kelvinlet analytically for every point in R3. As a result, we can move points along this displacement field, thus defining our physically based space deformation. It is also convenient to parameterize the force vector f in terms of the brush tip displacement u. To this end, we expand (6) with the linear constraintuε(0)=u, leading to
 <figure>
@@ -144,19 +156,12 @@ uε with respect to ε. As before, we can parameterize the tri-scale
 deformation in terms of tip displacement u, which takes the form
 
 $$
-\boldsymbol{u}_{\varepsilon_{1}, \varepsilon_{2}, \varepsilon_{3}}(\boldsymbol{r})=c\left(\sum_{i} w_{i} / \varepsilon_{i}\right)^{-1}\left[\sum_{i} w_{i} \mathcal{K}_{\varepsilon_{i}}(\boldsymbol{r})\right] \overline{\boldsymbol{u}}
+\boldsymbol{u}_{\varepsilon_{1}, \varepsilon_{2}, \varepsilon_{3}}( \boldsymbol{r} )=c\left(\sum_{i} w_{i} / \varepsilon_{i}\right)^{-1}\left[\sum_{i} w_{i} \mathcal{K}_{\varepsilon_{i}}(\boldsymbol{r})\right] \overline{\boldsymbol{u}}
 $$
 Although a user may adjust each radial scale individually, setting ε2 and ε3 to small increments of ε1 leads to a better approximation of the derivatives of uε with respect to ε, thus creating a faster falloff in the proximity of the brush center and a high-order long-range decay. Therefore, we use εi +1 = 1.1εi as the default in our implementation, where ε1 corresponds to the brush radius. Figure 3 illustrates the different far-field decays generated by single, bi-scale, and tri-scale regularized Kelvinlets, all computed with the same tip displacement u. Figure 4 shows a closeup comparing the displacement field generated by a single-scale brush before and after reducing its radius ε by 50%, versus the result of increasing the falloff order to a tri-scale brush. Observe the significantly different decays of these displacement fields, despite of their similarity near the brush center. Finally, we point out that the multi-scale extrapolation can be continued indefinitely to produce brushes of arbitrarily high order decay and increasing locality.
 
 
 
-``` iheartla
-`$u_ε$`(r) = ((a-b)/`$r_ε$`I_3 + b/`$r_ε$`³ r r^T + a/2 ε²/`$r_ε$`³ I_3 ) f where r ∈ ℝ^3
-
-where
-
-f ∈ ℝ^3
-``` 
 
 <figure>
 <img src="./img/img3.png" alt="Trulli" style="width:100%" class = "center">
@@ -221,15 +226,14 @@ In contrast to (6), the deformation generated by (14) has zero displacement at t
 Twisting: In the case of a skew-symmetric matrix, we can associate F to a vector q via the cross product matrix, i.e., $F \equiv[q]_{\times}$ where $[\boldsymbol{q}]_{\times} \boldsymbol{r}=\boldsymbol{q} \times \boldsymbol{r}$, then (14) simplifies to a twist deformation
 
 ``` iheartla
-`$t_ε$`(r) = -a(1/`$r_ε$`³ + 3ε²/(2`$r_ε$`⁵) ) Fr where r ∈ ℝ^3
-
+`$\boldsymbol{t}_ε$`(`$\boldsymbol{r}$`) = -a(1/`$r_ε$`³ + 3ε²/(2`$r_ε$`⁵) ) `$\boldsymbol{F}$``$\boldsymbol{r}$` where `$\boldsymbol{r}$` ∈ ℝ^3
 ``` 
 
 By analyzing the deformation gradient of (15) (see supplemental material), one can verify that its symmetric part (the strain tensor) is trivial for any $\boldsymbol{r}$. Consequently, this displacement field has zero divergence (i.e., $\left.\nabla \cdot \boldsymbol{t}_{\varepsilon}(\boldsymbol{r})=0\right)$ ) and defines a volume preserving deformation, independent of the Poisson ratio ν. Instead, its curl is non-zero and can be used to relate the vector $\boldsymbol{q}$ to the vorticity $\bar{\omega}$ at $x_{0}$ via the linear constraint $\nabla \times t_{\varepsilon}(0)=\bar{\omega}$.
 
 Scaling: Another type of locally affine regularized Kelvinlet can be generated by a force matrix of the form $F=s I$, where s is a scalar. In this case, (14) reduces to a scaling deformation
 ``` iheartla
-`$s_ε$`(r) = (2b-a)(1/`$r_ε$`³ + 3ε²/(2`$r_ε$`⁵))(sr) where r ∈ ℝ^3
+`$\boldsymbol{s}_ε$`(`$\boldsymbol{r}$`) = (2b-a)(1/`$r_ε$`³ + 3ε²/(2`$r_ε$`⁵))(s`$\boldsymbol{r}$`) where `$\boldsymbol{r}$` ∈ ℝ^3
 
 where
 
@@ -241,11 +245,11 @@ where positive values of s represent contractions, and negative values determine
 
 Pinching: The last type of locally affine regularized Kelvinlet is constructed based on a symmetric force matrix F with zero trace (in a total of 5 DoFs), and it generates displacements of the form
 ``` iheartla
-`$p_ε$`(r) = (2b-a)/`$r_ε$`³ Fr - 3/(2`$r_ε$`⁵)(2b(rᵀFr)I_3+aε²F)r where r ∈ ℝ^3
+`$\boldsymbol{p}_ε$`(`$\boldsymbol{r}$`) = (2b-a)/`$r_ε$`³ `$\boldsymbol{F}$``$\boldsymbol{r}$` - 3/(2`$r_ε$`⁵)(2b(`$\boldsymbol{r}$`ᵀ`$\boldsymbol{F}$``$\boldsymbol{r}$`)I_3+aε²`$\boldsymbol{F}$`)`$\boldsymbol{r}$` where `$\boldsymbol{r}$` ∈ ℝ^3
 
 where
 
-F ∈ ℝ^(3×3)
+`$\boldsymbol{F}$` ∈ ℝ^(3×3)
 `$r_ε$` ∈ ℝ
 a ∈ ℝ 
 b ∈ ℝ
