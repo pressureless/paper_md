@@ -9,6 +9,7 @@ author:
   affiliation: Pixar Animation Studios
 full_paper: False
 sectionBase: [4]
+eqBase: 5
 ---
 ❤: Anisotropic
 # AN EIGENANALYSIS OF $I_5$
@@ -40,7 +41,7 @@ F ∈ ℝ^(3×3): scaling and rotation matrix
 
 ```
 where $I _{3×3}$ is a 3×3 identity matrix,and $A _{ij}$ is the $(i, j)$ scalar entry of $A$. (Appendix A shows the matrix explicitly.) Since Eqn. 7 is constant in $a$, it is straightforward to state its eigensystem in closed form. In 3D, it contains three identical <span class='def:\lambda_{0,1,2}'>non-zero eigenvalues</span>, ❤`$\lambda_{0,1,2}$`=2||a||_2^2❤, and since fiber directions are usually normalized, this simplifies to $\lambda_{0,1,2}=2$. The eigenvalue is repeated, so <span class='def:\mathbf{Q}_{0};\mathbf{Q}_{1};\mathbf{Q}_{2}'>the eigenmatrices</span> are arbitrary up to rotation, but one convenient phrasing is:
-``` iheartla
+``` iheartla_unnumbered
 `$\mathbf{Q}_{0}$` = [a^T
                0
                0] 
@@ -75,7 +76,7 @@ A ∈ ℝ^(2×2)
 
 <span class='def:\lambda_{0,1}'>the eigenvalues</span> are ❤`$\lambda_{0,1}$`=2||a||_2^2❤, and <span class='def:\mathbf{Q}_{0};\mathbf{Q}_{1}'>the eigenmatrices</span> become
 
-``` iheartla
+``` iheartla_unnumbered
 `$\mathbf{Q}_{0}$` = [a^T
                0] 
 `$\mathbf{Q}_{1}$` = [0

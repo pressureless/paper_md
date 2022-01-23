@@ -9,6 +9,7 @@ author:
   affiliation: Pixar Animation Studios
 full_paper: False
 sectionBase: [4, 2]
+eqBase: 18
 ---
 ❤: Stable
 # ENERGY EIGENANALYSIS

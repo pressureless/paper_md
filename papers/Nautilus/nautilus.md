@@ -40,8 +40,6 @@ where
 P = [1 x₁ 0
      0 x₂ 0
      x₃ x₄ 1]
-```
-``` iheartla
 S = [x₅ x₆ x₇
      x₈ x₉ x₁₀
      0 0 1]

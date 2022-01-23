@@ -20,7 +20,7 @@ A central aspect of the kinematics of elastic geodesic grids is the ability of g
 
 Simulation. Our aim is to find the equilibrium state of the given elastic grid, which corresponds to an optimization problem of minimizing the energy functional
 
-``` iheartla
+``` iheartla_unnumbered
 E = `$E_r$` + `$E_q$` + `$E_a$` + `$E_n$` + `$E_p$`
 where
 `$E_r$` ∈ ℝ
@@ -33,7 +33,7 @@ where <span class="def:E_r">$E_r$ is the internal energy of the rods</span>, <sp
 For the sake of readability, we will define the constraint energy terms only for a single constraint each. Er is the sum of stretching, bending and twisting energies of each individual rod. As a full explanation of the DER formulation is out of scope for this paper, we refer the reader to the work of [Bergou et al. 2010] for a detailed description of these terms.
 
 The connection constraint energy $E_q$ is given by
-``` iheartla
+``` iheartla_unnumbered
 `$E_q$` = `$λ_{q,1}$`||`$q_g$`-`$q_h$`+t`$m_g$`||^2 + `$λ_{q,1}$`||`$q_h$`-`$q_g$`+t`$m_h$`||^2 + `$λ_{q,2}$`||`$\angle$`(`$m_g$`,`$m_h$`)||^2 
 where
 `$q_g$` ∈ ℝ^n
@@ -49,7 +49,7 @@ with $m_g$ and $m_h$ denoting the material vectors of $g$ and $h$ at $q$ respect
 
 The anchor constraint energy $E_a$ ensures that both the position $q$ and material vector $m$ of the given connection do not deviate from the position $q_a$ and material vector $m_a$ of the corresponding anchor. It is given by
 
-``` iheartla
+``` iheartla_unnumbered
 `$E_a$` = `$λ_{a,1}$`||q-`$q_a$`||^2 + `$λ_{a,2}$`||`$\angle$`(m,`$m_a$`)||^2 
 where
 `$λ_{a,1}$` ∈ ℝ
@@ -65,7 +65,7 @@ with $λ_{a,1}$ and $λ_{a,2}$ as weights. This constraint applies to the grid c
 
 <span class="def:E_n">The notch-limit constraint energy $E_n$ </span>ensures that the connection point remains within the bounds of the notch. They are specified by the notch length l and the sliding direction (cf. Section 4.5):
 
-``` iheartla
+``` iheartla_unnumbered
 `$E_n$` = `$δ^{(−)}$`(1/10 log((`$β_q$`-`$β^{(−)}$`)))^2 + `$δ^{(+)}$`(1/10 log((`$β^{(+)}$`-`$β_q$`)))^2
 where
 `$δ^{(−)}$` ∈ ℝ
@@ -80,7 +80,7 @@ with $β^{(−)}$ and $β^{(+)}$ denoting the barycentric coordinates of the not
 
 The additional notch penalty term $E_p$ controls the movement of a connection q between two adjacent edges. If $q$ switches edges, it needs to be reprojected to the neighboring edge at the next iteration of the simulation. Within an iteration, $E_p$ prevents $q$ from moving too far beyond the end of the current edge:
 
-``` iheartla
+``` iheartla_unnumbered
 `$E_p$` = (μ log((ε + `$β_q$`)))^2 + (μ log((ε + 1 - `$β_q$`)))^2
 where
 μ ∈ ℝ

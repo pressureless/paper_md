@@ -7,6 +7,7 @@ author:
   affiliation: University of Magdeburg
 full_paper: False
 sectionBase: [4]
+eqBase: 13
 ---
 ❤: Generic
 # OBJECTIVITY BY OPTIMAL REFERENCE FRAME
@@ -72,23 +73,31 @@ with ❤ `$x_p$` = (-y, x)❤, ❤ `$v_p$` = (-v, u)❤, and u is a 6-vector. No
 Eq. (13) is minimized using Eq. (14), which can be written as the solution of the linear system
 
 $$
-\begin{gathered}
-\widehat{\mathbf{M}} \mathbf{u}=\widehat{\mathbf{y}} \\
+\widehat{\mathbf{M}} \mathbf{u}=\widehat{\mathbf{y}} 
+$$
+
+$$
 \text { with } \widehat{\mathbf{M}}=\int_{U} \mathbf{M}^{\mathrm{T}} \mathbf{M} d V \quad, \quad \widehat{\mathbf{y}}=\int_{U} \mathbf{M}^{\mathrm{T}} \mathbf{v}_{t} d V .
-\end{gathered}
 $$
 
 
 Let $\overline{\mathbf{u}}=\left(\overline{\mathbf{u}}_{1}, \overline{\mathbf{u}}_{2}, \overline{\mathbf{u}}_{3}, \overline{\mathbf{u}}_{4}\right)^{\mathrm{T}}=\widehat{\mathbf{M}}^{-1} \widehat{\mathbf{y}}$ be the solution of Eq. (18). Then, the new fields in the locally optimal reference frame are
 
 
+$$ 
+\overline{\mathbf{v}} =\mathbf{v}+s k\left(\overline{\mathbf{u}}_{1}\right) \mathbf{x}+\overline{\mathbf{u}}_{2} 
 $$
-\begin{aligned}
-\overline{\mathbf{v}} &=\mathbf{v}+s k\left(\overline{\mathbf{u}}_{1}\right) \mathbf{x}+\overline{\mathbf{u}}_{2} \\
-\overline{\mathbf{J}} &=\mathbf{J}+s k\left(\overline{\mathbf{u}}_{1}\right) \\
-\overline{\mathbf{v}}_{t} &=\mathbf{v}_{t}-\mathbf{M} \overline{\mathbf{u}} \\
-\overline{\mathbf{a}} &=\overline{\mathbf{J}} \overline{\mathbf{v}}+\overline{\mathbf{v}}_{t}
-\end{aligned}
+
+$$
+\overline{\mathbf{J}} =\mathbf{J}+s k\left(\overline{\mathbf{u}}_{1}\right) 
+$$
+
+$$
+\overline{\mathbf{v}}_{t} =\mathbf{v}_{t}-\mathbf{M} \overline{\mathbf{u}} 
+$$
+
+$$
+\overline{\mathbf{a}} =\overline{\mathbf{J}} \overline{\mathbf{v}}+\overline{\mathbf{v}}_{t}
 $$
 
 
