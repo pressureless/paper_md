@@ -148,9 +148,10 @@ y: ℝ
 ```
 
 with
-
-❤ω(x) = atan((x-`$c_x$`)/`$f_x$`) where x: ℝ  ❤ and ❤s(x) = (y-`$c_y$`)⋅cos(ω(x)) where x: ℝ  ❤
-
+``` iheartla
+ω(x) = atan((x-`$c_x$`)/`$f_x$`) where x: ℝ   
+s(x) = (y-`$c_y$`)⋅cos(ω(x)) where x: ℝ  
+```
 This is straightforward considering that $d → ∞$ is equivalent to letting the camera circle radius $r → 0$.
 
 Figure 4 depicts $α-x$-slices of $L(α, x, y)$ before and after transformation with $φ$. Curved lines become straightened after the transformation, which indicates that linear interpolation indeed is an appropriate approximation to the point trajectory. Due to this insight, we are now able to compute intermediate views based on image space correspondences as follows.

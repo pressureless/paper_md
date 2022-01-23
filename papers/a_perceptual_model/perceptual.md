@@ -11,6 +11,7 @@ author:
   affiliation: University of Cambridge
 full_paper: False
 sectionBase: [5, 3]
+eqBase: 12
 ---
 # A PERCEPTUAL MODEL FOR MOTION QUALITY
 ## From $\proselabel{σ}$ to quality
@@ -58,8 +59,9 @@ where
 `$σ_O^A$` ∈ ℝ
 `$σ_O^B$` ∈ ℝ
 ```
-substituting in the standard deviations of the blur components for $A$ and $B$, in the directions parallel ($P$) and orthogonal ($O$) to SPEM. We further explain why an energy model is suitable to predict
-JND differences in the supplemental material (Section S.1).
+substituting in the standard deviations of the blur components for $A$ and $B$, in the directions parallel ($P$) and orthogonal ($O$) to SPEM. 
+
+We further explain why an energy model is suitable to predict JND differences in the supplemental material (Section S.1).
 
 
 
