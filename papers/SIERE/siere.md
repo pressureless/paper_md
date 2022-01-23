@@ -11,6 +11,7 @@ author:
   affiliation: University of British Columbia and Vital Mechanics Research
 full_paper: False
 sectionBase: [3]
+eqBase: 6
 ---
 ❤: siere
 # METHOD
@@ -20,7 +21,8 @@ Next, we define the splitting $G$ and $H$, crucial to the success of our method.
 
 Then we use SI on the remaining unevaluated part, as per Eq. (5). We use mass-PCA to find our reduced space. That is, considering at the beginning of each time step a solution mode of the form $q(t) = w exp(ı\sqrt{λ}t)$ for the ODE $M q  + K q = 0$, we solve the generalized eigenvalue problem
 
-$$ K w = λ M w $$
+$$ K w = λ M w 
+\notag$$
 
 for the $s$ smallest eigenvalues $λ$ and their corresponding eigenvectors $w$ (dominant modes). In Matlab, for instance, this can be achieved by calling the function eigs. In our implementation, we use the C++ Spectra library [Qiu 2019]. Denote this partial spectral decomposition by
 
@@ -111,12 +113,12 @@ The large $n×n$ linear system solved in Eq. (10) is not sparse due to the fill-
 
 
 ❤: second
-``` iheartla
+``` iheartla_unnumbered
 `$J_G$` = `$Y_1$``$Z_1$`^T + `$Y_2$``$Z_2$`^T 
 ``` 
  
 where 
-``` iheartla
+``` iheartla_unnumbered
 `$Y_1$` =  [`$U_s$`
              0]
 `$Z_1$` =  [ 0
