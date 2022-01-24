@@ -45,7 +45,8 @@
             "original":"Computational Design of Transforming Pop-up Books.pdf",
             "img_dir":"img",
             "whole_paper": 0,
-            "has_code": 0
+            "has_code": 0,
+            "section": "4.2.1"
         },
         {
             "dir": "Nautilus",
@@ -54,7 +55,8 @@
             "original":"Nautilus- Recovering Regional Symmetry Transformations for Image Editing .pdf",
             "img_dir":"img",
             "whole_paper": 0,
-            "has_code": 0
+            "has_code": 0,
+            "section": "6.1"
         },
         {
             "dir": "Elastic",
@@ -63,7 +65,8 @@
             "original":"On Elastic Geodesic Grids and Their Planar to Spatial Deployment.pdf",
             "img_dir":"img",
             "whole_paper": 0,
-            "has_code": 0
+            "has_code": 0,
+            "section": "5"
         },
         {
             "dir": "a_perceptual_model",
@@ -72,7 +75,8 @@
             "original":"A perceptual model of motion quality for rendering with adaptive refresh-rate and resolution.pdf",
             "img_dir":"img",
             "whole_paper": 0,
-            "has_code": 0
+            "has_code": 0,
+            "section": "5.3"
         },
         {
             "dir": "SIERE",
@@ -81,7 +85,8 @@
             "original":"SIERE- a hybrid semi-implicit exponential integrator for efficiently simulating stiff deformable objects .pdf",
             "img_dir":"img",
             "whole_paper": 0,
-            "has_code": 0
+            "has_code": 0,
+            "section": "3.1"
         },
         {
             "dir": "Regularized",
@@ -101,7 +106,8 @@
             "img_dir":"img",
             "whole_paper": 0,
             "has_code": 1,
-            "link": "https://github.com/V-Sense/soft_segmentation"
+            "link": "https://github.com/V-Sense/soft_segmentation",
+            "section": "3"
         },
         {
             "dir": "Generic",
@@ -111,7 +117,8 @@
             "img_dir":"img",
             "whole_paper": 0,
             "has_code": 1,
-            "link": "https://github.com/tobguent/optimal-frames"
+            "link": "https://github.com/tobguent/optimal-frames",
+            "section": "4"
         },
         {
             "dir": "Anisotropic",
@@ -121,7 +128,8 @@
             "img_dir":"img",
             "whole_paper": 0,
             "has_code": 1,
-            "link": "https://graphics.pixar.com/library/AnisotropicElasticitySIGGRAPH2019/index.html"
+            "link": "https://graphics.pixar.com/library/AnisotropicElasticitySIGGRAPH2019/index.html",
+            "section": "4.1"
         },
         {
             "dir": "Stable",
@@ -131,7 +139,8 @@
             "img_dir":"img",
             "whole_paper": 0,
             "has_code": 1,
-            "link": "https://github.com/jiayaozhang/Stable-Neo-Hookean-Flesh-Simulation"
+            "link": "https://github.com/jiayaozhang/Stable-Neo-Hookean-Flesh-Simulation",
+            "section": "4.2"
         }
     ]
 }

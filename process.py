@@ -118,6 +118,9 @@ with open('./info.json') as f:
 			item_f.write("---\n") 
 			item_f.write("code_dir: /static/gallery_res/{}/code_dir\n".format(item['dir']))
 			item_f.write("---\n") 
+			if not item['whole_paper']:
+				item_f.write("section:{}\n".format(item['section']))
+				item_f.write("---\n")  
 			if item['has_code']:
 				item_f.write("link:{}\n".format(item['link']))
 				item_f.write("---\n")  
