@@ -1,6 +1,5 @@
 */*/*.json
 *.ihla
-*/*/*.py
 *.html
 /resource
 lektor_proj/assets/static/gallery_res/*
