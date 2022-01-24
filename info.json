@@ -7,7 +7,8 @@
             "original":"A Symmetric Objective Function for ICP.pdf",
             "img_dir":"img",
             "whole_paper": 1,
-            "has_code": 1
+            "has_code": 1,
+            "link": "https://gfx.cs.princeton.edu/pubs/Rusinkiewicz_2019_ASO/index.php"
         },
         {
             "dir": "Judder",
@@ -16,7 +17,8 @@
             "original":"A Luminance-aware Model of Judder Perception.pdf",
             "img_dir":"img",
             "whole_paper": 1,
-            "has_code": 1
+            "has_code": 1,
+            "link": "https://achapiro.github.io"
         },
         {
             "dir": "Pipeline",
@@ -88,7 +90,8 @@
             "original":"Regularized Kelvinlets Sculpting Brushes based on Fundamental Solutions of Elasticity.pdf",
             "img_dir":"img",
             "whole_paper": 1,
-            "has_code": 1
+            "has_code": 1,
+            "link": "https://libigl.github.io/tutorial/#regularized-kelvinlets"
         },
         {
             "dir": "Soft_segmentation",
@@ -97,7 +100,8 @@
             "original":"Unmixing-Based Soft Color Segmentation for Image Manipulation.pdf",
             "img_dir":"img",
             "whole_paper": 0,
-            "has_code": 1
+            "has_code": 1,
+            "link": "https://github.com/V-Sense/soft_segmentation"
         },
         {
             "dir": "Generic",
@@ -106,16 +110,18 @@
             "original":"Generic Objective Vortices for Flow Visualization.pdf",
             "img_dir":"img",
             "whole_paper": 0,
-            "has_code": 1
+            "has_code": 1,
+            "link": "https://github.com/tobguent/optimal-frames"
         },
         {
             "dir": "Anisotropic",
-            "title": "Anisotropic Elasticity for Inversion-Safety and Element Rehabilitationn",
+            "title": "Anisotropic Elasticity for Inversion-Safety and Element Rehabilitation",
             "markdown":"Anisotropic",
             "original":"Anisotropic Elasticity for Inversion-Safety and Element Rehabilitation.pdf",
             "img_dir":"img",
             "whole_paper": 0,
-            "has_code": 1
+            "has_code": 1,
+            "link": "https://graphics.pixar.com/library/AnisotropicElasticitySIGGRAPH2019/index.html"
         },
         {
             "dir": "Stable",
@@ -124,7 +130,8 @@
             "original":"Stable Neo-Hookean Flesh Simulation.pdf",
             "img_dir":"img",
             "whole_paper": 0,
-            "has_code": 1
+            "has_code": 1,
+            "link": "https://github.com/jiayaozhang/Stable-Neo-Hookean-Flesh-Simulation"
         }
     ]
 }

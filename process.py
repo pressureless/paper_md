@@ -61,21 +61,36 @@ with open('./info.json') as f:
 		# shutil.copy(Path("{}/la_file/{}".format(gallery_path, la_f_name)), item_res_dir/la_f_name)
 		shutil.copy(Path("{}/{}/{}".format(paper_path, item['dir'], markdown_f_name)), 
 			item_res_dir/"{}.txt".format(item['markdown']))
+
+		code_res_dir = gallery_res_dir / "{}/{}".format(item['dir'], 'code_dir')
+		code_res_dir.mkdir()
 		shutil.copy(Path("{}/{}/{}".format(paper_path, item['dir'], cpp_f_name)), 
-			item_res_dir/cpp_f_name)
+			code_res_dir/cpp_f_name)
 		shutil.copy(Path("{}/{}/{}".format(paper_path, item['dir'], python_f_name)), 
-			item_res_dir/python_f_name)
+			code_res_dir/python_f_name)
 		shutil.copy(Path("{}/{}/{}".format(paper_path, item['dir'], matlab_f_name)), 
-			item_res_dir/matlab_f_name)
+			code_res_dir/matlab_f_name)
+
 		output_html_file = "{}.html".format(item['markdown'])
 		shutil.copy(Path("{}/{}/{}".format(paper_path, item['dir'], output_html_file)), 
 			item_res_dir/output_html_file)
+		# copy origin.png and vis.png
+		shutil.copy(Path("{}/{}/{}".format(paper_path, item['dir'], "origin.png")), 
+			item_res_dir/"origin.png")
+		shutil.copy(Path("{}/{}/{}".format(paper_path, item['dir'], "vis.png")), 
+			item_res_dir/"vis.png")
 		if item['original'] != '':
 			shutil.copy(Path("{}/{}/{}".format(paper_path, item['dir'], item['original'])), 
 			item_res_dir/item['original'])
 		if os.path.exists(Path("{}/{}/{}".format(paper_path, item['dir'], item['img_dir']))):
 			shutil.copytree(Path("{}/{}/{}".format(paper_path, item['dir'], item['img_dir'])), 
 				item_res_dir/item['img_dir'])
+
+		if item['has_code']:
+			shutil.copytree(Path("{}/{}/{}".format(paper_path, item['dir'], "original_src")), 
+			item_res_dir/"original_src")
+			shutil.copytree(Path("{}/{}/{}".format(paper_path, item['dir'], "replaced_src")), 
+			item_res_dir/"replaced_src")
 		# shutil.copy(Path("{}/la_file/{}".format(gallery_path, python_f_name)), item_res_dir/python_f_name)
 		# shutil.copy(Path("{}/la_file/{}".format(gallery_path, matlab_f_name)), item_res_dir/matlab_f_name)
 		# shutil.copy(Path("{}/{}".format(gallery_path, pdf_f_name)), item_res_dir/pdf_f_name)
@@ -97,8 +112,21 @@ with open('./info.json') as f:
 			item_f.write("---\n") 
 			item_f.write("has_code:{}\n".format(item['has_code']))
 			item_f.write("---\n") 
+			item_f.write("origin_img: /static/gallery_res/{}/origin.png\n".format(item['dir']))
+			item_f.write("---\n") 
+			item_f.write("vis_img: /static/gallery_res/{}/vis.png\n".format(item['dir']))
+			item_f.write("---\n") 
+			item_f.write("code_dir: /static/gallery_res/{}/code_dir\n".format(item['dir']))
+			item_f.write("---\n") 
+			if item['has_code']:
+				item_f.write("link:{}\n".format(item['link']))
+				item_f.write("---\n")  
+				#
+				item_f.write("original_src: /static/gallery_res/{}/original_src\n".format(item['dir']))
+				item_f.write("---\n") 
+				item_f.write("replaced_src: /static/gallery_res/{}/replaced_src\n".format(item['dir']))
+				item_f.write("---\n") 
 		
-
 			# with open(item_res_dir/cpp_f_name, 'r') as cpp_f:
 			# 	cpp_content = cpp_f.read()
 			# item_f.write("cpp_code: {}\n".format(cpp_content))
