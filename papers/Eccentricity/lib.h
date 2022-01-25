@@ -73,6 +73,7 @@ struct eccentricity {
         const double & 𝑓_𝑠0,
         const double & a)
     {
+    
         this->m = m;
         this->𝑓_𝑠0 = 𝑓_𝑠0;
         this->𝑝 = 𝑝;

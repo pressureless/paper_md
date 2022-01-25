@@ -89,6 +89,7 @@ struct pipeline {
         const double & Z,
         const double & x)
     {
+    
         this->α_i = α_i;
         this->α_j = α_j;
         this->φ_circumflex_accent_1_d = φ_circumflex_accent_1_d;

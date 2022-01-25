@@ -87,22 +87,22 @@ class pipeline:
     def t(self, α):
         assert np.ndim(α) == 0
 
-        return (α - α_i) / (α_j - α_i)
+        return (α - self.α_i) / (self.α_j - self.α_i)
 
     def textbfx(self, α):
         assert np.ndim(α) == 0
 
-        return φ_circumflex_accent_1_d((1 - self.t(α)) * φ_d(x_i) + self.t(α) * φ_d(x_j))
+        return self.φ_circumflex_accent_1_d((1 - self.t(α)) * self.φ_d(self.x_i) + self.t(α) * self.φ_d(self.x_j))
 
     def ω(self, x):
         assert np.ndim(x) == 0
 
-        return np.arctan((x - c_x) / f_x)
+        return np.arctan((x - self.c_x) / self.f_x)
 
     def s(self, x):
         assert np.ndim(x) == 0
 
-        return (y - c_y) * np.cos(self.ω(x))
+        return (self.y - self.c_y) * np.cos(self.ω(x))
 
     def φ(self, x):
         assert np.ndim(x) == 0

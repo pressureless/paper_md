@@ -20,6 +20,7 @@ struct Anisotropic {
         const Eigen::Matrix<double, 3, 3> & C,
         const Eigen::Matrix<double, 3, 3> & F)
     {
+    
         // A = a a^T 
         A = a * a.transpose();
         // `$\lambda_{0,1,2}$`=2||a||_2^2
@@ -73,6 +74,7 @@ struct 2D Anisotropic {
         const Eigen::Matrix<double, 2, 1> & a,
         const Eigen::Matrix<double, 2, 2> & A)
     {
+    
         // `$\lambda_{0,1}$`=2||a||_2^2
         lambda_0_comma_1 = 2 * pow((a).lpNorm<2>(), 2);
         Eigen::MatrixXd frac_partial_differential_²I₅_partial_differential_f²_0(4, 4);

@@ -31,7 +31,7 @@ class judder:
     def CFF(self, L):
         assert np.ndim(L) == 0
 
-        return a * np.log(L) + b
+        return self.a * np.log(L) + self.b
 
     def α(self, F):
         assert np.ndim(F) == 0

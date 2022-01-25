@@ -60,6 +60,7 @@ struct Regularized {
         const double & b,
         const double & ε)
     {
+    
         this->a = a;
         this->b = b;
         this->r = r;

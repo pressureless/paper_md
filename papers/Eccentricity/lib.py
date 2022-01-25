@@ -36,18 +36,18 @@ class eccentricity:
     def 𝜏(self, 𝑓_𝑠):
         assert np.ndim(𝑓_𝑠) == 0
 
-        return self.m(np.log(𝑓_𝑠) - np.log(𝑓_𝑠0), 0)
+        return self.m(np.log(𝑓_𝑠) - np.log(self.𝑓_𝑠0), 0)
 
     def 𝜁(self, 𝑓_𝑠):
         assert np.ndim(𝑓_𝑠) == 0
 
-        return np.exp(𝑝[9-1] * self.𝜏(𝑓_𝑠)) - 1
+        return np.exp(self.𝑝[9-1] * self.𝜏(𝑓_𝑠)) - 1
 
     def Ψ(self, 𝑒, 𝑓_𝑠):
         assert np.ndim(𝑒) == 0
         assert np.ndim(𝑓_𝑠) == 0
 
-        return self.m(0, 𝑝[0-1] * self.𝜏(𝑓_𝑠) + 𝑝[1-1] * self.𝜏(𝑓_𝑠) + 𝑝[2-1] + (𝑝[3-1] * np.power(self.𝜏(𝑓_𝑠), 2) + 𝑝[4-1] * self.𝜏(𝑓_𝑠) + 𝑝[5-1]) * self.𝜁(𝑓_𝑠) * 𝑒 + (𝑝[6-1] * np.power(self.𝜏(𝑓_𝑠), 2) + 𝑝[7-1] * self.𝜏(𝑓_𝑠) + 𝑝[8-1]) * self.𝜁(𝑓_𝑠) * np.power(𝑒, 2))
+        return self.self.m(0, self.𝑝[0-1] * self.𝜏(𝑓_𝑠) + self.𝑝[1-1] * self.𝜏(𝑓_𝑠) + self.𝑝[2-1] + (self.𝑝[3-1] * np.power(self.𝜏(𝑓_𝑠), 2) + self.𝑝[4-1] * self.𝜏(𝑓_𝑠) + self.𝑝[5-1]) * self.𝜁(𝑓_𝑠) * 𝑒 + (self.𝑝[6-1] * np.power(self.𝜏(𝑓_𝑠), 2) + self.𝑝[7-1] * self.𝜏(𝑓_𝑠) + self.𝑝[8-1]) * self.𝜁(𝑓_𝑠) * np.power(𝑒, 2))
 
     def 𝐴(self, 𝑒):
         assert np.ndim(𝑒) == 0
@@ -57,7 +57,7 @@ class eccentricity:
     def 𝑑(self, 𝐿):
         assert np.ndim(𝐿) == 0
 
-        return 7.75 - 5.75 * (np.power((𝐿 * a / 846), 0.41) / (np.power((𝐿 * a / 846), 0.41) + 2))
+        return 7.75 - 5.75 * (np.power((𝐿 * self.a / 846), 0.41) / (np.power((𝐿 * self.a / 846), 0.41) + 2))
 
     def 𝑙(self, 𝐿):
         assert np.ndim(𝐿) == 0

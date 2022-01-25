@@ -20,6 +20,7 @@ struct Stable {
         const Eigen::Matrix<double, 3, 1> & f_1,
         const Eigen::Matrix<double, 3, 1> & f_2)
     {
+    
         // α = 1 + μ/λ - μ/(4λ)
         α = 1 + μ / double(λ) - μ / double((4 * λ));
         // J =`$f_0$`⋅(`$f_1$`×`$f_2$`)

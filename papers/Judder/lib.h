@@ -39,6 +39,7 @@ struct judder {
         const double & L_a,
         const double & L_b)
     {
+    
         this->L = L;
         this->a = a;
         this->b = b;
@@ -80,6 +81,7 @@ struct third {
         const double & F_a,
         const double & L_a)
     {
+    
         // `$L_b$` = 10^((a `$F_b$`log((`$L_a$`))+b(`$F_b$`-`$F_a$`))/(a`$F_a$`))
         L_b = pow(10, ((a * F_b * log((L_a)) + b * (F_b - F_a)) / double((a * F_a))));
     }
