@@ -57,8 +57,8 @@ IGL_INLINE auto kelvinlet_evaluator(const Scalar dt,
       // Regularized Kelvinlets: Formula (6)
       kelvinlet = [&r, &f, &r_norm_sq, &F](const Scalar& epsilon) {
         const auto r_epsilon = sqrt(r_norm_sq + epsilon * epsilon);
-        Regularized re(f, F(0,0), F, r_epsilon, a, b, epsilon);
-        return re.u_ε(r);
+        Regularized re(0, f, F(0,0), F, r_epsilon, a, b, epsilon);
+        return re.boldsymbolu_ε(r);
       };
       break;
     }
@@ -66,8 +66,8 @@ IGL_INLINE auto kelvinlet_evaluator(const Scalar dt,
       // Regularized Kelvinlets: Formula (15)
       kelvinlet = [&r, &F, &r_norm_sq](const Scalar& epsilon) {
         const auto r_epsilon = sqrt(r_norm_sq + epsilon * epsilon);
-        Regularized re(r, F(0,0), F, r_epsilon, a, b, epsilon);
-        return re.t_ε(r);
+        Regularized re(0, r, F(0,0), F, r_epsilon, a, b, epsilon);
+        return re.boldsymbolt_ε(r);
       };
       break;
     }
@@ -76,8 +76,8 @@ IGL_INLINE auto kelvinlet_evaluator(const Scalar dt,
       kelvinlet = [&r, &F, &r_norm_sq](const Scalar& epsilon) {
         static constexpr auto b_compressible = a / 4; // assumes poisson ratio 0
         const auto r_epsilon = sqrt(r_norm_sq + epsilon * epsilon);
-        Regularized re(r, F(0,0), F, r_epsilon, a, b_compressible, epsilon);
-        return re.s_ε(r);
+        Regularized re(0, r, F(0,0), F, r_epsilon, a, b_compressible, epsilon);
+        return re.boldsymbols_ε(r);
       };
       break;
     }
@@ -85,8 +85,8 @@ IGL_INLINE auto kelvinlet_evaluator(const Scalar dt,
       // Regularized Kelvinlets: Formula (17)
       kelvinlet = [&r, &F, &r_norm_sq, &kp](const Scalar& epsilon) {
         const auto r_epsilon = sqrt(r_norm_sq + kp.epsilon * kp.epsilon);
-        Regularized re(r, F(0,0), F, r_epsilon, a, b, epsilon);
-        return re.p_ε(r);
+        Regularized re(0, r, F(0,0), F, r_epsilon, a, b, epsilon);
+        return re.boldsymbolp_ε(r);
       };
       break;
     }

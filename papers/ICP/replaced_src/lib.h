@@ -82,7 +82,7 @@ struct icp {
         // S = trans(`$\bar{q}$`) ⋅ rot(θ, ã/||ã||) ⋅trans(t̃ cos(θ)) ⋅rot(θ, ã/||ã||)⋅ trans(-`$\bar{p}$`)
         S = trans(barq) * rot(θ, ã / double((ã).lpNorm<2>())) * trans(t̃ * cos(θ)) * rot(θ, ã / double((ã).lpNorm<2>())) * trans(-barp);
         double sum_4 = 0;
-        for(int i=1; i<=q.size(); i++){
+        for(int i=1; i<=p.size(); i++){
             sum_4 += (pow((((R * p.at(i-1) + R.colPivHouseholderQr().solve(q.at(i-1)) + t)).dot((R * n_p.at(i-1)))), 2) + pow((((R * p.at(i-1) + R.colPivHouseholderQr().solve(q.at(i-1)) + t)).dot((R.colPivHouseholderQr().solve(n_q.at(i-1))))), 2));
         }
         // `$\varepsilon_{two-plane}$` = ∑_i(((R p_i + R⁻¹ q_i + t) ⋅ (R `$n_p$`_i))^2 + ((R p_i + R⁻¹ q_i + t) ⋅ (R⁻¹`$n_q$`_i))^2)

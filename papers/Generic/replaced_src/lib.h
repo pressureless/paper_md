@@ -6,9 +6,10 @@
 #include <set>
 
 struct Generic {
-    Eigen::MatrixXd M;
     Eigen::VectorXd x_p;
     Eigen::VectorXd v_p;
+    Eigen::MatrixXd M;
+
     Generic(
         const Eigen::Matrix<double, 2, 2> & J,
         const double & x,
@@ -16,6 +17,7 @@ struct Generic {
         const double & u,
         const double & v)
     {
+    
         Eigen::VectorXd x_p_0(2);
         x_p_0 << -y, x;
         // `$x_p$` = (-y, x)

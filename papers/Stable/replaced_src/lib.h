@@ -10,6 +10,7 @@ struct Stable {
     double J;
     Eigen::Matrix<double, 3, 3> PF;
     Eigen::MatrixXd fracpartialJpartialF;
+
     Stable(
         const Eigen::Matrix<double, 3, 3> & F,
         const double & μ,
@@ -19,9 +20,9 @@ struct Stable {
         const Eigen::Matrix<double, 3, 1> & f_1,
         const Eigen::Matrix<double, 3, 1> & f_2)
     {
+    
         // α = 1 + μ/λ - μ/(4λ)
-        // α = 1 + μ / double(λ) - μ / double((4 * λ));
-        α = 1 + μ / double(λ);
+        α = 1 + μ / double(λ) - μ / double((4 * λ));
         // J =`$f_0$`⋅(`$f_1$`×`$f_2$`)
         J = (f_0).dot(((f_1).cross(f_2)));
         Eigen::MatrixXd fracpartialJpartialF_0(3, 3);

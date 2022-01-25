@@ -59,7 +59,7 @@ where $I _{3×3}$ is a 3×3 identity matrix,and $A _{ij}$ is the $(i, j)$ scalar
 This eigenstructure has a straightforward interpretation. $I_5$ introduces scaling constraints along the anisotropy direction, so the three eigenvectors encode this rank-three phenomenon. The remaining eigenvalues are all zero, so the Hessian contains a rank-six null space. We have provided supplemental Matlab/Octave code that validate these expressions.
 
 
-❤: 2D Anisotropic
+❤: Anisotropic2D
 The 2D case follows similarly. <span class='def:\frac{∂²I₅}{∂f²}'>The Hessian</span> is
 
 
