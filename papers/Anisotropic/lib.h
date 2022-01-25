@@ -64,13 +64,13 @@ struct Anisotropic {
     }
 };
 
-struct 2D Anisotropic {
+struct Anisotropic2D {
     double lambda_0_comma_1;
     Eigen::MatrixXd frac_partial_differential_²I₅_partial_differential_f²;
     Eigen::MatrixXd mathbfQ_0;
     Eigen::MatrixXd mathbfQ_1;
 
-    2D Anisotropic(
+    Anisotropic2D(
         const Eigen::Matrix<double, 2, 1> & a,
         const Eigen::Matrix<double, 2, 2> & A)
     {

@@ -87,8 +87,8 @@ function output = Anisotropic(a, C, F)
     output.mathbfQ_2 = mathbfQ_2;
 end
 
-function output = 2D Anisotropic(a, A)
-% output = 2D Anisotropic(a, A)
+function output = Anisotropic2D(a, A)
+% output = Anisotropic2D(a, A)
 %
 %    `$\lambda_{0,1}$`=2||a||_2^2
 %    tr from linearalgebra

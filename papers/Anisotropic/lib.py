@@ -44,7 +44,7 @@ class Anisotropic:
         mathbfQ_2_0 = np.vstack((np.zeros((1, 3)), np.zeros((1, 3)), a.T.reshape(1, 3)))
         self.mathbfQ_2 = mathbfQ_2_0
 
-class 2D Anisotropic:
+class Anisotropic2D:
     def __init__(self, a, A):
         a = np.asarray(a, dtype=np.float64)
         A = np.asarray(A, dtype=np.float64)
