@@ -44,7 +44,7 @@ class nautilus:
         assert x.shape == (n,)
 
         sum_0 = 0
-        for i in range(1, len(v)+1):
+        for i in range(1, len(self.v)+1):
             sum_0 += np.power(np.linalg.norm(self.H @ v[i-1] - self.P @ self.S @ np.linalg.solve(self.P, v[i-1]), 'fro'), 2)
         return λ * np.power(np.linalg.norm(np.hstack((x[5-1], x[8-1])) - np.hstack((x[9-1], x[6-1])), 2), 2) + sum_0
 

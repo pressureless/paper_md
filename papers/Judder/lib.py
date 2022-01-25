@@ -53,7 +53,7 @@ class error:
 
         # E = sum_i |log(O_i) - log(M_i)|/log(O_i) 
         sum_0 = 0
-        for i in range(1, len(M)+1):
+        for i in range(1, len(O)+1):
             sum_0 += np.absolute(np.log(O[i-1]) - np.log(M[i-1])) / np.log(O[i-1])
         self.E = sum_0
 

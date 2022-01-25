@@ -43,7 +43,7 @@ class perceptual:
         assert np.ndim(σ) == 0
 
         sum_0 = 0
-        for i in range(1, len(ω)+1):
+        for i in range(1, len(self.ω)+1):
             sum_0 += np.power(((self.m̃(ω[i-1], σ)) / m_combining_tilde_t_comma_b), β_b)
         return sum_0
 
