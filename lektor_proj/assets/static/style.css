@@ -61,6 +61,12 @@ div.page {
     padding-bottom: 0px;
 }
 
+div.show_table{
+    width: 100%; 
+    display: table; 
+    height:400px;  
+}
+
 
 div.gallery_thumb {
     /*width: 300px;

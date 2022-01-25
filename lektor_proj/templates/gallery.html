@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% from "macros/gallery.html" import render_gallery_post %}
+{% from "macros/pagination.html" import render_pagination %}
+{% block title %}{{ this.title }}{% endblock %}
+{% block body %}
+
+  {% set count = this.pagination.items.count() / 4 * 170%}
+  <div class="page" style='height: {{ count }}px;'>
+  	<div class="full" style='height: 300 px;'>
+  		<p> Full implemented papers:<br>
+  {% for child in this.pagination.items %}
+    {{ render_gallery_post(child, from_index=true, full_paper=true) }}
+  {% endfor %}
+	</div>
+	<div class="half" ><br>
+		<p> Specific section in papers:<br>
+  {% for child in this.pagination.items %}
+    {{ render_gallery_post(child, from_index=true, full_paper=false) }}
+  {% endfor %}
+	</div>
+  <!-- {{ render_pagination(this.pagination) }} -->
+</div>
+{% endblock %}
+

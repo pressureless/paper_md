@@ -1,0 +1,80 @@
+{% macro render_gallery_post(post, from_index=false, full_paper=true) %}
+
+  {% if from_index %}
+    <!-- <div class="gallery_thumb" style='border: 2px outset green;'> -->
+    <!-- <h2><a href="{{ post|url }}">{{ post.title }}</a></h2> --> 
+    {% if post.whole_paper == full_paper %}
+      <a href="{{ post|url }}index.html">
+          <!-- {% if post.thumb_file %}
+          <img src={{ post.thumb_file |url}} style='object-fit: scale-down;'>   
+          {% endif %} -->
+
+          <!-- <span ><p style='text-align: center;'> {{ post.title }}</p></span> -->
+          {% if post.has_code %}
+            <p style='text-align: left;'> {{ post.title }} (*)</p>
+          {% else %}
+            <p style='text-align: left;'> {{ post.title }}</p>
+          {% endif %}
+
+
+          <!-- <a href="{{ post.title }}"> {{ post.title }} </a><br><br> -->
+        </a> 
+    {% endif %}
+  {% else %}
+    <div class="gallery_post">
+
+    <!-- {{ post.body }} --> 
+    {% if post.whole_paper %}
+      We implemented the whole paper
+    {% else %}
+      We implemented <b>section {{ post.section}}</b> in the paper
+    {% endif %}
+   
+     <p>Check the <a href="{{ post.markdown_file |url}}">Markdown source file</a>
+    
+     and the <a href="{{ post.code_dir |url}}">Output code</a>
+
+    {% if post.has_code %}
+     
+      <p>We also evaluated the code from <a href="{{ post.link |url}}">online resource </a>
+
+      <p>Check the <a href="{{ post.original_src |url}}">Original source file</a>
+      
+      and the <a href="{{ post.replaced_src |url}}">Modified code</a>
+    {% endif %}
+
+    <div class='show_table'>
+        <div style="display: table-row; height: 10px;">
+            <div class='div-left'>
+                <a href="{{ post.original_file| url }}">
+                  <span><p style="text-align: center;"> Paper</p></span>
+                </a>
+            </div>
+            <div class='div-right'> 
+                <a href="{{ post.output_file |url}}">
+                  <span><p style="text-align: center;"> H❤️rtDown Viewer Demo</p></span>
+                </a>
+            </div>
+        </div>
+        <div class='align-center' style="display: table-row; height: 100px;">
+            <div class='div-left'>
+                <a href="{{ post.original_file| url }}">
+                    <img src="{{ post.origin_img| url }}" style="width: 90%" style="object-fit: scale-down;">    
+                </a>
+            </div>
+            <div class='div-right'> 
+                <a href="{{ post.output_file |url}}">  
+                  <img src="{{ post.vis_img| url }}" style="width: 90%"  style="object-fit: scale-down;">  
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    </div>
+  {% endif %}
+
+
+ 
+
+{% endmacro %}

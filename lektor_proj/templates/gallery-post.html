@@ -1,0 +1,9 @@
+{% extends "single_demo.html" %}
+{% from "macros/gallery.html" import render_gallery_post %}
+
+{% block head %}{{ this.title }}{% endblock %}
+
+{% block title %}{{ this.title }}{% endblock %}
+{% block body %}
+  {{ render_gallery_post(this) }}
+{% endblock %}

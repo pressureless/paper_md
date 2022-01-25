@@ -1,0 +1,14 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="{{ '/static/style.css'|url }}">
+<title>{% block title %}Welcome{% endblock %} — I❤️LA</title>
+<body>
+  <header>
+    <link href="{{ '/static/prism.css'|url }}" rel="stylesheet" />
+    <h1> {% block head %}{% endblock %} </h1>
+  </header>
+  <script src="{{ '/static/prism.js'|url }}"></script>
+  <div class="page">
+    {% block body %}{% endblock %}
+  </div>
+</body>
