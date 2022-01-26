@@ -5,7 +5,7 @@
 #include <iostream>
 #include <set>
 
-struct icp {
+struct ICP {
     Eigen::Matrix<double, 3, 1> ã;
     std::vector<Eigen::Matrix<double, 3, 1>> n;
     Eigen::Matrix<double, 3, 1> t̃;
@@ -18,7 +18,7 @@ struct icp {
     Eigen::Matrix<double, 4, 4> S;
     double varepsilon_twoplane;
 
-    icp(
+    ICP(
         const Eigen::Matrix<double, 3, 3> & R,
         const Eigen::Matrix<double, 3, 1> & a,
         const double & θ,
@@ -56,25 +56,25 @@ struct icp {
             q̃.at(i-1) = q.at(i-1) - barq;
         }
         double sum_0 = 0;
-        for(int i=1; i<=q.size(); i++){
+        for(int i=1; i<=p.size(); i++){
             sum_0 += (R * p.at(i-1) + t - q.at(i-1)).lpNorm<2>();
         }
         // `$\varepsilon_{point}$` = ∑_i ||R p_i + t - q_i||
         varepsilon_point = sum_0;
         double sum_1 = 0;
-        for(int i=1; i<=q.size(); i++){
+        for(int i=1; i<=p.size(); i++){
             sum_1 += pow((((R * p.at(i-1) + t - q.at(i-1))).dot(n_q.at(i-1))), 2);
         }
         // `$\varepsilon_{plane}$` = ∑_i ((R p_i + t - q_i) ⋅ `$n_q$`_i)^2
         varepsilon_plane = sum_1;
         double sum_2 = 0;
-        for(int i=1; i<=q.size(); i++){
+        for(int i=1; i<=p.size(); i++){
             sum_2 += pow((((R * p.at(i-1) + R.colPivHouseholderQr().solve(q.at(i-1)) + t)).dot((R * n_p.at(i-1) + R.colPivHouseholderQr().solve(n_q.at(i-1))))), 2);
         }
         // `$\varepsilon_{symm-RN}$` = ∑_i ((R p_i + R⁻¹ q_i + t) ⋅ (R`$n_p$`_i + R⁻¹`$n_q$`_i))^2
         varepsilon_symmRN = sum_2;
         double sum_3 = 0;
-        for(int i=1; i<=q.size(); i++){
+        for(int i=1; i<=p.size(); i++){
             sum_3 += pow(cos(θ), 2) * pow((((p.at(i-1) - q.at(i-1))).dot(n.at(i-1)) + ((((p.at(i-1) + q.at(i-1))).cross(n.at(i-1)))).dot(ã) + (n.at(i-1)).dot(t̃)), 2);
         }
         // `$\varepsilon_{symm}$` = ∑_i cos²(θ)((p_i - q_i)⋅n_i +((p_i+q_i)×n_i)⋅ã+n_i⋅t̃)² 
