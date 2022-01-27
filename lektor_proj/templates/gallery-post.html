@@ -1,7 +1,11 @@
 {% extends "single_demo.html" %}
 {% from "macros/gallery.html" import render_gallery_post %}
 
-{% block head %}{{ this.title }}{% endblock %}
+{% block head %}{{ this.title }}
+<h2>{{ this.authors }}</h2>
+<h2>{{ this.comefrom }}</h2>
+
+{% endblock %}
 
 {% block title %}{{ this.title }}{% endblock %}
 {% block body %}

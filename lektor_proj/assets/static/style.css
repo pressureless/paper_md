@@ -16,7 +16,7 @@ a:hover {
 header, footer{
     width: 860px;
     margin: 0 auto;
-    background: rgba(0, 0, 0, 0.1);
+    /* background: rgba(0, 0, 0, 0.0); */
     padding: 20px 30px;
     border-bottom: 1px outset #FFFFFF;
 }
@@ -54,7 +54,7 @@ header nav ul li {
 div.page {
     width: 860px;
     margin: 0 auto;
-    background: rgba(0, 0, 0, 0.1);
+    /* background: rgba(0, 0, 0, 0.1); */
     padding: 20px 30px;
     /*border-bottom: 1px outset #FFFFFF;*/
     margin-bottom: 0px;
@@ -101,7 +101,7 @@ img.align-center, .figure.align-center, object.align-center {
     display: table-cell;
     /*background: gray;*/
     background: white;
-    border-right: 1px outset #FFFFFF;
+    /* border-right: 1px outset #FFFFFF; */
 }
 .div-right{
     width: 50%; 

@@ -8,7 +8,9 @@
             "img_dir":"img",
             "whole_paper": 1,
             "has_code": 1,
-            "link": "https://gfx.cs.princeton.edu/pubs/Rusinkiewicz_2019_ASO/index.php"
+            "link": "https://gfx.cs.princeton.edu/pubs/Rusinkiewicz_2019_ASO/index.php",
+            "comefrom": "SIGGRAPH North American 2019",
+            "authors": "Szymon Rusinkiewicz"
         },
         {
             "dir": "Judder",
@@ -18,7 +20,9 @@
             "img_dir":"img",
             "whole_paper": 1,
             "has_code": 1,
-            "link": "https://achapiro.github.io"
+            "link": "https://achapiro.github.io",
+            "comefrom": "SIGGRAPH North American 2019",
+            "authors": "Alexandre Chapiro, Robin Atkins, and Scott Daly"
         },
         {
             "dir": "Pipeline",
@@ -27,7 +31,9 @@
             "original":"An Omnistereoscopic Video Pipeline for Capture and Display of Real-World VR.pdf",
             "img_dir":"img",
             "whole_paper": 1,
-            "has_code": 0
+            "has_code": 0,
+            "comefrom": "SIGGRAPH North American 2018",
+            "authors": "Christopher Schroers, Jean-Charles Bazin and Alexander Sorkine-Hornung"
         },
         {
             "dir": "Eccentricity",
@@ -36,7 +42,9 @@
             "original":"A Perceptual Model for Eccentricity-dependent Spatio-temporal Flicker Fusion and its Applications to Foveated Graphics.pdf",
             "img_dir":"img",
             "whole_paper": 1,
-            "has_code": 0
+            "has_code": 0,
+            "comefrom": "SIGGRAPH North American 2021",
+            "authors": "Brooke Krajancich, Petr Kellnhofer and Gordon Wetzstein"
         },
         {
             "dir": "Computational_Design",
@@ -46,7 +54,9 @@
             "img_dir":"img",
             "whole_paper": 0,
             "has_code": 0,
-            "section": "4.2.1"
+            "section": "4.2.1",
+            "comefrom": "SIGGRAPH North American 2018",
+            "authors": "Nan Xiao, Zhe Zhu, Ralph R. Martin, Kun Xu, Jia-Ming Lu and Shi-Min Hu"
         },
         {
             "dir": "Nautilus",
@@ -56,7 +66,9 @@
             "img_dir":"img",
             "whole_paper": 0,
             "has_code": 0,
-            "section": "6.1"
+            "section": "6.1",
+            "comefrom": "SIGGRAPH North American 2017",
+            "authors": "Michal Lukáč, Daniel Sýkora, Kalyan Sunkavalli, Eli Shechtman, Ondřej Jamriška, Nathan Carr, Tomas Pajdla"
         },
         {
             "dir": "Elastic",
@@ -66,7 +78,9 @@
             "img_dir":"img",
             "whole_paper": 0,
             "has_code": 0,
-            "section": "5"
+            "section": "5",
+            "comefrom": "SIGGRAPH North American 2020",
+            "authors": "Stefan Pillwein, Kurt Leimer, ‪Michael Birsak and Przemyslaw Musialski"
         },
         {
             "dir": "a_perceptual_model",
@@ -76,7 +90,9 @@
             "img_dir":"img",
             "whole_paper": 0,
             "has_code": 0,
-            "section": "5.3"
+            "section": "5.3",
+            "comefrom": "SIGGRAPH North American 2020",
+            "authors": "Gyorgy Denes, Akshay Jindal, Aliaksei Mikhailiuk and Rafal K. Mantiuk"
         },
         {
             "dir": "SIERE",
@@ -86,7 +102,9 @@
             "img_dir":"img",
             "whole_paper": 0,
             "has_code": 0,
-            "section": "3.1"
+            "section": "3.1",
+            "comefrom": "SIGGRAPH North American 2020",
+            "authors": "Yu Ju (Edwin) Chen, Seung Heon Sheen, Uri M. Ascher and Dinesh K. Pai"
         },
         {
             "dir": "Regularized",
@@ -96,7 +114,9 @@
             "img_dir":"img",
             "whole_paper": 1,
             "has_code": 1,
-            "link": "https://libigl.github.io/tutorial/#regularized-kelvinlets"
+            "link": "https://libigl.github.io/tutorial/#regularized-kelvinlets",
+            "comefrom": "SIGGRAPH North American 2017",
+            "authors": "Fernando de Goes and Doug L. James"
         },
         {
             "dir": "Soft_segmentation",
@@ -107,7 +127,9 @@
             "whole_paper": 0,
             "has_code": 1,
             "link": "https://github.com/V-Sense/soft_segmentation",
-            "section": "3"
+            "section": "3",
+            "comefrom": "SIGGRAPH North American 2017",
+            "authors": "Yagiz Aksoy, Tunc Ozan Aydin, Aljoscha Smolic and Marc Pollefeys"
         },
         {
             "dir": "Generic",
@@ -118,7 +140,9 @@
             "whole_paper": 0,
             "has_code": 1,
             "link": "https://github.com/tobguent/optimal-frames",
-            "section": "4"
+            "section": "4",
+            "comefrom": "SIGGRAPH North American 2017",
+            "authors": "Tobias Günther and Markus Gross, ‪Holger Theisel‬"
         },
         {
             "dir": "Anisotropic",
@@ -129,7 +153,9 @@
             "whole_paper": 0,
             "has_code": 1,
             "link": "https://graphics.pixar.com/library/AnisotropicElasticitySIGGRAPH2019/index.html",
-            "section": "4.1"
+            "section": "4.1",
+            "comefrom": "SIGGRAPH North American 2019",
+            "authors": "Theodore Kim, Fernando de Goes and Hayley Iben"
         },
         {
             "dir": "Stable",
@@ -140,7 +166,9 @@
             "whole_paper": 0,
             "has_code": 1,
             "link": "https://github.com/jiayaozhang/Stable-Neo-Hookean-Flesh-Simulation",
-            "section": "4.2"
+            "section": "4.2",
+            "comefrom": "SIGGRAPH North American 2018",
+            "authors": "Breannan Smith, Fernando de Goes and Theodore Kim"
         }
     ]
 }

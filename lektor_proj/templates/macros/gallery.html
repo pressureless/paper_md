@@ -5,54 +5,41 @@
     <!-- <h2><a href="{{ post|url }}">{{ post.title }}</a></h2> --> 
     {% if post.whole_paper == full_paper %}
       <a href="{{ post|url }}index.html">
-          <!-- {% if post.thumb_file %}
-          <img src={{ post.thumb_file |url}} style='object-fit: scale-down;'>   
-          {% endif %} -->
-
-          <!-- <span ><p style='text-align: center;'> {{ post.title }}</p></span> -->
-          {% if post.has_code %}
-            <p style='text-align: left;'> {{ post.title }} (*)</p>
+        {% if post.has_code %}
+        <p style='text-align: left;'> {{ post.title }} (*)</p>
           {% else %}
-            <p style='text-align: left;'> {{ post.title }}</p>
+        <p style='text-align: left;'> {{ post.title }}</p>
           {% endif %}
-
-
-          <!-- <a href="{{ post.title }}"> {{ post.title }} </a><br><br> -->
-        </a> 
+      </a> 
     {% endif %}
   {% else %}
     <div class="gallery_post">
 
-    <!-- {{ post.body }} --> 
-    {% if post.whole_paper %}
-      We implemented the whole paper
-    {% else %}
-      We implemented <b>section {{ post.section}}</b> in the paper
-    {% endif %}
-   
-     <p>Check the <a href="{{ post.markdown_file |url}}">Markdown source file</a>
-    
-     and the <a href="{{ post.code_dir |url}}">Output code</a>
+    <ul>
+      {% if post.whole_paper %}
+      <li><a href="{{ post.markdown_file |url}}">H❤️rtDown source</a> (entire paper)</li>
+      {% else %}
+      <li><a href="{{ post.markdown_file |url}}">H❤️rtDown source</a> (paper section)</li>
+      {% endif %}
+      <li><a href="{{ post.code_dir |url}}">H❤️rtDown-generated code libraries</a></li>
 
-    {% if post.has_code %}
-     
-      <p>We also evaluated the code from <a href="{{ post.link |url}}">online resource </a>
+      {% if post.has_code %}
+      <li><a href="{{ post.link |url}}">Existing implementation</a> source code <a href="{{ post.original_src |url}}">before modification</a> and <a href="{{ post.replaced_src |url}}">modified to call H❤️rtDown-generated code</a></li>
+      {% endif %}
+    </ul>
 
-      <p>Check the <a href="{{ post.original_src |url}}">Original source file</a>
-      
-      and the <a href="{{ post.replaced_src |url}}">Modified code</a>
-    {% endif %}
+
 
     <div class='show_table'>
         <div style="display: table-row; height: 10px;">
             <div class='div-left'>
                 <a href="{{ post.original_file| url }}">
-                  <span><p style="text-align: center;"> Paper</p></span>
+                  <span><p style="text-align: center;"> Original Paper [PDF]</p></span>
                 </a>
             </div>
             <div class='div-right'> 
                 <a href="{{ post.output_file |url}}">
-                  <span><p style="text-align: center;"> H❤️rtDown Viewer Demo</p></span>
+                  <span><p style="text-align: center;"> H❤️rtDown Paper Viewer</p></span>
                 </a>
             </div>
         </div>

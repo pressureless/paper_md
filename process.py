@@ -104,6 +104,10 @@ with open('./info.json') as f:
 		with open(item_file, 'w') as item_f:
 			item_f.write("title: {}\n".format(item['title']))
 			item_f.write("---\n")
+			item_f.write("comefrom: {}\n".format(item['comefrom']))
+			item_f.write("---\n")
+			item_f.write("authors: {}\n".format(item['authors']))
+			item_f.write("---\n")
 			item_f.write("original_file: /static/gallery_res/{}/{}\n".format(item['dir'], urllib.parse.quote(item['original'])))
 			item_f.write("---\n")
 			item_f.write("markdown_file: /static/gallery_res/{}/{}.txt\n".format(item['dir'], item['markdown']))
