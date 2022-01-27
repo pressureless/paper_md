@@ -21,13 +21,13 @@ A central aspect of the kinematics of elastic geodesic grids is the ability of g
 Simulation. Our aim is to find the equilibrium state of the given elastic grid, which corresponds to an optimization problem of minimizing the energy functional
 
 ``` iheartla_unnumbered
-`$E_q$` from connection(`$q_g$`,`$q_h$`,`$m_g$`,`$m_h$`,`$\angle$`,`$λ_{q,1}$`,`$λ_{q,2}$`,t)
-`$E_a$` from anchor(`$λ_{a,1}$`,`$λ_{a,2}$`,q,`$q_a$`,m,`$m_a$`, `$\angle$`)
-`$E_n$` from notchlimit(`$δ^{(−)}$`,`$δ^{(+)}$`,`$β_q$`,`$β^{(−)}$`,`$β^{(+)}$`)
-`$E_p$` from penalty(μ, ε, `$β_q$`)
-E = `$E_r$` + `$E_q$` + `$E_a$` + `$E_n$` + `$E_p$`
+`E_q` from connection(`$q_g$`,`$q_h$`,`$m_g$`,`$m_h$`,`$\angle$`,`$λ_{q,1}$`,`$λ_{q,2}$`,t)
+`E_a` from anchor(`$λ_{a,1}$`,`$λ_{a,2}$`,q,`$q_a$`,m,`$m_a$`, `$\angle$`)
+`E_n` from notchlimit(`$δ^{(−)}$`,`$δ^{(+)}$`,`$β_q$`,`$β^{(−)}$`,`$β^{(+)}$`)
+`E_p` from penalty(μ, ε, `$β_q$`)
+E = `E_r` + `E_q` + `E_a` + `E_n` + `E_p`
 where
-`$E_r$` ∈ ℝ:the internal energy of the rods
+`E_r` ∈ ℝ:the internal energy of the rods
 where
 `$q_g$` ∈ ℝ^n: point
 `$q_h$` ∈ ℝ^n: point
@@ -54,7 +54,7 @@ where
 μ ∈ ℝ: a weighting parameter
 ε ∈ ℝ: denoting how far $q$ is allowed to move past the end of the edge
 ```
-where <span class="def:E_r">$E_r$ is the internal energy of the rods</span>, <span class="def:E_q">$E_q$ is the energy of the connection constraints</span>, <span class="def:E_a">$E_a$ is the energy of the anchor constraints</span>, <span class="def:E_n">$E_n$ is the energy of the notch-limit constraints</span>, and <span class="def:E_p">$E_p$ is an additional notch penalty term that also serves to account for friction</span>. We perform the simulation by minimizing <span class="def:E">the entire energy $E$ for the rod centerline points $x$ </span>using a Gauss-Newton method in a similar fashion as proposed by Vekhter et al. [2019]. In Section 6.2 we perform an empirical evaluation of the accuracy of the simulation by comparing it to laser-scans of the makes.
+where <span class="def">$E_r$ is the internal energy of the rods</span>, <span class="def">$E_q$ is the energy of the connection constraints</span>, <span class="def">$E_a$ is the energy of the anchor constraints</span>, <span class="def">$E_n$ is the energy of the notch-limit constraints</span>, and <span class="def">$E_p$ is an additional notch penalty term that also serves to account for friction</span>. We perform the simulation by minimizing <span class="def:E">the entire energy $E$ for the rod centerline points $x$ </span>using a Gauss-Newton method in a similar fashion as proposed by Vekhter et al. [2019]. In Section 6.2 we perform an empirical evaluation of the accuracy of the simulation by comparing it to laser-scans of the makes.
 <figure>
 <img src="./img/img10.png" alt="Trulli" style="width:100%" class = "center">
 <figcaption align = "center">Fig. 10. The influence of anchors and notches on the example Archway. Left: Anchors at the corners are not sufficient to push the grid into the right configuration. Center: Deployed state without notches, local buckling and irregularities in smoothness can be observed. Right: Notches relax the structure to a more natural, lower energy shape (cf. Sections 4.5 and 4.6).</figcaption>
@@ -63,7 +63,7 @@ For the sake of readability, we will define the constraint energy terms only for
 ❤: connection
 The connection constraint energy $E_q$ is given by
 ``` iheartla_unnumbered
-`$E_q$` = `$λ_{q,1}$`||`$q_g$`-`$q_h$`+t`$m_g$`||^2 + `$λ_{q,1}$`||`$q_h$`-`$q_g$`+t`$m_h$`||^2 + `$λ_{q,2}$`||`$\angle$`(`$m_g$`,`$m_h$`)||^2 
+`E_q` = `$λ_{q,1}$`||`$q_g$`-`$q_h$`+t`$m_g$`||^2 + `$λ_{q,1}$`||`$q_h$`-`$q_g$`+t`$m_h$`||^2 + `$λ_{q,2}$`||`$\angle$`(`$m_g$`,`$m_h$`)||^2 
 where
 `$q_g$` ∈ ℝ^n : point
 `$q_h$` ∈ ℝ^n : point
@@ -79,7 +79,7 @@ with <span class="def:m_g;m_h">$m_g$ and $m_h$ denoting the material vectors of 
 The anchor constraint energy $E_a$ ensures that both the position $q$ and material vector $m$ of the given connection do not deviate from the position $q_a$ and material vector $m_a$ of the corresponding anchor. It is given by
 
 ``` iheartla_unnumbered
-`$E_a$` = `$λ_{a,1}$`||q-`$q_a$`||^2 + `$λ_{a,2}$`||`$\angle$`(m,`$m_a$`)||^2 
+`E_a` = `$λ_{a,1}$`||q-`$q_a$`||^2 + `$λ_{a,2}$`||`$\angle$`(m,`$m_a$`)||^2 
 where
 `$λ_{a,1}$` ∈ ℝ : weight
 `$λ_{a,2}$` ∈ ℝ : weight
@@ -96,7 +96,7 @@ with <span class="def:λ_{a,1};λ_{a,2}">$λ_{a,1}$ and $λ_{a,2}$ as weights</s
 <span class="def:E_n">The notch-limit constraint energy $E_n$ </span>ensures that the connection point remains within the bounds of the notch. They are specified by the notch length l and the sliding direction (cf. Section 4.5):
 
 ``` iheartla_unnumbered
-`$E_n$` = `$δ^{(−)}$`(1/10 log((`$β_q$`-`$β^{(−)}$`)))^2 + `$δ^{(+)}$`(1/10 log((`$β^{(+)}$`-`$β_q$`)))^2
+`E_n` = `$δ^{(−)}$`(1/10 log((`$β_q$`-`$β^{(−)}$`)))^2 + `$δ^{(+)}$`(1/10 log((`$β^{(+)}$`-`$β_q$`)))^2
 where
 `$δ^{(−)}$` ∈ ℝ 
 `$δ^{(+)}$` ∈ ℝ
@@ -111,7 +111,7 @@ with <span class="def:β^{(−)};β^{(+)}">$β^{(−)}$ and $β^{(+)}$ denoting 
 The additional notch penalty term $E_p$ controls the movement of a connection q between two adjacent edges. If $q$ switches edges, it needs to be reprojected to the neighboring edge at the next iteration of the simulation. Within an iteration, $E_p$ prevents $q$ from moving too far beyond the end of the current edge:
 
 ``` iheartla_unnumbered
-`$E_p$` = (μ log((ε + `$β_q$`)))^2 + (μ log((ε + 1 - `$β_q$`)))^2
+`E_p` = (μ log((ε + `$β_q$`)))^2 + (μ log((ε + 1 - `$β_q$`)))^2
 where
 μ ∈ ℝ : a weighting parameter
 ε ∈ ℝ : denoting how far $q$ is allowed to move past the end of the edge
