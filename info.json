@@ -9,7 +9,7 @@
             "whole_paper": 1,
             "has_code": 1,
             "link": "https://gfx.cs.princeton.edu/pubs/Rusinkiewicz_2019_ASO/index.php",
-            "comefrom": "SIGGRAPH North American 2019",
+            "comefrom": "SIGGRAPH North America 2019",
             "authors": "Szymon Rusinkiewicz"
         },
         {
@@ -21,7 +21,7 @@
             "whole_paper": 1,
             "has_code": 1,
             "link": "https://achapiro.github.io",
-            "comefrom": "SIGGRAPH North American 2019",
+            "comefrom": "SIGGRAPH North America 2019",
             "authors": "Alexandre Chapiro, Robin Atkins, and Scott Daly"
         },
         {
@@ -32,7 +32,7 @@
             "img_dir":"img",
             "whole_paper": 1,
             "has_code": 0,
-            "comefrom": "SIGGRAPH North American 2018",
+            "comefrom": "SIGGRAPH North America 2018",
             "authors": "Christopher Schroers, Jean-Charles Bazin and Alexander Sorkine-Hornung"
         },
         {
@@ -43,7 +43,7 @@
             "img_dir":"img",
             "whole_paper": 1,
             "has_code": 0,
-            "comefrom": "SIGGRAPH North American 2021",
+            "comefrom": "SIGGRAPH North America 2021",
             "authors": "Brooke Krajancich, Petr Kellnhofer and Gordon Wetzstein"
         },
         {
@@ -55,7 +55,7 @@
             "whole_paper": 0,
             "has_code": 0,
             "section": "4.2.1",
-            "comefrom": "SIGGRAPH North American 2018",
+            "comefrom": "SIGGRAPH North America 2018",
             "authors": "Nan Xiao, Zhe Zhu, Ralph R. Martin, Kun Xu, Jia-Ming Lu and Shi-Min Hu"
         },
         {
@@ -67,7 +67,7 @@
             "whole_paper": 0,
             "has_code": 0,
             "section": "6.1",
-            "comefrom": "SIGGRAPH North American 2017",
+            "comefrom": "SIGGRAPH North America 2017",
             "authors": "Michal Lukáč, Daniel Sýkora, Kalyan Sunkavalli, Eli Shechtman, Ondřej Jamriška, Nathan Carr, Tomas Pajdla"
         },
         {
@@ -79,7 +79,7 @@
             "whole_paper": 0,
             "has_code": 0,
             "section": "5",
-            "comefrom": "SIGGRAPH North American 2020",
+            "comefrom": "SIGGRAPH North America 2020",
             "authors": "Stefan Pillwein, Kurt Leimer, ‪Michael Birsak and Przemyslaw Musialski"
         },
         {
@@ -91,7 +91,7 @@
             "whole_paper": 0,
             "has_code": 0,
             "section": "5.3",
-            "comefrom": "SIGGRAPH North American 2020",
+            "comefrom": "SIGGRAPH North America 2020",
             "authors": "Gyorgy Denes, Akshay Jindal, Aliaksei Mikhailiuk and Rafal K. Mantiuk"
         },
         {
@@ -103,7 +103,7 @@
             "whole_paper": 0,
             "has_code": 0,
             "section": "3.1",
-            "comefrom": "SIGGRAPH North American 2020",
+            "comefrom": "SIGGRAPH North America 2020",
             "authors": "Yu Ju (Edwin) Chen, Seung Heon Sheen, Uri M. Ascher and Dinesh K. Pai"
         },
         {
@@ -115,7 +115,7 @@
             "whole_paper": 1,
             "has_code": 1,
             "link": "https://libigl.github.io/tutorial/#regularized-kelvinlets",
-            "comefrom": "SIGGRAPH North American 2017",
+            "comefrom": "SIGGRAPH North America 2017",
             "authors": "Fernando de Goes and Doug L. James"
         },
         {
@@ -128,7 +128,7 @@
             "has_code": 1,
             "link": "https://github.com/V-Sense/soft_segmentation",
             "section": "3",
-            "comefrom": "SIGGRAPH North American 2017",
+            "comefrom": "SIGGRAPH North America 2017",
             "authors": "Yagiz Aksoy, Tunc Ozan Aydin, Aljoscha Smolic and Marc Pollefeys"
         },
         {
@@ -141,7 +141,7 @@
             "has_code": 1,
             "link": "https://github.com/tobguent/optimal-frames",
             "section": "4",
-            "comefrom": "SIGGRAPH North American 2017",
+            "comefrom": "SIGGRAPH North America 2017",
             "authors": "Tobias Günther and Markus Gross, ‪Holger Theisel‬"
         },
         {
@@ -154,7 +154,7 @@
             "has_code": 1,
             "link": "https://graphics.pixar.com/library/AnisotropicElasticitySIGGRAPH2019/index.html",
             "section": "4.1",
-            "comefrom": "SIGGRAPH North American 2019",
+            "comefrom": "SIGGRAPH North America 2019",
             "authors": "Theodore Kim, Fernando de Goes and Hayley Iben"
         },
         {
@@ -167,7 +167,7 @@
             "has_code": 1,
             "link": "https://github.com/jiayaozhang/Stable-Neo-Hookean-Flesh-Simulation",
             "section": "4.2",
-            "comefrom": "SIGGRAPH North American 2018",
+            "comefrom": "SIGGRAPH North America 2018",
             "authors": "Breannan Smith, Fernando de Goes and Theodore Kim"
         }
     ]
