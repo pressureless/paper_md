@@ -9,21 +9,21 @@
   	<div class="full">
   		<h2>Entire papers</h2>
       <ul>
-        <li>
   {% for child in this.pagination.items %}
+        
     {{ render_gallery_post(child, from_index=true, full_paper=true) }}
+        
   {% endfor %}
-        </li>
+        
       </ul>
 	</div>
 	<div >
 		<h2>Paper sections</h2>
       <ul>
-        <li>
+        
   {% for child in this.pagination.items %}
     {{ render_gallery_post(child, from_index=true, full_paper=false) }}
   {% endfor %}
-        </li>
       </ul>
 	</div>
 
