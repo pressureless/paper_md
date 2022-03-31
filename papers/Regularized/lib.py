@@ -27,7 +27,7 @@ class Regularized:
         self.ε = ε
         self.boldsymbolF = boldsymbolF
         self.s = s
-    
+        pass
 
     def boldsymbolu(self, boldsymbolr):
         boldsymbolr = np.asarray(boldsymbolr, dtype=np.float64)

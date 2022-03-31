@@ -63,7 +63,7 @@ struct error {
         const long N = O.size();
         assert( M.size() == N );
         double sum_0 = 0;
-        for(int i=1; i<=O.size(); i++){
+        for(int i=1; i<=M.size(); i++){
             sum_0 += abs(log(O[i-1]) - log(M[i-1])) / double(log(O[i-1]));
         }
         // E = sum_i |log(O_i) - log(M_i)|/log(O_i) 

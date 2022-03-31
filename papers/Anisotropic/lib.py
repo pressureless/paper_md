@@ -14,7 +14,6 @@ class Anisotropic:
         assert a.shape == (3,)
         assert C.shape == (3, 3)
         assert F.shape == (3, 3)
-
         # A = a a^T 
         self.A = (a).reshape(3, 1) @ a.T.reshape(1, 3)
         # `$\lambda_{0,1,2}$`=2||a||_2^2
@@ -50,7 +49,6 @@ class Anisotropic2D:
         A = np.asarray(A, dtype=np.float64)
         assert a.shape == (2,)
         assert A.shape == (2, 2)
-
         # `$\lambda_{0,1}$`=2||a||_2^2
         self.lambda_0_comma_1 = 2 * np.power(np.linalg.norm(a, 2), 2)
         # `$\frac{∂²I₅}{∂f²}$` = 2[A₁,₁I_2  A₁,₂I_2

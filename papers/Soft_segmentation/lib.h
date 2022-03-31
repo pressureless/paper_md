@@ -18,7 +18,7 @@ struct soft {
         assert( D.size() == dim_0 );
         assert( boldsymbolu.size() == dim_0 );
         double sum_0 = 0;
-        for(int i=1; i<=boldsymbolu.size(); i++){
+        for(int i=1; i<=D.size(); i++){
             sum_0 += α.at(i-1) * D.at(i-1)(boldsymbolu.at(i-1));
         }
         double sum_1 = 0;

@@ -17,7 +17,6 @@ class computation:
         assert np.ndim(U_1) == 0
         assert np.ndim(U_2) == 0
         assert R.shape == (dim_0, 3, )
-
         # `$E_c$` = D(`$S_1$`, `$U_1$`) + D(`$S_2$`, `$U_2$`)
         self.E_c = D(S_1, U_1) + D(S_2, U_2)
         # `$E_s$` = `$E_c$` + `$E_a$` 

@@ -122,7 +122,7 @@ struct elastic {
         E_a = _anchor.E_a;
         E_n = _notchlimit.E_n;
         E_p = _penalty.E_p;
-        // E = `$E_r$` + `$E_q$` + `$E_a$` + `$E_n$` + `$E_p$`
+        // E = `E_r` + `E_q` + `E_a` + `E_n` + `E_p`
         E = E_r + E_q + E_a + E_n + E_p;
     }
 };
@@ -144,7 +144,7 @@ struct connection {
         assert( q_h.size() == n );
         assert( m_g.size() == n );
         assert( m_h.size() == n );
-        // `$E_q$` = `$λ_{q,1}$`||`$q_g$`-`$q_h$`+t`$m_g$`||^2 + `$λ_{q,1}$`||`$q_h$`-`$q_g$`+t`$m_h$`||^2 + `$λ_{q,2}$`||`$\angle$`(`$m_g$`,`$m_h$`)||^2 
+        // `E_q` = `$λ_{q,1}$`||`$q_g$`-`$q_h$`+t`$m_g$`||^2 + `$λ_{q,1}$`||`$q_h$`-`$q_g$`+t`$m_h$`||^2 + `$λ_{q,2}$`||`$\angle$`(`$m_g$`,`$m_h$`)||^2 
         E_q = λ_q_comma_1 * pow((q_g - q_h + t * m_g).lpNorm<2>(), 2) + λ_q_comma_1 * pow((q_h - q_g + t * m_h).lpNorm<2>(), 2) + λ_q_comma_2 * pow((angle(m_g, m_h)).lpNorm<2>(), 2);
     }
 };
@@ -165,7 +165,7 @@ struct anchor {
         assert( q_a.size() == n );
         assert( m.size() == n );
         assert( m_a.size() == n );
-        // `$E_a$` = `$λ_{a,1}$`||q-`$q_a$`||^2 + `$λ_{a,2}$`||`$\angle$`(m,`$m_a$`)||^2 
+        // `E_a` = `$λ_{a,1}$`||q-`$q_a$`||^2 + `$λ_{a,2}$`||`$\angle$`(m,`$m_a$`)||^2 
         E_a = λ_a_comma_1 * pow((q - q_a).lpNorm<2>(), 2) + λ_a_comma_2 * pow((angle(m, m_a)).lpNorm<2>(), 2);
     }
 };
@@ -181,7 +181,7 @@ struct notchlimit {
         const double & β_circumflex_accent_plus_sign)
     {
     
-        // `$E_n$` = `$δ^{(−)}$`(1/10 log((`$β_q$`-`$β^{(−)}$`)))^2 + `$δ^{(+)}$`(1/10 log((`$β^{(+)}$`-`$β_q$`)))^2
+        // `E_n` = `$δ^{(−)}$`(1/10 log((`$β_q$`-`$β^{(−)}$`)))^2 + `$δ^{(+)}$`(1/10 log((`$β^{(+)}$`-`$β_q$`)))^2
         E_n = δ_circumflex_accent_minus_sign * pow((1 / double(10) * log((β_q - β_circumflex_accent_minus_sign))), 2) + δ_circumflex_accent_plus_sign * pow((1 / double(10) * log((β_circumflex_accent_plus_sign - β_q))), 2);
     }
 };
@@ -195,7 +195,7 @@ struct penalty {
         const double & β_q)
     {
     
-        // `$E_p$` = (μ log((ε + `$β_q$`)))^2 + (μ log((ε + 1 - `$β_q$`)))^2
+        // `E_p` = (μ log((ε + `$β_q$`)))^2 + (μ log((ε + 1 - `$β_q$`)))^2
         E_p = pow((μ * log((ε + β_q))), 2) + pow((μ * log((ε + 1 - β_q))), 2);
     }
 };

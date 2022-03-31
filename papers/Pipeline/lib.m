@@ -147,11 +147,11 @@ function output = pipeline(f_x, f_y, c_x, c_y, r, phi_1_d, phi_d, x_i, x_j, alph
     % C = -r⋅(x -`$c_x$` )
     C = -r * (x - c_x);
     % ϕ = arcsin(C/D) 
-    phi = asin(C / D);
+    phi_ = asin(C / D);
     % `$α_1$` = ϕ - γ
-    alpha_1 = phi - gamma;
+    alpha_1 = phi_ - gamma;
     % `$α_2$` = π - ϕ - γ  
-    alpha_2 = pi - phi - gamma;
+    alpha_2 = pi - phi_ - gamma;
     function ret = R(alpha)
         assert(numel(alpha) == 1);
 
@@ -193,14 +193,14 @@ function output = pipeline(f_x, f_y, c_x, c_y, r, phi_1_d, phi_d, x_i, x_j, alph
         ret = (y - c_y) * cos(omega(x));
     end
 
-    function ret = phi_(x)
+    function ret = phi(x)
         assert(numel(x) == 1);
 
         ret = [omega(x); s(x)];
     end
 
     output.textbfX = textbfX;
-    output.phi = phi;
+    output.phi_ = phi_;
     output.D = D;
     output.gamma = gamma;
     output.K = K;
@@ -214,7 +214,7 @@ function output = pipeline(f_x, f_y, c_x, c_y, r, phi_1_d, phi_d, x_i, x_j, alph
     output.P = @P;
     output.textbfx = @textbfx;
     output.t = @t;
-    output.phi_ = @phi_;
+    output.phi = @phi;
     output.omega = @omega;
     output.s = @s;
 output.alpha_i = alpha_i;    

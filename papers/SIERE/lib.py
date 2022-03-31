@@ -28,7 +28,6 @@ class siere:
         assert 2*n == int(2*n)
         assert 2*n == int(2*n)
         assert 2*n == int(2*n)
-
         # `$v_G$` = `$U_s$``$U_s$`^T Mv
         self.v_G = U_s @ U_s.T @ M @ v
         # `$v_H$` =  v - `$v_G$`
@@ -76,7 +75,6 @@ class second:
         assert U_s.shape == (n, s)
         assert M.shape == (n, n)
         assert K.shape == (n, n)
-
         # `$Y_1$` =  [`$U_s$`
     #              0]
         Y_1_0 = np.vstack((U_s, np.zeros((1, s))))

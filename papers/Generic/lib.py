@@ -14,7 +14,6 @@ class Generic:
         assert np.ndim(y) == 0
         assert np.ndim(u) == 0
         assert np.ndim(v) == 0
-
         # `$x_p$` = (-y, x)
         self.x_p = np.hstack((-y, x))
         # `$v_p$` = (-v, u)

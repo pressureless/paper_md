@@ -35,7 +35,7 @@ function output = soft(D, boldsymbolu, sigma, alpha)
 
     % `$F_S$` = sum_i α_i D_i(`$\boldsymbol{u}$`_i) + σ((sum_i α_i)/(sum_i α_i^2) - 1)
     sum_0 = 0;
-    for i = 1:size(boldsymbolu, 1)
+    for i = 1:size(D, 1)
         sum_0 = sum_0 + alpha(i) * D{i}(boldsymbolu(i,:)');
     end
     sum_1 = 0;

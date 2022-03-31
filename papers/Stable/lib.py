@@ -19,7 +19,6 @@ class Stable:
         assert f_0.shape == (3,)
         assert f_1.shape == (3,)
         assert f_2.shape == (3,)
-
         # α = 1 + μ/λ - μ/(4λ)
         self.α = 1 + μ / λ - μ / (4 * λ)
         # J =`$f_0$`⋅(`$f_1$`×`$f_2$`)

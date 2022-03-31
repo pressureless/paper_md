@@ -122,7 +122,7 @@ function output = error(O, M)
 
     % E = sum_i |log(O_i) - log(M_i)|/log(O_i) 
     sum_0 = 0;
-    for i = 1:size(O,1)
+    for i = 1:size(M,1)
         sum_0 = sum_0 + abs(log(O(i)) - log(M(i))) / log(O(i));
     end
     E = sum_0;
