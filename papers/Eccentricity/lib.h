@@ -9,7 +9,7 @@ struct eccentricity {
     int 𝑙_0;
     Eigen::VectorXd q;
     std::function<double(double, double)> m;
-    double 𝑓_𝑠0;
+    double 𝑓_𝑠₀;
     Eigen::Matrix<double, 10, 1> 𝑝;
     double a;
     double 𝑔(
@@ -26,18 +26,18 @@ struct eccentricity {
     double 𝜏(
         const double & 𝑓_𝑠)
     {
-        return m(log(𝑓_𝑠) - log(𝑓_𝑠0), 0);    
+        return m(log10(𝑓_𝑠) - log10(𝑓_𝑠₀), 0);    
     }
     double 𝜁(
         const double & 𝑓_𝑠)
     {
-        return exp(𝑝[9-1] * 𝜏(𝑓_𝑠)) - 1;    
+        return exp(𝑝[10-1] * 𝜏(𝑓_𝑠)) - 1;    
     }
     double Ψ(
         const double & 𝑒,
         const double & 𝑓_𝑠)
     {
-        return m(0, 𝑝[0-1] * 𝜏(𝑓_𝑠) + 𝑝[1-1] * 𝜏(𝑓_𝑠) + 𝑝[2-1] + (𝑝[3-1] * pow(𝜏(𝑓_𝑠), 2) + 𝑝[4-1] * 𝜏(𝑓_𝑠) + 𝑝[5-1]) * 𝜁(𝑓_𝑠) * 𝑒 + (𝑝[6-1] * pow(𝜏(𝑓_𝑠), 2) + 𝑝[7-1] * 𝜏(𝑓_𝑠) + 𝑝[8-1]) * 𝜁(𝑓_𝑠) * pow(𝑒, 2));    
+        return m(0, 𝑝[1-1] * pow(𝜏(𝑓_𝑠), 2) + 𝑝[2-1] * 𝜏(𝑓_𝑠) + 𝑝[3-1] + (𝑝[4-1] * pow(𝜏(𝑓_𝑠), 2) + 𝑝[5-1] * 𝜏(𝑓_𝑠) + 𝑝[6-1]) * 𝜁(𝑓_𝑠) * 𝑒 + (𝑝[7-1] * pow(𝜏(𝑓_𝑠), 2) + 𝑝[8-1] * 𝜏(𝑓_𝑠) + 𝑝[9-1]) * 𝜁(𝑓_𝑠) * pow(𝑒, 2));    
     }
     double 𝐴(
         const double & 𝑒)
@@ -58,7 +58,7 @@ struct eccentricity {
         const double & 𝑒,
         const double & 𝑓_𝑠)
     {
-        return 𝜁(𝑓_𝑠) * (q[0-1] * pow(𝑒, 2) + q[1-1] * 𝑒) + q[2-1];    
+        return 𝜁(𝑓_𝑠) * (q[1-1] * pow(𝑒, 2) + q[2-1] * 𝑒) + q[3-1];    
     }
     double hatΨ(
         const double & 𝑒,
@@ -70,12 +70,12 @@ struct eccentricity {
     eccentricity(
         const std::function<double(double, double)> & m,
         const Eigen::Matrix<double, 10, 1> & 𝑝,
-        const double & 𝑓_𝑠0,
+        const double & 𝑓_𝑠₀,
         const double & a)
     {
     
         this->m = m;
-        this->𝑓_𝑠0 = 𝑓_𝑠0;
+        this->𝑓_𝑠₀ = 𝑓_𝑠₀;
         this->𝑝 = 𝑝;
         this->a = a;
         // `$𝑙_0$` = 1488

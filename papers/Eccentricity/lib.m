@@ -1,5 +1,5 @@
 function output = eccentricity(m, italic_p, italic_f_italic_s_0, a)
-% output = eccentricity(m, 𝑝, `$𝑓_{𝑠0}$`, a)
+% output = eccentricity(m, 𝑝, `$𝑓_{𝑠₀}$`, a)
 %
 %     𝑙(𝐿) = π𝑑(𝐿)^2/4 ⋅ 𝐿 where 𝐿 : ℝ
 %    `$𝑙_0$` = 1488
@@ -9,14 +9,14 @@ function output = eccentricity(m, italic_p, italic_f_italic_s_0, a)
 %    𝑔(x,`$x_0$`, 𝜃,𝜎,`$𝑓_𝑠$`) = exp(-||x-`$x_0$`||^2/(2𝜎^2)) cos(2π`$𝑓_𝑠$`x ⋅(cos(𝜃),sin(𝜃))) where x: ℝ^2,`$x_0$`: ℝ^2,`$𝑓_𝑠$`: ℝ, 𝜎 : ℝ, 𝜃 : ℝ
 %    
 %    
-%    Ψ(𝑒, `$𝑓_𝑠$`)= m(0, 𝑝₀ 𝜏(`$𝑓_𝑠$`) +𝑝₁ 𝜏(`$𝑓_𝑠$`)+𝑝₂ + (𝑝₃ 𝜏(`$𝑓_𝑠$`)^2 + 𝑝₄ 𝜏(`$𝑓_𝑠$`) +𝑝₅)⋅ 𝜁(`$𝑓_𝑠$`)𝑒 + (𝑝₆ 𝜏(`$𝑓_𝑠$`)^2 +𝑝₇ 𝜏(`$𝑓_𝑠$`) + 𝑝₈)⋅𝜁(`$𝑓_𝑠$`)𝑒^2) where `$𝑓_𝑠$` : ℝ, 𝑒: ℝ
+%    Ψ(𝑒, `$𝑓_𝑠$`)= m(0, 𝑝₁ 𝜏(`$𝑓_𝑠$`)^2 +𝑝₂ 𝜏(`$𝑓_𝑠$`)+𝑝₃ + (𝑝₄ 𝜏(`$𝑓_𝑠$`)^2 + 𝑝₅ 𝜏(`$𝑓_𝑠$`) +𝑝₆)⋅ 𝜁(`$𝑓_𝑠$`)𝑒 + (𝑝₇ 𝜏(`$𝑓_𝑠$`)^2 +𝑝₈ 𝜏(`$𝑓_𝑠$`) + 𝑝₉)⋅𝜁(`$𝑓_𝑠$`)𝑒^2) where `$𝑓_𝑠$` : ℝ, 𝑒: ℝ
 %    
-%    𝜁(`$𝑓_𝑠$`) = exp(𝑝₉ 𝜏(`$𝑓_𝑠$`)) - 1 where `$𝑓_𝑠$` : ℝ
-%    𝜏(`$𝑓_𝑠$`) = m(log(`$𝑓_𝑠$`)-log(`$𝑓_{𝑠0}$`), 0) where `$𝑓_𝑠$` : ℝ
+%    𝜁(`$𝑓_𝑠$`) = exp(𝑝₁₀ 𝜏(`$𝑓_𝑠$`)) - 1 where `$𝑓_𝑠$` : ℝ
+%    𝜏(`$𝑓_𝑠$`) = m(log_10(`$𝑓_𝑠$`)-log_10(`$𝑓_{𝑠₀}$`), 0) where `$𝑓_𝑠$` : ℝ
 %    where
 %    m: ℝ, ℝ -> ℝ
 %    𝑝: ℝ^10: the model parameters
-%    `$𝑓_{𝑠0}$`: ℝ
+%    `$𝑓_{𝑠₀}$`: ℝ
 %    
 %    
 %    𝐴(𝑒)= ln(64) 2.3/(0.106⋅(𝑒+2.3) )  where 𝑒 : ℝ
@@ -31,7 +31,7 @@ function output = eccentricity(m, italic_p, italic_f_italic_s_0, a)
 %     `$\hat{Ψ}$`(𝑒, `$𝑓_𝑠$`, 𝐿) = (𝑠(𝑒, `$𝑓_𝑠$`) ⋅ (log_10(𝑙(𝐿)/`$𝑙_0$`)) + 1) Ψ(𝑒, `$𝑓_𝑠$`) where `$𝑓_𝑠$` : ℝ, 𝑒: ℝ, 𝐿 : ℝ
 %    
 %    
-%    𝑠(𝑒,`$𝑓_𝑠$`) = 𝜁(`$𝑓_𝑠$`)(q_0 𝑒^2 + q_1 𝑒) + q_2  where `$𝑓_𝑠$` : ℝ, 𝑒: ℝ
+%    𝑠(𝑒,`$𝑓_𝑠$`) = 𝜁(`$𝑓_𝑠$`)(q_1 𝑒^2 + q_2 𝑒) + q_3  where `$𝑓_𝑠$` : ℝ, 𝑒: ℝ
 %    
     if nargin==0
         warning('generating random input data');
@@ -75,20 +75,20 @@ function output = eccentricity(m, italic_p, italic_f_italic_s_0, a)
     function ret = italic_tau(italic_f_italic_s)
         assert(numel(italic_f_italic_s) == 1);
 
-        ret = m(log(italic_f_italic_s) - log(italic_f_italic_s_0), 0);
+        ret = m(log10(italic_f_italic_s) - log10(italic_f_italic_s_0), 0);
     end
 
     function ret = italic_zeta(italic_f_italic_s)
         assert(numel(italic_f_italic_s) == 1);
 
-        ret = exp(italic_p(9) * italic_tau(italic_f_italic_s)) - 1;
+        ret = exp(italic_p(10) * italic_tau(italic_f_italic_s)) - 1;
     end
 
     function ret = Psi(italic_e, italic_f_italic_s)
         assert(numel(italic_e) == 1);
         assert(numel(italic_f_italic_s) == 1);
 
-        ret = m(0, italic_p(0) * italic_tau(italic_f_italic_s) + italic_p(1) * italic_tau(italic_f_italic_s) + italic_p(2) + (italic_p(3) * italic_tau(italic_f_italic_s).^2 + italic_p(4) * italic_tau(italic_f_italic_s) + italic_p(5)) * italic_zeta(italic_f_italic_s) * italic_e + (italic_p(6) * italic_tau(italic_f_italic_s).^2 + italic_p(7) * italic_tau(italic_f_italic_s) + italic_p(8)) * italic_zeta(italic_f_italic_s) * italic_e.^2);
+        ret = m(0, italic_p(1) * italic_tau(italic_f_italic_s).^2 + italic_p(2) * italic_tau(italic_f_italic_s) + italic_p(3) + (italic_p(4) * italic_tau(italic_f_italic_s).^2 + italic_p(5) * italic_tau(italic_f_italic_s) + italic_p(6)) * italic_zeta(italic_f_italic_s) * italic_e + (italic_p(7) * italic_tau(italic_f_italic_s).^2 + italic_p(8) * italic_tau(italic_f_italic_s) + italic_p(9)) * italic_zeta(italic_f_italic_s) * italic_e.^2);
     end
 
     function ret = italic_A(italic_e)
@@ -113,7 +113,7 @@ function output = eccentricity(m, italic_p, italic_f_italic_s_0, a)
         assert(numel(italic_e) == 1);
         assert(numel(italic_f_italic_s) == 1);
 
-        ret = italic_zeta(italic_f_italic_s) * (q(0) * italic_e.^2 + q(1) * italic_e) + q(2);
+        ret = italic_zeta(italic_f_italic_s) * (q(1) * italic_e.^2 + q(2) * italic_e) + q(3);
     end
 
     function ret = hatPsi(italic_e, italic_f_italic_s, italic_L)
