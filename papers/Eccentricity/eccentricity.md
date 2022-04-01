@@ -132,20 +132,20 @@ We formulate our model as
 
 ``` iheartla
 
-Ψ(𝑒, `$𝑓_𝑠$`)= m(0, 𝑝₀ 𝜏(`$𝑓_𝑠$`) +𝑝₁ 𝜏(`$𝑓_𝑠$`)+𝑝₂ + (𝑝₃ 𝜏(`$𝑓_𝑠$`)^2 + 𝑝₄ 𝜏(`$𝑓_𝑠$`) +𝑝₅)⋅ 𝜁(`$𝑓_𝑠$`)𝑒 + (𝑝₆ 𝜏(`$𝑓_𝑠$`)^2 +𝑝₇ 𝜏(`$𝑓_𝑠$`) + 𝑝₈)⋅𝜁(`$𝑓_𝑠$`)𝑒^2) where `$𝑓_𝑠$` : ℝ, 𝑒: ℝ
+Ψ(𝑒, `$𝑓_𝑠$`)= m(0, 𝑝₁ 𝜏(`$𝑓_𝑠$`)^2 +𝑝₂ 𝜏(`$𝑓_𝑠$`)+𝑝₃ + (𝑝₄ 𝜏(`$𝑓_𝑠$`)^2 + 𝑝₅ 𝜏(`$𝑓_𝑠$`) +𝑝₆)⋅ 𝜁(`$𝑓_𝑠$`)𝑒 + (𝑝₇ 𝜏(`$𝑓_𝑠$`)^2 +𝑝₈ 𝜏(`$𝑓_𝑠$`) + 𝑝₉)⋅𝜁(`$𝑓_𝑠$`)𝑒^2) where `$𝑓_𝑠$` : ℝ, 𝑒: ℝ
 
-𝜁(`$𝑓_𝑠$`) = exp(𝑝₉ 𝜏(`$𝑓_𝑠$`)) - 1 where `$𝑓_𝑠$` : ℝ
-𝜏(`$𝑓_𝑠$`) = m(log(`$𝑓_𝑠$`)-log(`$𝑓_{𝑠0}$`), 0) where `$𝑓_𝑠$` : ℝ
+𝜁(`$𝑓_𝑠$`) = exp(𝑝₁₀ 𝜏(`$𝑓_𝑠$`)) - 1 where `$𝑓_𝑠$` : ℝ
+𝜏(`$𝑓_𝑠$`) = m(log_10(`$𝑓_𝑠$`)-log_10(`$𝑓_{𝑠0}$`), 0) where `$𝑓_𝑠$` : ℝ
 where
 m: ℝ, ℝ -> ℝ
 𝑝: ℝ^10: the model parameters
 `$𝑓_{𝑠0}$`: ℝ
 ```
-where <span class='def:𝑝'>$𝑝 = [𝑝0, . . . , 𝑝9] ∈ R^{10}$ are the model parameters</span> (see Table 3), $𝜁 ( 𝑓_𝑠 )$ restricts eccentricity effects for small $𝑓_𝑠$ and $𝜏 ( 𝑓_𝑠 )$ offsets logarithmic $𝑓_𝑠$ relative to our constant function cut-off.
+where <span class='def:𝑝'>$𝑝 = [𝑝₁, . . . , 𝑝₁₀] ∈ R^{10}$ are the model parameters</span> (see Table 3), $𝜁 ( 𝑓_𝑠 )$ restricts eccentricity effects for small $𝑓_𝑠$ and $𝜏 ( 𝑓_𝑠 )$ offsets logarithmic $𝑓_𝑠$ relative to our constant function cut-off.
 
 We build on three domain-specific observations to find a <span class='def:Ψ'>continuous CFF model $Ψ$</span> $( 𝑒 , 𝑓_𝑠 ) : R^2 → R$ that fits our measurements.
 <figure>
-<figcaption align = "center">Table3. Parameters $𝑝 _{0...9}$ for our model fitted for conservative (cons.) and relaxed (rel.) assumptions as well as the full modeled extended using acuity data. The degrees-of-freedom adjusted $R^2$ shows the fit quality.
+<figcaption align = "center">Table3. Parameters $𝑝_{₁...₁₀}$ for our model fitted for conservative (cons.) and relaxed (rel.) assumptions as well as the full modeled extended using acuity data. The degrees-of-freedom adjusted $R^2$ shows the fit quality.
 <img src="./img/table3.png" alt="Trulli" style="width:100%" class = "center">
 </figcaption>
 </figure>
@@ -213,7 +213,7 @@ where $𝑎 = 80 × 87 = 6960$ $deg^2$ is the adapting area of our display. This
 
 ```
 ``` iheartla
-𝑠(𝑒,`$𝑓_𝑠$`) = 𝜁(`$𝑓_𝑠$`)(q_0 𝑒^2 + q_1 𝑒) + q_2  where `$𝑓_𝑠$` : ℝ, 𝑒: ℝ
+𝑠(𝑒,`$𝑓_𝑠$`) = 𝜁(`$𝑓_𝑠$`)(q_1 𝑒^2 + q_2 𝑒) + q_3  where `$𝑓_𝑠$` : ℝ, 𝑒: ℝ
 ```
 
 where ❤`$𝑙_0$` = 1488❤ Td is our reference retinal illuminance, $ 𝜁 ( 𝑓_𝑠 )$ encodes localization uncertainty for low $𝑓_𝑠$ as in Equation 3 and ❤q = (5.71 ⋅ 10^(-6), -1.78 ⋅ 10^(-4), 0.204)❤ are parameters obtained by a fit with our full model.
