@@ -283,7 +283,7 @@ Our studies explored an overall sense of judder, but there are certainly differe
 # APPENDIX
 ## Disembodied Edge Calculation
 
-Given a desired Michelson contrast $c$ and mean $L_a$, we calculate the maximum and minimum values $M$ and $m$ as $M= L_a (1 + c)$, $m= L_a (1 − c)$. As a consequence of this, the resulting Michelson contrast is exactly $( L_a + L_a *c − L_a + L_a * c)/( L_a + L_a * c + L_a − L_a * c)=2 L_a *c/(2 L_a )=c$. If one of these values does not fit within the dynamic range of the display being used, then both values can be shifted using a multiplier $k$ so that $M= M* k$, $m = m* k$ to accommodate these practical constraints.
+Given a desired Michelson contrast $c$ and mean $L_a$, we calculate the maximum and minimum values $\proselabel{Edge}{M}$ and $m$ as $\proselabel{Edge}{M}= L_a (1 + c)$, $m= L_a (1 − c)$. As a consequence of this, the resulting Michelson contrast is exactly $( L_a + L_a *c − L_a + L_a * c)/( L_a + L_a * c + L_a − L_a * c)=2 L_a *c/(2 L_a )=c$. If one of these values does not fit within the dynamic range of the display being used, then both values can be shifted using a multiplier $k$ so that $\proselabel{Edge}{M}= \proselabel{Edge}{M}* k$, $m = m* k$ to accommodate these practical constraints.
 
 The maximum and minimum values computed in the previous step are set to fall off to the background level $L_a$ in a smooth fashion. In our application, we employed a screen with horizontal resolution of 1920 pixels and found a visibly acceptable smoothness to be achieved using a Gaussian falloff with standard deviation of 45 pixels.
 
