@@ -135,11 +135,11 @@ We formulate our model as
 Ψ(𝑒, `$𝑓_𝑠$`)= m(0, 𝑝₁ 𝜏(`$𝑓_𝑠$`)^2 +𝑝₂ 𝜏(`$𝑓_𝑠$`)+𝑝₃ + (𝑝₄ 𝜏(`$𝑓_𝑠$`)^2 + 𝑝₅ 𝜏(`$𝑓_𝑠$`) +𝑝₆)⋅ 𝜁(`$𝑓_𝑠$`)𝑒 + (𝑝₇ 𝜏(`$𝑓_𝑠$`)^2 +𝑝₈ 𝜏(`$𝑓_𝑠$`) + 𝑝₉)⋅𝜁(`$𝑓_𝑠$`)𝑒^2) where `$𝑓_𝑠$` : ℝ, 𝑒: ℝ
 
 𝜁(`$𝑓_𝑠$`) = exp(𝑝₁₀ 𝜏(`$𝑓_𝑠$`)) - 1 where `$𝑓_𝑠$` : ℝ
-𝜏(`$𝑓_𝑠$`) = m(log_10(`$𝑓_𝑠$`)-log_10(`$𝑓_{𝑠0}$`), 0) where `$𝑓_𝑠$` : ℝ
+𝜏(`$𝑓_𝑠$`) = m(log_10(`$𝑓_𝑠$`)-log_10(`$𝑓_{𝑠₀}$`), 0) where `$𝑓_𝑠$` : ℝ
 where
 m: ℝ, ℝ -> ℝ
 𝑝: ℝ^10: the model parameters
-`$𝑓_{𝑠0}$`: ℝ
+`$𝑓_{𝑠₀}$`: ℝ
 ```
 where <span class='def:𝑝'>$𝑝 = [𝑝₁, . . . , 𝑝₁₀] ∈ R^{10}$ are the model parameters</span> (see Table 3), $𝜁 ( 𝑓_𝑠 )$ restricts eccentricity effects for small $𝑓_𝑠$ and $𝜏 ( 𝑓_𝑠 )$ offsets logarithmic $𝑓_𝑠$ relative to our constant function cut-off.
 
@@ -158,7 +158,7 @@ We build on three domain-specific observations to find a <span class='def:Ψ'>co
 
 First, both our measurements and prior work indicate that the peak CFF is located in periphery, typically between 20◦ and 50◦ of eccentricity [@hartmann1979peripheral; @rovamo1984critical;@tyler1987analysis]. For both fovea and far periphery the CFF drops again forming a convex shape which we model as a quadratic function of $𝑒$.
 
-Second, because the stimuli with very low $𝑓_𝑠$ are not spatially localized, their CFF does not vary with $𝑒$. Consequently, we enforce the dependency on $𝑒$ to converge to a constant function for any $𝑓_𝑠$ below $𝑓_{𝑠0} =0.0055$ cpd.This corresponds to half reciprocal of the full-screen stimuli visual field coverage given our display dimensions.
+Second, because the stimuli with very low $𝑓_𝑠$ are not spatially localized, their CFF does not vary with $𝑒$. Consequently, we enforce the dependency on $𝑒$ to converge to a constant function for any $𝑓_𝑠$ below $𝑓_{𝑠₀} =0.0055$ cpd.This corresponds to half reciprocal of the full-screen stimuli visual field coverage given our display dimensions.
 
 Finally, following common practices in modeling the effect of spatial frequencies on visual effects, such as contrast [@koenderink1978perimetryc] or disparity sensitivities [@bradshaw1999sensitivity], we fit the model for logarithmic $𝑓_𝑠$.
 
