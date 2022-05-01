@@ -27,8 +27,8 @@ with open('./info.json') as f:
 	if gallery_res_dir.exists():
 		shutil.rmtree(gallery_res_dir) 
 	gallery_res_dir.mkdir()
-	shutil.copytree("{}/extras/resource".format(la_path),
-	 "{}/resource".format(gallery_res_dir))
+	shutil.copytree("{}/extras/heartdown-resource".format(la_path),
+	 "{}/heartdown-resource".format(gallery_res_dir))
 	# create gallery directory
 	gallery_dir = Path("{}/content/gallery".format(gallery_path))
 	if gallery_dir.exists():
@@ -64,11 +64,11 @@ with open('./info.json') as f:
 
 		code_res_dir = gallery_res_dir / "{}/{}".format(item['dir'], 'code_dir')
 		code_res_dir.mkdir()
-		shutil.copy(Path("{}/{}/{}".format(paper_path, item['dir'], cpp_f_name)), 
+		shutil.copy(Path("{}/{}/output_code/{}".format(paper_path, item['dir'], cpp_f_name)), 
 			code_res_dir/cpp_f_name)
-		shutil.copy(Path("{}/{}/{}".format(paper_path, item['dir'], python_f_name)), 
+		shutil.copy(Path("{}/{}/output_code/{}".format(paper_path, item['dir'], python_f_name)), 
 			code_res_dir/python_f_name)
-		shutil.copy(Path("{}/{}/{}".format(paper_path, item['dir'], matlab_f_name)), 
+		shutil.copy(Path("{}/{}/output_code/{}".format(paper_path, item['dir'], matlab_f_name)), 
 			code_res_dir/matlab_f_name)
 
 		output_html_file = "{}.html".format(item['markdown'])
