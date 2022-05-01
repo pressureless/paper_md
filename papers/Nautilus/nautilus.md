@@ -21,11 +21,8 @@ eqBase: 8
 ---
 # APPLICATIONS
 To demonstrate the practical utility and versatility of our method, we have implemented several image editing applications where the knowledge of the symmetric transformation and its spatial support simplifies the task or removes the need for manual input. We compare our results on each of these applications to their current state-of-the-art methods, and demonstrate that our general framework is able to replicate and improve upon their quality.
-<!-- <figure>
-<img src="./img/img6.png" alt="Trulli" style="width:100%" class = "center">
-<figcaption align = "center">Fig. 6. We compare against the reflection and rotation detection method of Loy and Eklundh [2006] (reflection axis and center of rotation marked in red). As can be seen here, we closely match their performance while retaining the general nature of our method. In addition, we can predict which regions of the image satisfy this symmetry, which their method does not. Source credit: © Adobe Stock (top), CC-BY Cat Burston @ Flickr (bottom) (14).
-</figcaption>
-</figure> -->
+
+
 ❤: nautilus
 ## Image Rectification
 Previous techniques for removing perspective distortion and shear from a photograph require the manual specification or detection of corresponding points, right angles, vanishing lines [Liebowitz and Zisserman 1998], congruent line segments [Aiger et al. 2012], global measurements such as the rank of the image matrix [Zhang et al. 2012] or change of scale [Pritts et al. 2014].
