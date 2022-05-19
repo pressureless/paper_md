@@ -70,6 +70,13 @@ with open('./info.json') as f:
 			code_res_dir/python_f_name)
 		shutil.copy(Path("{}/{}/output_code/{}".format(paper_path, item['dir'], matlab_f_name)), 
 			code_res_dir/matlab_f_name)
+		# Copy ./output_code to ./
+		shutil.copy(Path("{}/{}/output_code/{}".format(paper_path, item['dir'], cpp_f_name)), 
+			Path("{}/{}/{}".format(paper_path, item['dir'], cpp_f_name)))
+		shutil.copy(Path("{}/{}/output_code/{}".format(paper_path, item['dir'], python_f_name)), 
+			Path("{}/{}/{}".format(paper_path, item['dir'], python_f_name)))
+		shutil.copy(Path("{}/{}/output_code/{}".format(paper_path, item['dir'], matlab_f_name)), 
+			Path("{}/{}/{}".format(paper_path, item['dir'], matlab_f_name)))
 
 		output_html_file = "{}.html".format(item['markdown'])
 		shutil.copy(Path("{}/{}/{}".format(paper_path, item['dir'], output_html_file)), 
