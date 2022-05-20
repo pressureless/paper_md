@@ -5,6 +5,7 @@ author:
   affiliation: Dolby Laboratories, USA
 abstract: |
  The perceived discrepancy between continuous motion as seen in nature and frame-by-frame exhibition on a display, sometimes termed judder, is an integral part of video presentation. Over time, content creators have developed a set of rules and guidelines for maintaining a desirable cinematic look under the restrictions placed by display technology without incurring prohibitive judder. With the advent of novel displays capable of high brightness, contrast, and frame rates, these guidelines are no longer sufficient to present audiences with a uniform viewing experience. In this work, we analyze the main factors for perceptual motion artifacts in digital presentation and gather psychophysical data to generate a model of judder perception. Our model enables applications like matching perceived motion artifacts to a traditionally desirable level and maintain a cinematic motion look.
+full_paper: True
 ---
 
 ❤: judder
@@ -268,6 +269,7 @@ Similarly to the task of users in the validation experiment described in Section
 <figcaption align = "center">Fig. 10. WeestimatedperceivedjudderforeachshotinBigBuckBunny. From top to bottom, we show the parameters used in our model—frame rate, mean luminance, and mean speed, and, finally, our model’s prediction. This system can help flag problematic shots within a feature film at an early stage during post processing.
 </figcaption>
 </figure>
+
 # CONCLUSIONS, LIMITATIONS, AND FUTURE WORK
 We proposed the first model that predicts the magnitude of perceived judder for a given video. We gathered psychophysical data on a number of relevant factors using simple stimuli and later demonstrated that these measurements are also valid for complex scenes. Our experiments generated valuable data that can provide guidance to content creators considering emerging display technologies, such as necessary updates to existing rules of thumb in cinematography. This information can also be useful to display manufacturers and content providers when considering technical requirements for consumer technologies. Finally, perceptual judder modeling is crucial for frame rate re-sampling applications to avoid judder or other undesirable artifacts such as the “soap opera effect.”
 

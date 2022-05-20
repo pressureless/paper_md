@@ -7,6 +7,7 @@ author:
   affiliation: Pixar Animation Studios, Stanford University
 abstract: |
  We introduce a new technique for real-time physically based volume sculpting of virtual elastic materials. Our formulation is based on the elastic response to localized force distributions associated with common modeling primitives such as grab, scale, twist, and pinch. The resulting brush-like displacements correspond to the regularization of fundamental solutions of linear elasticity in infinite 2D and 3D media. These deformations thus provide the realism and plausibility of volumetric elasticity, and the interactivity of closed-form analytical solutions. To finely control our elastic deformations, we also construct compound brushes with arbitrarily fast spatial decay. Furthermore, pointwise constraints can be imposed on the displacement field and its derivatives via a single linear solve. We demonstrate the versatility and efficiency of our method with multiple examples of volume sculpting and image editing.
+full_paper: True
 ---
 ❤: Regularized
 <figure>
