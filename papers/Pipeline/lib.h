@@ -121,7 +121,7 @@ struct pipeline {
         textbft = textbft_0;
         // A = X ⋅ `$f_x$` - Z⋅(x - `$c_x$` )
         A = X * f_x - Z * (x - c_x);
-        // B = Z⋅`$f_x$` + X⋅(x -`$c_x$` ) 
+        // B = Z⋅`$f_x$` + X⋅(x -`$c_x$` )
         B = Z * f_x + X * (x - c_x);
         // D = √(A^2 +B^2)
         D = sqrt((pow(A, 2) + pow(B, 2)));
@@ -129,11 +129,11 @@ struct pipeline {
         γ = atan(B / double(A));
         // C = -r⋅(x -`$c_x$` )
         C = -r * (x - c_x);
-        // ϕ = arcsin(C/D) 
+        // ϕ = arcsin(C/D)
         ϕ = asin(C / double(D));
         // `$α_1$` = ϕ - γ
         α_1 = ϕ - γ;
-        // `$α_2$` = π - ϕ - γ  
+        // `$α_2$` = π - ϕ - γ
         α_2 = M_PI - ϕ - γ;
     }
 };

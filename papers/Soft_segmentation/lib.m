@@ -18,8 +18,13 @@ function output = soft(D, boldsymbolu, sigma, alpha)
         sigma = randn();
         dim_0 = randi(10);
         D = {};
+        D_f = @D_fFunc;
+        rseed = randi(2^32);
+        function [ret] =  D_fFunc(p0)
+            rng(rseed);
+            ret = randn();
+        end
         for i = 1:dim_0
-            D_f = @(p0) randn();
             D{end+1,1} = D_f;
         end
         boldsymbolu = randn(dim_0,3);
@@ -35,7 +40,7 @@ function output = soft(D, boldsymbolu, sigma, alpha)
 
     % `$F_S$` = sum_i α_i D_i(`$\boldsymbol{u}$`_i) + σ((sum_i α_i)/(sum_i α_i^2) - 1)
     sum_0 = 0;
-    for i = 1:size(D, 1)
+    for i = 1:size(boldsymbolu, 1)
         sum_0 = sum_0 + alpha(i) * D{i}(boldsymbolu(i,:)');
     end
     sum_1 = 0;

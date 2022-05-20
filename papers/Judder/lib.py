@@ -50,7 +50,7 @@ class error:
         N = O.shape[0]
         assert O.shape == (N,)
         assert M.shape == (N,)
-        # E = sum_i |log(O_i) - log(M_i)|/log(O_i) 
+        # E = sum_i |log(O_i) - log(M_i)|/log(O_i)
         sum_0 = 0
         for i in range(1, len(M)+1):
             sum_0 += np.absolute(np.log(O[i-1]) - np.log(M[i-1])) / np.log(O[i-1])
@@ -64,5 +64,5 @@ class third:
         assert np.ndim(F_a) == 0
         assert np.ndim(L_a) == 0
         # `$L_b$` = 10^((a `$F_b$`log((`$L_a$`))+b(`$F_b$`-`$F_a$`))/(a`$F_a$`))
-        self.L_b = np.power(10, ((a * F_b * np.log((L_a)) + b * (F_b - F_a)) / (a * F_a)))
+        self.L_b = np.power(float(10), ((a * F_b * np.log((L_a)) + b * (F_b - F_a)) / (a * F_a)))
 

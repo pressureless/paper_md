@@ -26,7 +26,6 @@ function output = ICP(R, a, theta, p, q, n_q, n_p, t, barq, barp, trans, rot)
 %    `$n_p$`_i ∈ ℝ³: the surface normals
 %    t ∈ ℝ³: the translation vector
 %    
-%    
 %    S = trans(`$\bar{q}$`) ⋅ rot(θ, ã/||ã||) ⋅trans(t̃ cos(θ)) ⋅rot(θ, ã/||ã||)⋅ trans(-`$\bar{p}$`)
 %    
 %    where 
@@ -55,16 +54,16 @@ function output = ICP(R, a, theta, p, q, n_q, n_p, t, barq, barp, trans, rot)
         barp = randn(3,1);
         trans = @transFunc;
         rseed = randi(2^32);
-        function tmp =  transFunc(p0)
+        function [ret] =  transFunc(p0)
             rng(rseed);
-            tmp = randn(4,4);
+            ret = randn(4,4);
         end
 
         rot = @rotFunc;
         rseed = randi(2^32);
-        function tmp =  rotFunc(p0, p1)
+        function [ret_1] =  rotFunc(p0, p1)
             rng(rseed);
-            tmp = randn(4,4);
+            ret_1 = randn(4,4);
         end
 
     end
@@ -95,12 +94,12 @@ function output = ICP(R, a, theta, p, q, n_q, n_p, t, barq, barp, trans, rot)
     end
     % t̃ = t/cos(θ)
     t_tilde = t / cos(theta);
-    % p̃_i = p_i - `$\bar{p}$` 
+    % p̃_i = p_i - `$\bar{p}$`
     p_tilde = zeros(dim_0, 3);
     for i = 1:dim_0
         p_tilde(i,:) = (p(i,:)' - barp)';
     end
-    % q̃_i = q_i - `$\bar{q}$` 
+    % q̃_i = q_i - `$\bar{q}$`
     q_tilde = zeros(dim_0, 3);
     for i = 1:dim_0
         q_tilde(i,:) = (q(i,:)' - barq)';
@@ -113,19 +112,19 @@ function output = ICP(R, a, theta, p, q, n_q, n_p, t, barq, barp, trans, rot)
     varepsilon_point = sum_0;
     % `$\varepsilon_{plane}$` = ∑_i ((R p_i + t - q_i) ⋅ `$n_q$`_i)^2
     sum_1 = 0;
-    for i = 1:size(q, 1)
+    for i = 1:size(p, 1)
         sum_1 = sum_1 + (dot((R * p(i,:)' + t - q(i,:)'),n_q(i,:)')).^2;
     end
     varepsilon_plane = sum_1;
     % `$\varepsilon_{symm-RN}$` = ∑_i ((R p_i + R⁻¹ q_i + t) ⋅ (R`$n_p$`_i + R⁻¹`$n_q$`_i))^2
     sum_2 = 0;
-    for i = 1:size(q, 1)
+    for i = 1:size(p, 1)
         sum_2 = sum_2 + (dot((R * p(i,:)' + (R\q(i,:)') + t),(R * n_p(i,:)' + (R\n_q(i,:)')))).^2;
     end
     varepsilon_symmRN = sum_2;
-    % `$\varepsilon_{symm}$` = ∑_i cos²(θ)((p_i - q_i)⋅n_i +((p_i+q_i)×n_i)⋅ã+n_i⋅t̃)² 
+    % `$\varepsilon_{symm}$` = ∑_i cos²(θ)((p_i - q_i)⋅n_i +((p_i+q_i)×n_i)⋅ã+n_i⋅t̃)²
     sum_3 = 0;
-    for i = 1:size(n, 1)
+    for i = 1:size(p, 1)
         sum_3 = sum_3 + cos(theta).^2 * (dot((p(i,:)' - q(i,:)'),n(i,:)') + dot((cross((p(i,:)' + q(i,:)'), n(i,:)')),a_tilde) + dot(n(i,:)',t_tilde)).^2;
     end
     varepsilon_symm = sum_3;
@@ -133,7 +132,7 @@ function output = ICP(R, a, theta, p, q, n_q, n_p, t, barq, barp, trans, rot)
     S = trans(barq) * rot(theta, a_tilde / norm(a_tilde, 2)) * trans(t_tilde * cos(theta)) * rot(theta, a_tilde / norm(a_tilde, 2)) * trans(-barp);
     % `$\varepsilon_{two-plane}$` = ∑_i(((R p_i + R⁻¹ q_i + t) ⋅ (R `$n_p$`_i))^2 + ((R p_i + R⁻¹ q_i + t) ⋅ (R⁻¹`$n_q$`_i))^2)
     sum_4 = 0;
-    for i = 1:size(q, 1)
+    for i = 1:size(p, 1)
         sum_4 = sum_4 + ((dot((R * p(i,:)' + (R\q(i,:)') + t),(R * n_p(i,:)'))).^2 + (dot((R * p(i,:)' + (R\q(i,:)') + t),((R\n_q(i,:)')))).^2);
     end
     varepsilon_twoplane = sum_4;

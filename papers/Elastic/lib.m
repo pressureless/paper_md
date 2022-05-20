@@ -59,9 +59,9 @@ function output = elastic(E_r, q_g, q_h, m_g, m_h, angle, lambda_q_1, lambda_q_2
         m_h = randn(n,1);
         angle = @angleFunc;
         rseed = randi(2^32);
-        function tmp =  angleFunc(p0, p1)
+        function [ret] =  angleFunc(p0, p1)
             rng(rseed);
-            tmp = randn(n,1);
+            ret = randn(n,1);
         end
 
         q = randn(n,1);
@@ -131,9 +131,9 @@ function output = elastic(E_r, q_g, q_h, m_g, m_h, angle, lambda_q_1, lambda_q_2
             m_h = randn(n,1);
             angle = @angleFunc;
             rseed = randi(2^32);
-            function tmp =  angleFunc(p0, p1)
+            function [ret] =  angleFunc(p0, p1)
                 rng(rseed);
-                tmp = randn(n,1);
+                ret = randn(n,1);
             end
         end
         q_g = reshape(q_g,[],1);
@@ -148,7 +148,7 @@ function output = elastic(E_r, q_g, q_h, m_g, m_h, angle, lambda_q_1, lambda_q_2
         assert(numel(lambda_q_1) == 1);
         assert(numel(lambda_q_2) == 1);
         assert(numel(t) == 1);
-        % E_q = lambda_q_1||q_g-q_h+tm_g||^2 + lambda_q_1||q_h-q_g+tm_h||^2 + lambda_q_2||angle(m_g,m_h)||^2 
+        % E_q = lambda_q_1||q_g-q_h+tm_g||^2 + lambda_q_1||q_h-q_g+tm_h||^2 + lambda_q_2||angle(m_g,m_h)||^2
         E_q = lambda_q_1 * norm(q_g - q_h + t * m_g, 2).^2 + lambda_q_1 * norm(q_h - q_g + t * m_h, 2).^2 + lambda_q_2 * norm(angle(m_g, m_h), 2).^2;
         output.E_q = E_q;
     end
@@ -179,9 +179,9 @@ function output = elastic(E_r, q_g, q_h, m_g, m_h, angle, lambda_q_1, lambda_q_2
             m_a = randn(n,1);
             angle = @angleFunc;
             rseed = randi(2^32);
-            function tmp =  angleFunc(p0, p1)
+            function [ret] =  angleFunc(p0, p1)
                 rng(rseed);
-                tmp = randn(n,1);
+                ret = randn(n,1);
             end
         end
         q = reshape(q,[],1);
@@ -195,7 +195,7 @@ function output = elastic(E_r, q_g, q_h, m_g, m_h, angle, lambda_q_1, lambda_q_2
         assert( numel(q_a) == n );
         assert( numel(m) == n );
         assert( numel(m_a) == n );
-        % E_a = lambda_a_1||q-q_a||^2 + lambda_a_2||angle(m,m_a)||^2 
+        % E_a = lambda_a_1||q-q_a||^2 + lambda_a_2||angle(m,m_a)||^2
         E_a = lambda_a_1 * norm(q - q_a, 2).^2 + lambda_a_2 * norm(angle(m, m_a), 2).^2;
         output.E_a = E_a;
     end
@@ -297,9 +297,9 @@ function output = connection(q_g, q_h, m_g, m_h, angle, lambda_q_1, lambda_q_2, 
         m_h = randn(n,1);
         angle = @angleFunc;
         rseed = randi(2^32);
-        function tmp =  angleFunc(p0, p1)
+        function [ret] =  angleFunc(p0, p1)
             rng(rseed);
-            tmp = randn(n,1);
+            ret = randn(n,1);
         end
 
     end
@@ -318,7 +318,7 @@ function output = connection(q_g, q_h, m_g, m_h, angle, lambda_q_1, lambda_q_2, 
     assert(numel(lambda_q_2) == 1);
     assert(numel(t) == 1);
 
-    % `E_q` = `$λ_{q,1}$`||`$q_g$`-`$q_h$`+t`$m_g$`||^2 + `$λ_{q,1}$`||`$q_h$`-`$q_g$`+t`$m_h$`||^2 + `$λ_{q,2}$`||`$\angle$`(`$m_g$`,`$m_h$`)||^2 
+    % `E_q` = `$λ_{q,1}$`||`$q_g$`-`$q_h$`+t`$m_g$`||^2 + `$λ_{q,1}$`||`$q_h$`-`$q_g$`+t`$m_h$`||^2 + `$λ_{q,2}$`||`$\angle$`(`$m_g$`,`$m_h$`)||^2
     E_q = lambda_q_1 * norm(q_g - q_h + t * m_g, 2).^2 + lambda_q_1 * norm(q_h - q_g + t * m_h, 2).^2 + lambda_q_2 * norm(angle(m_g, m_h), 2).^2;
     output.E_q = E_q;
 end
@@ -350,9 +350,9 @@ function output = anchor(lambda_a_1, lambda_a_2, q, q_a, m, m_a, angle)
         m_a = randn(n,1);
         angle = @angleFunc;
         rseed = randi(2^32);
-        function tmp =  angleFunc(p0, p1)
+        function [ret] =  angleFunc(p0, p1)
             rng(rseed);
-            tmp = randn(n,1);
+            ret = randn(n,1);
         end
 
     end
@@ -370,7 +370,7 @@ function output = anchor(lambda_a_1, lambda_a_2, q, q_a, m, m_a, angle)
     assert( numel(m) == n );
     assert( numel(m_a) == n );
 
-    % `E_a` = `$λ_{a,1}$`||q-`$q_a$`||^2 + `$λ_{a,2}$`||`$\angle$`(m,`$m_a$`)||^2 
+    % `E_a` = `$λ_{a,1}$`||q-`$q_a$`||^2 + `$λ_{a,2}$`||`$\angle$`(m,`$m_a$`)||^2
     E_a = lambda_a_1 * norm(q - q_a, 2).^2 + lambda_a_2 * norm(angle(m, m_a), 2).^2;
     output.E_a = E_a;
 end

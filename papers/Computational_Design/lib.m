@@ -5,11 +5,9 @@ function output = computation(lambda_s, E_a, D, S_1, S_2, U_1, U_2, R)
 %    where
 %    `$λ_s$` ∈ ℝ 
 %    
-%    
 %    `$E_s$` = `$E_c$` + `$E_a$` 
 %    where
 %    `$E_a$` ∈ ℝ
-%    
 %    
 %    `$E_c$` = D(`$S_1$`, `$U_1$`) + D(`$S_2$`, `$U_2$`)
 %    where
@@ -18,7 +16,6 @@ function output = computation(lambda_s, E_a, D, S_1, S_2, U_1, U_2, R)
 %    `$S_2$` ∈ ℝ
 %    `$U_1$` ∈ ℝ
 %    `$U_2$` ∈ ℝ
-%    
 %    
 %    `$E_f$` = sum_i ||R_i||
 %    where
@@ -39,9 +36,9 @@ function output = computation(lambda_s, E_a, D, S_1, S_2, U_1, U_2, R)
         dim_0 = randi(10);
         D = @DFunc;
         rseed = randi(2^32);
-        function tmp =  DFunc(p0, p1)
+        function [ret] =  DFunc(p0, p1)
             rng(rseed);
-            tmp = randn();
+            ret = randn();
         end
 
         R = randn(dim_0,3);
@@ -58,7 +55,7 @@ function output = computation(lambda_s, E_a, D, S_1, S_2, U_1, U_2, R)
 
     % `$E_c$` = D(`$S_1$`, `$U_1$`) + D(`$S_2$`, `$U_2$`)
     E_c = D(S_1, U_1) + D(S_2, U_2);
-    % `$E_s$` = `$E_c$` + `$E_a$` 
+    % `$E_s$` = `$E_c$` + `$E_a$`
     E_s = E_c + E_a;
     % `$E_f$` = sum_i ||R_i||
     sum_0 = 0;
@@ -66,7 +63,7 @@ function output = computation(lambda_s, E_a, D, S_1, S_2, U_1, U_2, R)
         sum_0 = sum_0 + norm(R(i,:)', 2);
     end
     E_f = sum_0;
-    % E = `$λ_s$``$E_s$` + (1 - `$λ_s$`)`$E_f$` 
+    % E = `$λ_s$``$E_s$` + (1 - `$λ_s$`)`$E_f$`
     E = lambda_s * E_s + (1 - lambda_s) * E_f;
     output.E = E;
     output.E_s = E_s;

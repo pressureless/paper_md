@@ -56,7 +56,7 @@ function output = nautilus(x, lambda_, v)
     S = S_0;
     % H = PSP⁻¹
     H = P * S * inv(P);
-    function ret = E(x)
+    function [ret] = E(x)
         x = reshape(x,[],1);
         n = size(x, 1);
         assert( numel(x) == n );
@@ -72,8 +72,8 @@ function output = nautilus(x, lambda_, v)
     output.P = P;
     output.S = S;
     output.E = @E;
-output.x = x;    
-output.lambda_ = lambda_;    
-output.v = v;
+    output.x = x;    
+    output.lambda_ = lambda_;    
+    output.v = v;
 end
 

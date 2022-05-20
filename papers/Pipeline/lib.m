@@ -86,16 +86,16 @@ function output = pipeline(f_x, f_y, c_x, c_y, r, phi_1_d, phi_d, x_i, x_j, alph
         x = randn();
         phi_1_d = @phi_1_dFunc;
         rseed = randi(2^32);
-        function tmp =  phi_1_dFunc(p0)
+        function [ret] =  phi_1_dFunc(p0)
             rng(rseed);
-            tmp = randn(2,1);
+            ret = randn(2,1);
         end
 
         phi_d = @phi_dFunc;
         rseed = randi(2^32);
-        function tmp =  phi_dFunc(p0)
+        function [ret_1] =  phi_dFunc(p0)
             rng(rseed);
-            tmp = randn(2,1);
+            ret_1 = randn(2,1);
         end
 
         x_i = randn(2,1);
@@ -138,7 +138,7 @@ function output = pipeline(f_x, f_y, c_x, c_y, r, phi_1_d, phi_d, x_i, x_j, alph
     textbft = textbft_0;
     % A = X ⋅ `$f_x$` - Z⋅(x - `$c_x$` )
     A = X * f_x - Z * (x - c_x);
-    % B = Z⋅`$f_x$` + X⋅(x -`$c_x$` ) 
+    % B = Z⋅`$f_x$` + X⋅(x -`$c_x$` )
     B = Z * f_x + X * (x - c_x);
     % D = √(A^2 +B^2)
     D = sqrt((A.^2 + B.^2));
@@ -146,57 +146,57 @@ function output = pipeline(f_x, f_y, c_x, c_y, r, phi_1_d, phi_d, x_i, x_j, alph
     gamma = atan(B / A);
     % C = -r⋅(x -`$c_x$` )
     C = -r * (x - c_x);
-    % ϕ = arcsin(C/D) 
+    % ϕ = arcsin(C/D)
     phi_ = asin(C / D);
     % `$α_1$` = ϕ - γ
     alpha_1 = phi_ - gamma;
-    % `$α_2$` = π - ϕ - γ  
+    % `$α_2$` = π - ϕ - γ
     alpha_2 = pi - phi_ - gamma;
-    function ret = R(alpha)
+    function [ret_2] = R(alpha)
         assert(numel(alpha) == 1);
 
         R_0 = zeros(3, 3);
         R_0(1,:) = [-sin(alpha), 0, -cos(alpha)];
         R_0(2,:) = [0, 1, 0];
         R_0(3,:) = [cos(alpha), 0, -sin(alpha)];
-        ret = R_0;
+        ret_2 = R_0;
     end
 
-    function ret = P(alpha)
+    function [ret_3] = P(alpha)
         assert(numel(alpha) == 1);
 
         P_0 = [[R(alpha), textbft]];
-        ret = K * P_0;
+        ret_3 = K * P_0;
     end
 
-    function ret = t(alpha)
+    function [ret_4] = t(alpha)
         assert(numel(alpha) == 1);
 
-        ret = (alpha - alpha_i) / (alpha_j - alpha_i);
+        ret_4 = (alpha - alpha_i) / (alpha_j - alpha_i);
     end
 
-    function ret = textbfx(alpha)
+    function [ret_5] = textbfx(alpha)
         assert(numel(alpha) == 1);
 
-        ret = phi_1_d((1 - t(alpha)) * phi_d(x_i) + t(alpha) * phi_d(x_j));
+        ret_5 = phi_1_d((1 - t(alpha)) * phi_d(x_i) + t(alpha) * phi_d(x_j));
     end
 
-    function ret = omega(x)
+    function [ret_6] = omega(x)
         assert(numel(x) == 1);
 
-        ret = atan((x - c_x) / f_x);
+        ret_6 = atan((x - c_x) / f_x);
     end
 
-    function ret = s(x)
+    function [ret_7] = s(x)
         assert(numel(x) == 1);
 
-        ret = (y - c_y) * cos(omega(x));
+        ret_7 = (y - c_y) * cos(omega(x));
     end
 
-    function ret = phi(x)
+    function [ret_8] = phi(x)
         assert(numel(x) == 1);
 
-        ret = [omega(x); s(x)];
+        ret_8 = [omega(x); s(x)];
     end
 
     output.textbfX = textbfX;
@@ -217,16 +217,16 @@ function output = pipeline(f_x, f_y, c_x, c_y, r, phi_1_d, phi_d, x_i, x_j, alph
     output.phi = @phi;
     output.omega = @omega;
     output.s = @s;
-output.alpha_i = alpha_i;    
-output.alpha_j = alpha_j;    
-output.phi_1_d = phi_1_d;    
-output.phi_d = phi_d;    
-output.x_i = x_i;    
-output.x_j = x_j;    
-output.x = x;    
-output.c_x = c_x;    
-output.f_x = f_x;    
-output.y = y;    
-output.c_y = c_y;
+    output.alpha_i = alpha_i;    
+    output.alpha_j = alpha_j;    
+    output.phi_1_d = phi_1_d;    
+    output.phi_d = phi_d;    
+    output.x_i = x_i;    
+    output.x_j = x_j;    
+    output.x = x;    
+    output.c_x = c_x;    
+    output.f_x = f_x;    
+    output.y = y;    
+    output.c_y = c_y;
 end
 

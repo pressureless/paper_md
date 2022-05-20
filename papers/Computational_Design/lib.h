@@ -24,7 +24,7 @@ struct computation {
         const long dim_0 = R.size();
         // `$E_c$` = D(`$S_1$`, `$U_1$`) + D(`$S_2$`, `$U_2$`)
         E_c = D(S_1, U_1) + D(S_2, U_2);
-        // `$E_s$` = `$E_c$` + `$E_a$` 
+        // `$E_s$` = `$E_c$` + `$E_a$`
         E_s = E_c + E_a;
         double sum_0 = 0;
         for(int i=1; i<=R.size(); i++){
@@ -32,7 +32,7 @@ struct computation {
         }
         // `$E_f$` = sum_i ||R_i||
         E_f = sum_0;
-        // E = `$λ_s$``$E_s$` + (1 - `$λ_s$`)`$E_f$` 
+        // E = `$λ_s$``$E_s$` + (1 - `$λ_s$`)`$E_f$`
         E = λ_s * E_s + (1 - λ_s) * E_f;
     }
 };

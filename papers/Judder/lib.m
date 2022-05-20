@@ -42,9 +42,9 @@ function output = judder(F, L, S, P, a, b, M, L_a, L_b)
         L_b = randn();
         P = @PFunc;
         rseed = randi(2^32);
-        function tmp =  PFunc(p0, p1, p2)
+        function [ret] =  PFunc(p0, p1, p2)
             rng(rseed);
-            tmp = randn();
+            ret = randn();
         end
 
     end
@@ -64,22 +64,22 @@ function output = judder(F, L, S, P, a, b, M, L_a, L_b)
     F_b = M * CFF(L_b);
     % J = P(α(F), β(L), S)
     J = P(alpha(F), beta(L), S);
-    function ret = CFF(L)
+    function [ret_1] = CFF(L)
         assert(numel(L) == 1);
 
-        ret = a * log(L) + b;
+        ret_1 = a * log(L) + b;
     end
 
-    function ret = alpha(F)
+    function [ret_2] = alpha(F)
         assert(numel(F) == 1);
 
-        ret = 1 / F;
+        ret_2 = 1 / F;
     end
 
-    function ret = beta(L)
+    function [ret_3] = beta(L)
         assert(numel(L) == 1);
 
-        ret = log10(L);
+        ret_3 = log10(L);
     end
 
     output.J = J;
@@ -88,10 +88,10 @@ function output = judder(F, L, S, P, a, b, M, L_a, L_b)
     output.CFF = @CFF;
     output.alpha = @alpha;
     output.beta = @beta;
-output.L = L;    
-output.a = a;    
-output.b = b;    
-output.F = F;
+    output.L = L;    
+    output.a = a;    
+    output.b = b;    
+    output.F = F;
 end
 
 function output = error(O, M)
@@ -120,9 +120,9 @@ function output = error(O, M)
     assert( numel(O) == N );
     assert( numel(M) == N );
 
-    % E = sum_i |log(O_i) - log(M_i)|/log(O_i) 
+    % E = sum_i |log(O_i) - log(M_i)|/log(O_i)
     sum_0 = 0;
-    for i = 1:size(M,1)
+    for i = 1:size(O,1)
         sum_0 = sum_0 + abs(log(O(i)) - log(M(i))) / log(O(i));
     end
     E = sum_0;

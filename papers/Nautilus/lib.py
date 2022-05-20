@@ -45,6 +45,6 @@ class nautilus:
 
         sum_0 = 0
         for i in range(1, len(self.v)+1):
-            sum_0 += np.power(np.linalg.norm(self.H @ self.v[i-1] - self.P @ self.S @ np.linalg.solve(self.P, self.v[i-1]), 'fro'), 2)
-        return self.λ * np.power(np.linalg.norm(np.hstack((x[5-1], x[8-1])) - np.hstack((x[9-1], x[6-1])), 2), 2) + sum_0
+            sum_0 += np.power(float(np.linalg.norm(self.H @ self.v[i-1] - self.P @ self.S @ np.linalg.solve(self.P, self.v[i-1]), 'fro')), 2)
+        return self.λ * np.power(float(np.linalg.norm(np.hstack((x[5-1], x[8-1])) - np.hstack((x[9-1], x[6-1])), 2)), 2) + sum_0
 

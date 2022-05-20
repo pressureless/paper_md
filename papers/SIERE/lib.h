@@ -75,7 +75,7 @@ struct siere {
         J_H_0 << Eigen::MatrixXd::Zero(n, n), Eigen::MatrixXd::Identity(n, n),
         -M.colPivHouseholderQr().solve(K), Eigen::MatrixXd::Zero(n, n);
         // `$J_H$` =  [0     I_n
-    //             -M⁻¹K 0] - `$J_G$` 
+    //             -M⁻¹K 0] - `$J_G$`
         J_H = J_H_0 - J_G;
         Eigen::MatrixXd J_G_circumflex_accent_r_0(2*s, 2*s);
         J_G_circumflex_accent_r_0 << Eigen::MatrixXd::Zero(s, s), Eigen::MatrixXd::Identity(s, s),
@@ -127,7 +127,7 @@ struct second {
         Z_1_0 << Eigen::MatrixXd::Zero(1, s),
         M * U_s;
         // `$Z_1$` =  [ 0
-    //              M`$U_s$`] 
+    //              M`$U_s$`]
         Z_1 = Z_1_0;
         Eigen::MatrixXd Y_2_0(n + 1, s);
         Y_2_0 << Eigen::MatrixXd::Zero(1, s),
@@ -139,9 +139,9 @@ struct second {
         Z_2_0 << M * U_s,
         Eigen::MatrixXd::Zero(1, s);
         // `$Z_2$` =  [ M`$U_s$`
-    //              0] 
+    //              0]
         Z_2 = Z_2_0;
-        // `$J_G$` = `$Y_1$``$Z_1$`^T + `$Y_2$``$Z_2$`^T 
+        // `$J_G$` = `$Y_1$``$Z_1$`^T + `$Y_2$``$Z_2$`^T
         J_G = Y_1 * Z_1.transpose() + Y_2 * Z_2.transpose();
     }
 };

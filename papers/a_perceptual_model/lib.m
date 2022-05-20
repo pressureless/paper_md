@@ -3,7 +3,6 @@ function output = perceptual(CSF, omega, m_tilde_t_b, beta_b, sigma_P_A, sigma_P
 %
 %    m(ω;σ) = exp(-2π^2 ω^2 σ^2) where ω ∈ ℝ, σ∈ ℝ
 %    
-%    
 %    m̃(ω;σ) = CSF(ω) m(ω;σ) where ω ∈ ℝ, σ∈ ℝ
 %    where
 %    CSF ∈ ℝ->ℝ
@@ -37,9 +36,9 @@ function output = perceptual(CSF, omega, m_tilde_t_b, beta_b, sigma_P_A, sigma_P
         dim_0 = randi(10);
         CSF = @CSFFunc;
         rseed = randi(2^32);
-        function tmp =  CSFFunc(p0)
+        function [ret] =  CSFFunc(p0)
             rng(rseed);
-            tmp = randn();
+            ret = randn();
         end
 
         omega = randn(dim_0,1);
@@ -60,28 +59,28 @@ function output = perceptual(CSF, omega, m_tilde_t_b, beta_b, sigma_P_A, sigma_P
     increment_Q_P = E_b(sigma_P_A) - E_b(sigma_P_B);
     % `$∆Q_O$` = `$E_b$`(`$σ_O^A$`) - `$E_b$`(`$σ_O^B$`)
     increment_Q_O = E_b(sigma_O_A) - E_b(sigma_O_B);
-    function ret = m(omega, sigma)
+    function [ret_1] = m(omega, sigma)
         assert(numel(omega) == 1);
         assert(numel(sigma) == 1);
 
-        ret = exp(-2 * pi.^2 * omega.^2 * sigma.^2);
+        ret_1 = exp(-2 * pi.^2 * omega.^2 * sigma.^2);
     end
 
-    function ret = m_tilde(omega, sigma)
+    function [ret_2] = m_tilde(omega, sigma)
         assert(numel(omega) == 1);
         assert(numel(sigma) == 1);
 
-        ret = CSF(omega) * m(omega, sigma);
+        ret_2 = CSF(omega) * m(omega, sigma);
     end
 
-    function ret = E_b(sigma)
+    function [ret_3] = E_b(sigma)
         assert(numel(sigma) == 1);
 
         sum_0 = 0;
         for i = 1:size(omega, 1)
             sum_0 = sum_0 + ((m_tilde(omega(i), sigma)) / m_tilde_t_b).^beta_b;
         end
-        ret = sum_0;
+        ret_3 = sum_0;
     end
 
     output.increment_Q_P = increment_Q_P;
@@ -89,9 +88,9 @@ function output = perceptual(CSF, omega, m_tilde_t_b, beta_b, sigma_P_A, sigma_P
     output.m = @m;
     output.m_tilde = @m_tilde;
     output.E_b = @E_b;
-output.omega = omega;    
-output.CSF = CSF;    
-output.m_tilde_t_b = m_tilde_t_b;    
-output.beta_b = beta_b;
+    output.omega = omega;    
+    output.CSF = CSF;    
+    output.m_tilde_t_b = m_tilde_t_b;    
+    output.beta_b = beta_b;
 end
 

@@ -54,19 +54,19 @@ class pipeline:
         self.textbft = textbft_0
         # A = X ⋅ `$f_x$` - Z⋅(x - `$c_x$` )
         self.A = X * f_x - Z * (x - c_x)
-        # B = Z⋅`$f_x$` + X⋅(x -`$c_x$` ) 
+        # B = Z⋅`$f_x$` + X⋅(x -`$c_x$` )
         self.B = Z * f_x + X * (x - c_x)
         # D = √(A^2 +B^2)
-        self.D = np.sqrt((np.power(self.A, 2) + np.power(self.B, 2)))
+        self.D = np.sqrt((np.power(float(self.A), 2) + np.power(float(self.B), 2)))
         # γ = arctan(B/A)
         self.γ = np.arctan(self.B / self.A)
         # C = -r⋅(x -`$c_x$` )
         self.C = -r * (x - c_x)
-        # ϕ = arcsin(C/D) 
+        # ϕ = arcsin(C/D)
         self.ϕ = np.arcsin(self.C / self.D)
         # `$α_1$` = ϕ - γ
         self.α_1 = self.ϕ - self.γ
-        # `$α_2$` = π - ϕ - γ  
+        # `$α_2$` = π - ϕ - γ
         self.α_2 = np.pi - self.ϕ - self.γ
 
     def R(self, α):

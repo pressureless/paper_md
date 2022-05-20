@@ -28,7 +28,7 @@ struct Generic {
         v_p = v_p_0;
         Eigen::MatrixXd M_0(2, 6);
         M_0 << -J * x_p + v_p, J, x_p, Eigen::MatrixXd::Identity(2, 2);
-        // M=[-J`$x_p$`+`$v_p$`  J  `$x_p$`  I_2] 
+        // M=[-J`$x_p$`+`$v_p$`  J  `$x_p$`  I_2]
         M = M_0;
     }
 };

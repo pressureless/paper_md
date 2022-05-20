@@ -49,7 +49,7 @@ class siere:
         J_G_0 = np.block([[np.zeros((n, n)), U_s @ U_s.T @ M], [-U_s @ U_s.T @ K @ U_s @ U_s.T @ M, np.zeros((n, n))]])
         self.J_G = J_G_0
         # `$J_H$` =  [0     I_n
-    #             -M⁻¹K 0] - `$J_G$` 
+    #             -M⁻¹K 0] - `$J_G$`
         J_H_0 = np.block([[np.zeros((n, n)), np.identity(n)], [-np.linalg.solve(M, K), np.zeros((n, n))]])
         self.J_H = J_H_0 - self.J_G
         # `$J_G^r$` = [0     I_s
@@ -80,7 +80,7 @@ class second:
         Y_1_0 = np.vstack((U_s, np.zeros((1, s))))
         self.Y_1 = Y_1_0
         # `$Z_1$` =  [ 0
-    #              M`$U_s$`] 
+    #              M`$U_s$`]
         Z_1_0 = np.vstack((np.zeros((1, s)), M @ U_s))
         self.Z_1 = Z_1_0
         # `$Y_2$` =  [0
@@ -88,9 +88,9 @@ class second:
         Y_2_0 = np.vstack((np.zeros((1, s)), -U_s @ U_s.T @ K @ U_s))
         self.Y_2 = Y_2_0
         # `$Z_2$` =  [ M`$U_s$`
-    #              0] 
+    #              0]
         Z_2_0 = np.vstack((M @ U_s, np.zeros((1, s))))
         self.Z_2 = Z_2_0
-        # `$J_G$` = `$Y_1$``$Z_1$`^T + `$Y_2$``$Z_2$`^T 
+        # `$J_G$` = `$Y_1$``$Z_1$`^T + `$Y_2$``$Z_2$`^T
         self.J_G = self.Y_1 @ self.Z_1.T + self.Y_2 @ self.Z_2.T
 

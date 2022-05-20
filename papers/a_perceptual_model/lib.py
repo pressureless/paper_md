@@ -31,7 +31,7 @@ class perceptual:
         assert np.ndim(ω) == 0
         assert np.ndim(σ) == 0
 
-        return np.exp(-2 * np.power(np.pi, 2) * np.power(ω, 2) * np.power(σ, 2))
+        return np.exp(-2 * np.power(float(np.pi), 2) * np.power(float(ω), 2) * np.power(float(σ), 2))
 
     def m̃(self, ω, σ):
         assert np.ndim(ω) == 0
@@ -44,6 +44,6 @@ class perceptual:
 
         sum_0 = 0
         for i in range(1, len(self.ω)+1):
-            sum_0 += np.power(((self.m̃(ω[i-1], σ)) / self.m_combining_tilde_t_comma_b), self.β_b)
+            sum_0 += np.power(float(((self.m̃(ω[i-1], σ)) / self.m_combining_tilde_t_comma_b)), self.β_b)
         return sum_0
 

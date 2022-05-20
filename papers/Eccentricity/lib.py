@@ -47,7 +47,7 @@ class eccentricity:
         assert np.ndim(𝑒) == 0
         assert np.ndim(𝑓_𝑠) == 0
 
-        return self.self.m(0, self.𝑝[1-1] * np.power(float(self.𝜏(𝑓_𝑠)), 2) + self.𝑝[2-1] * self.𝜏(𝑓_𝑠) + self.𝑝[3-1] + (self.𝑝[4-1] * np.power(float(self.𝜏(𝑓_𝑠)), 2) + self.𝑝[5-1] * self.𝜏(𝑓_𝑠) + self.𝑝[6-1]) * self.𝜁(𝑓_𝑠) * 𝑒 + (self.𝑝[7-1] * np.power(float(self.𝜏(𝑓_𝑠)), 2) + self.𝑝[8-1] * self.𝜏(𝑓_𝑠) + self.𝑝[9-1]) * self.𝜁(𝑓_𝑠) * np.power(float(𝑒), 2))
+        return self.m(0, self.𝑝[1-1] * np.power(float(self.𝜏(𝑓_𝑠)), 2) + self.𝑝[2-1] * self.𝜏(𝑓_𝑠) + self.𝑝[3-1] + (self.𝑝[4-1] * np.power(float(self.𝜏(𝑓_𝑠)), 2) + self.𝑝[5-1] * self.𝜏(𝑓_𝑠) + self.𝑝[6-1]) * self.𝜁(𝑓_𝑠) * 𝑒 + (self.𝑝[7-1] * np.power(float(self.𝜏(𝑓_𝑠)), 2) + self.𝑝[8-1] * self.𝜏(𝑓_𝑠) + self.𝑝[9-1]) * self.𝜁(𝑓_𝑠) * np.power(float(𝑒), 2))
 
     def 𝐴(self, 𝑒):
         assert np.ndim(𝑒) == 0

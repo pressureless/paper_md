@@ -18,7 +18,7 @@ class Generic:
         self.x_p = np.hstack((-y, x))
         # `$v_p$` = (-v, u)
         self.v_p = np.hstack((-v, u))
-        # M=[-J`$x_p$`+`$v_p$`  J  `$x_p$`  I_2] 
+        # M=[-J`$x_p$`+`$v_p$`  J  `$x_p$`  I_2]
         M_0 = np.hstack(((-J @ self.x_p + self.v_p).reshape(2, 1), J, (self.x_p).reshape(2, 1), np.identity(2)))
         self.M = M_0
 

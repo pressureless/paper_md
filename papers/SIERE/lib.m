@@ -17,12 +17,10 @@ function output = siere(U_s, M, v, f, K, boldsymbolI, h, phi_1, u)
 %    f : ℝ^n
 %    K : ℝ^(n × n)
 %    
-%    
 %    `$J_G$` = [0    `$U_s$``$U_s$`^TM
 %          -`$U_s$``$U_s$`^TK`$U_s$``$U_s$`^TM 0 ]
 %    `$J_H$` =  [0     I_n
 %                -M⁻¹K 0] - `$J_G$` 
-%    
 %    
 %    
 %    `$u_+$` =  u + (`$\boldsymbol{I}$` -h`$J_H$`)⁻¹(h `$H(u)$` + h[`$U_s$` 0
@@ -32,7 +30,6 @@ function output = siere(U_s, M, v, f, K, boldsymbolI, h, phi_1, u)
 %    h : ℝ
 %    `$φ_1$` : ℝ^(k×k) -> ℝ^(k×k)
 %    u : ℝ^(2n × 1)
-%    
 %    
 %    `$J_G^r$` = [0     I_s
 %                -`$U_s$`^TK`$U_s$` 0]
@@ -56,10 +53,10 @@ function output = siere(U_s, M, v, f, K, boldsymbolI, h, phi_1, u)
         boldsymbolI = randn(2*n, 2*n);
         phi_1 = @phi_1Func;
         rseed = randi(2^32);
-        function tmp =  phi_1Func(p0)
+        function [ret] =  phi_1Func(p0)
             rng(rseed);
             k = size(p0, 1);
-            tmp = randn(k,k);
+            ret = randn(k,k);
         end
 
         u = randn(2*n, 1);
@@ -103,7 +100,7 @@ function output = siere(U_s, M, v, f, K, boldsymbolI, h, phi_1, u)
     J_G_0 = [[zeros(n, n), U_s * U_s' * M]; [-U_s * U_s' * K * U_s * U_s' * M, zeros(n, n)]];
     J_G = J_G_0;
     % `$J_H$` =  [0     I_n
-    %             -M⁻¹K 0] - `$J_G$` 
+    %             -M⁻¹K 0] - `$J_G$`
     J_H_0 = [[zeros(n, n), speye(n)]; [-(M\K), zeros(n, n)]];
     J_H = J_H_0 - J_G;
     % `$J_G^r$` = [0     I_s
@@ -173,7 +170,7 @@ function output = second(U_s, M, K)
     Y_1_0 = [[U_s]; [zeros(1, s)]];
     Y_1 = Y_1_0;
     % `$Z_1$` =  [ 0
-    %              M`$U_s$`] 
+    %              M`$U_s$`]
     Z_1_0 = [[zeros(1, s)]; [M * U_s]];
     Z_1 = Z_1_0;
     % `$Y_2$` =  [0
@@ -181,10 +178,10 @@ function output = second(U_s, M, K)
     Y_2_0 = [[zeros(1, s)]; [-U_s * U_s' * K * U_s]];
     Y_2 = Y_2_0;
     % `$Z_2$` =  [ M`$U_s$`
-    %              0] 
+    %              0]
     Z_2_0 = [[M * U_s]; [zeros(1, s)]];
     Z_2 = Z_2_0;
-    % `$J_G$` = `$Y_1$``$Z_1$`^T + `$Y_2$``$Z_2$`^T 
+    % `$J_G$` = `$Y_1$``$Z_1$`^T + `$Y_2$``$Z_2$`^T
     J_G = Y_1 * Z_1' + Y_2 * Z_2';
     output.J_G = J_G;
     output.Y_1 = Y_1;

@@ -28,7 +28,7 @@ struct elastic {
             assert( q_h.size() == n );
             assert( m_g.size() == n );
             assert( m_h.size() == n );
-            // E_q = λ_q_comma_1||q_g-q_h+tm_g||^2 + λ_q_comma_1||q_h-q_g+tm_h||^2 + λ_q_comma_2||angle(m_g,m_h)||^2 
+            // E_q = λ_q_comma_1||q_g-q_h+tm_g||^2 + λ_q_comma_1||q_h-q_g+tm_h||^2 + λ_q_comma_2||angle(m_g,m_h)||^2
             E_q = λ_q_comma_1 * pow((q_g - q_h + t * m_g).lpNorm<2>(), 2) + λ_q_comma_1 * pow((q_h - q_g + t * m_h).lpNorm<2>(), 2) + λ_q_comma_2 * pow((angle(m_g, m_h)).lpNorm<2>(), 2);
         }
     };
@@ -47,7 +47,7 @@ struct elastic {
             assert( q_a.size() == n );
             assert( m.size() == n );
             assert( m_a.size() == n );
-            // E_a = λ_a_comma_1||q-q_a||^2 + λ_a_comma_2||angle(m,m_a)||^2 
+            // E_a = λ_a_comma_1||q-q_a||^2 + λ_a_comma_2||angle(m,m_a)||^2
             E_a = λ_a_comma_1 * pow((q - q_a).lpNorm<2>(), 2) + λ_a_comma_2 * pow((angle(m, m_a)).lpNorm<2>(), 2);
         }
     };
@@ -144,7 +144,7 @@ struct connection {
         assert( q_h.size() == n );
         assert( m_g.size() == n );
         assert( m_h.size() == n );
-        // `E_q` = `$λ_{q,1}$`||`$q_g$`-`$q_h$`+t`$m_g$`||^2 + `$λ_{q,1}$`||`$q_h$`-`$q_g$`+t`$m_h$`||^2 + `$λ_{q,2}$`||`$\angle$`(`$m_g$`,`$m_h$`)||^2 
+        // `E_q` = `$λ_{q,1}$`||`$q_g$`-`$q_h$`+t`$m_g$`||^2 + `$λ_{q,1}$`||`$q_h$`-`$q_g$`+t`$m_h$`||^2 + `$λ_{q,2}$`||`$\angle$`(`$m_g$`,`$m_h$`)||^2
         E_q = λ_q_comma_1 * pow((q_g - q_h + t * m_g).lpNorm<2>(), 2) + λ_q_comma_1 * pow((q_h - q_g + t * m_h).lpNorm<2>(), 2) + λ_q_comma_2 * pow((angle(m_g, m_h)).lpNorm<2>(), 2);
     }
 };
@@ -165,7 +165,7 @@ struct anchor {
         assert( q_a.size() == n );
         assert( m.size() == n );
         assert( m_a.size() == n );
-        // `E_a` = `$λ_{a,1}$`||q-`$q_a$`||^2 + `$λ_{a,2}$`||`$\angle$`(m,`$m_a$`)||^2 
+        // `E_a` = `$λ_{a,1}$`||q-`$q_a$`||^2 + `$λ_{a,2}$`||`$\angle$`(m,`$m_a$`)||^2
         E_a = λ_a_comma_1 * pow((q - q_a).lpNorm<2>(), 2) + λ_a_comma_2 * pow((angle(m, m_a)).lpNorm<2>(), 2);
     }
 };

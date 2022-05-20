@@ -62,53 +62,53 @@ function output = Regularized(r, boldsymbolf, s, boldsymbolF, r_epsilon, a, b, e
     assert(numel(b) == 1);
     assert(numel(epsilon) == 1);
 
-    function ret = boldsymbolu(boldsymbolr)
+    function [ret] = boldsymbolu(boldsymbolr)
         boldsymbolr = reshape(boldsymbolr,[],1);
         assert( numel(boldsymbolr) == 3 );
 
         ret = ((a - b) / r * speye(3) + reshape(b / r.^3 * boldsymbolr, [3, 1]) * boldsymbolr') * boldsymbolf;
     end
 
-    function ret = rho_epsilon(boldsymbolr)
+    function [ret_1] = rho_epsilon(boldsymbolr)
         boldsymbolr = reshape(boldsymbolr,[],1);
         assert( numel(boldsymbolr) == 3 );
 
-        ret = (15 * r_epsilon.^4 / (8 * pi) + 1 / r_epsilon.^7);
+        ret_1 = (15 * r_epsilon.^4 / (8 * pi) + 1 / r_epsilon.^7);
     end
 
-    function ret = boldsymbolu_epsilon(boldsymbolr)
+    function [ret_2] = boldsymbolu_epsilon(boldsymbolr)
         boldsymbolr = reshape(boldsymbolr,[],1);
         assert( numel(boldsymbolr) == 3 );
 
-        ret = ((a - b) / r_epsilon * speye(3) + reshape(b / r_epsilon.^3 * boldsymbolr, [3, 1]) * boldsymbolr' + a * epsilon.^2 / (2 * r_epsilon.^3) * speye(3)) * boldsymbolf;
+        ret_2 = ((a - b) / r_epsilon * speye(3) + reshape(b / r_epsilon.^3 * boldsymbolr, [3, 1]) * boldsymbolr' + a * epsilon.^2 / (2 * r_epsilon.^3) * speye(3)) * boldsymbolf;
     end
 
-    function ret = tildeboldsymbolu_epsilon(boldsymbolr)
+    function [ret_3] = tildeboldsymbolu_epsilon(boldsymbolr)
         boldsymbolr = reshape(boldsymbolr,[],1);
         assert( numel(boldsymbolr) == 3 );
 
-        ret = -a * (1 / r_epsilon.^3 + 3 * epsilon.^2 / (2 * r_epsilon.^5)) * boldsymbolF * boldsymbolr + b * (1 / r_epsilon.^3 * (boldsymbolF + boldsymbolF' + trace(boldsymbolF) * speye(3)) - 3 / r_epsilon.^5 * (boldsymbolr' * boldsymbolF * boldsymbolr) * speye(3)) * boldsymbolr;
+        ret_3 = -a * (1 / r_epsilon.^3 + 3 * epsilon.^2 / (2 * r_epsilon.^5)) * boldsymbolF * boldsymbolr + b * (1 / r_epsilon.^3 * (boldsymbolF + boldsymbolF' + trace(boldsymbolF) * speye(3)) - 3 / r_epsilon.^5 * (boldsymbolr' * boldsymbolF * boldsymbolr) * speye(3)) * boldsymbolr;
     end
 
-    function ret = boldsymbolt_epsilon(boldsymbolr)
+    function [ret_4] = boldsymbolt_epsilon(boldsymbolr)
         boldsymbolr = reshape(boldsymbolr,[],1);
         assert( numel(boldsymbolr) == 3 );
 
-        ret = -a * (1 / r_epsilon.^3 + 3 * epsilon.^2 / (2 * r_epsilon.^5)) * boldsymbolF * boldsymbolr;
+        ret_4 = -a * (1 / r_epsilon.^3 + 3 * epsilon.^2 / (2 * r_epsilon.^5)) * boldsymbolF * boldsymbolr;
     end
 
-    function ret = boldsymbols_epsilon(boldsymbolr)
+    function [ret_5] = boldsymbols_epsilon(boldsymbolr)
         boldsymbolr = reshape(boldsymbolr,[],1);
         assert( numel(boldsymbolr) == 3 );
 
-        ret = (2 * b - a) * (1 / r_epsilon.^3 + 3 * epsilon.^2 / (2 * r_epsilon.^5)) * (s * boldsymbolr);
+        ret_5 = (2 * b - a) * (1 / r_epsilon.^3 + 3 * epsilon.^2 / (2 * r_epsilon.^5)) * (s * boldsymbolr);
     end
 
-    function ret = boldsymbolp_epsilon(boldsymbolr)
+    function [ret_6] = boldsymbolp_epsilon(boldsymbolr)
         boldsymbolr = reshape(boldsymbolr,[],1);
         assert( numel(boldsymbolr) == 3 );
 
-        ret = (2 * b - a) / r_epsilon.^3 * boldsymbolF * boldsymbolr - 3 / (2 * r_epsilon.^5) * (2 * b * (boldsymbolr' * boldsymbolF * boldsymbolr) * speye(3) + a * epsilon.^2 * boldsymbolF) * boldsymbolr;
+        ret_6 = (2 * b - a) / r_epsilon.^3 * boldsymbolF * boldsymbolr - 3 / (2 * r_epsilon.^5) * (2 * b * (boldsymbolr' * boldsymbolF * boldsymbolr) * speye(3) + a * epsilon.^2 * boldsymbolF) * boldsymbolr;
     end
 
     output.boldsymbolu = @boldsymbolu;
@@ -118,13 +118,13 @@ function output = Regularized(r, boldsymbolf, s, boldsymbolF, r_epsilon, a, b, e
     output.boldsymbolt_epsilon = @boldsymbolt_epsilon;
     output.boldsymbols_epsilon = @boldsymbols_epsilon;
     output.boldsymbolp_epsilon = @boldsymbolp_epsilon;
-output.a = a;    
-output.b = b;    
-output.r = r;    
-output.boldsymbolf = boldsymbolf;    
-output.r_epsilon = r_epsilon;    
-output.epsilon = epsilon;    
-output.boldsymbolF = boldsymbolF;    
-output.s = s;
+    output.a = a;    
+    output.b = b;    
+    output.r = r;    
+    output.boldsymbolf = boldsymbolf;    
+    output.r_epsilon = r_epsilon;    
+    output.epsilon = epsilon;    
+    output.boldsymbolF = boldsymbolF;    
+    output.s = s;
 end
 
